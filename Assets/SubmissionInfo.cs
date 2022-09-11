@@ -32,10 +32,10 @@ public static class SubmissionInfo
     // Write a brief blurb of your game, no more than 200 words. Again, ensure
     // this is final by the video milestone deadline.
     public static readonly string GameBlurb = 
-@"Write a blurb of your game here in plain text. This is a
-multiline verbatim string,
-so don't worry about keeping it to one line, just be sure not to indent it.
-";
+@"Stuck in the Alabama underground, along with all of the other discarded entities from a cyber-fantasy dystopia,
+the player must <insert end objective here>. The game is a roguelike where the character must fight through hordes of enemies
+to <insert objective here>. Player appears human but due to being experimented on in the past, and so on death get a
+second wind to fight with a 'rage' mechanic.";
     
     // By the gameplay video milestone deadline this should be a direct link
     // to a YouTube video upload containing your video. Ensure "Made for kids"
