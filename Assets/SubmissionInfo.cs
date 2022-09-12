@@ -32,10 +32,11 @@ public static class SubmissionInfo
     // Write a brief blurb of your game, no more than 200 words. Again, ensure
     // this is final by the video milestone deadline.
     public static readonly string GameBlurb = 
-@"Stuck in the Alabama underground, along with all of the other discarded entities from a cyber-fantasy dystopia,
-the player must <insert end objective here>. The game is a roguelike where the character must fight through hordes of enemies
-to <insert objective here>. Player appears human but due to being experimented on in the past, and so on death get a
-second wind to fight with a 'rage' mechanic.";
+@"In this roguelike set in a futuristic cyber-fantasy dystopian Alabama, the player is the victim of twisted experiments conducted by
+<insert evil dude here>, leaving them with the ability to become enraged when on the brink of death. <--- are we going with the vampire cartel as the evil dude?
+Motivated by the need for revenge, the player must fight through hordes of enemies in the Alabama underground (or in the mine? We should decide on this), collecting items and power ups along the way.
+All enemies and rooms will be procedurally generated, with enemies being generated from a set of models and abilities <---- need to decide how we're procedurally generating rooms. We are going for dungeon style right?
+Since being experimented on, the player is losing their concept of humanity, and so to remind them of their humanity there is a familiar cat at each checkpoint that the player can interact with to heal";
     
     // By the gameplay video milestone deadline this should be a direct link
     // to a YouTube video upload containing your video. Ensure "Made for kids"
