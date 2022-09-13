@@ -92,6 +92,7 @@ Shader "Outlined/UltimateOutline"
 				o.Alpha = c.a;
 			}
 			ENDCG
-		}
-			Fallback "Diffuse"
-		}
+	}
+	
+	Fallback "Diffuse"
+}
