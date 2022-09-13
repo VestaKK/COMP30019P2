@@ -9,10 +9,18 @@
 
 <!-- Fill this section by Milestone 1 (see specification for details) -->
 
-Here you should be discussing how you will be delegating tasks among team members, as well
+<!-- Here you should be discussing how you will be delegating tasks among team members, as well
 as protocols and processes you will use to keep the project organised. Keep it updated 
 throughout the duration of the project. By the final submission it should contain 
-a summary of who completed what. (You should of course remove and replace this paragraph!)
+a summary of who completed what. (You should of course remove and replace this paragraph!) -->
+
+Event Handling/Procedural Generation - Bryn
+Shaders and Graphics Processing - Matthew Pham
+Gameplay and UI Interfacing - Takumi 
+Particle System and All-Rounder - Matthew Lin
+
+Evaluation & Report - Everyone
+
 
 <!-- [[EndTeamworkPlan]] PLEASE LEAVE THIS LINE UNTOUCHED -->
 
