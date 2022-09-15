@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Cube
+  m_Name: CubeMat
   m_Shader: {fileID: 4800000, guid: e6b28e57a8a62e343baa9f406dc27cf5, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -74,7 +74,7 @@ Material:
     - _Mode: 0
     - _OcclusionStrength: 1
     - _OutValue: 0.0275
-    - _OutlineWidth: 0.184
+    - _OutlineWidth: 0.269
     - _Parallax: 0.02
     - _SecondOutlineWidth: 0.091
     - _SmoothnessTextureChannel: 0

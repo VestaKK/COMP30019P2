@@ -1,6 +1,6 @@
 //This version of the shader does not support shadows, but it does support transparent outlines
 
-Shader "Outlined/UltimateOutline"
+Shader "PUNKSOULS/Outline"
 {
 	Properties
 	{
@@ -16,7 +16,7 @@ Shader "Outlined/UltimateOutline"
 		CGINCLUDE
 		#include "UnityCG.cginc"
 
-		struct appdata {
+		struct MeshData {
 			float4 vertex : POSITION;
 			float4 normal : NORMAL;
 		};
@@ -52,7 +52,7 @@ Shader "Outlined/UltimateOutline"
 				#pragma vertex vert
 				#pragma fragment frag
 
-				v2f vert(appdata v) {
+				v2f vert(MeshData v) {
 
 					float3 scaleDir = normalize(v.vertex.xyz - float4(0,0,0,1));
 
