@@ -9,18 +9,29 @@
 
 <!-- Fill this section by Milestone 1 (see specification for details) -->
 
-<!-- Here you should be discussing how you will be delegating tasks among team members, as well
-as protocols and processes you will use to keep the project organised. Keep it updated 
-throughout the duration of the project. By the final submission it should contain 
-a summary of who completed what. (You should of course remove and replace this paragraph!) -->
+For the most part, the team will make an effort to come together both online
+and in person to work on and discuss the development of the game. A discord
+channel is created where each team member can communicate with eachother and 
+either ask for help or provide feedback to other team members. 
 
-Event Handling/Procedural Generation - Bryn
-Shaders and Graphics Processing - Matthew Pham
-Gameplay and UI Interfacing - Takumi 
-Particle System and All-Rounder - Matthew Lin
+Whilst everyone will have a part in many different aspects of developing the game
+we do have people who have expressed interest in specific areas of the project:
+- Event Handling/Procedural Generation: Bryn
+- Shaders and Graphics Processing: Matthew Pham
+- Gameplay and UI: Takumi 
+- Particle System and All-Rounder: Matthew Lin
 
-Evaluation & Report - Everyone
+The general plan of progression for the game is as follows:
+1. Solidfy Git Workflow and Project File Structure
+2. Character Controls and Test Environment
+3. Get basic graphics working (main shader style)
+4. Event Handling
+5. Weapons
 
+For now this is the base plan before we progress on to things like:
+1. Enemies and procedural enemy generation
+2. Procedural Dungeon generation
+3. Player Progression
 
 <!-- [[EndTeamworkPlan]] PLEASE LEAVE THIS LINE UNTOUCHED -->
 
