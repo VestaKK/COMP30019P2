@@ -7,14 +7,14 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: CubeMat
-  m_Shader: {fileID: 4800000, guid: e6b28e57a8a62e343baa9f406dc27cf5, type: 3}
+  m_Name: PlaneMat
+  m_Shader: {fileID: 4800000, guid: 6f76e9f1deadf0842bacfcac80d91d94, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 4
-  m_EnableInstancingVariants: 1
+  m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
   stringTagMap: {}
@@ -59,34 +59,40 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _SpecGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TerrainHolesTexture:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Angle: 76.5
     - _BumpScale: 1
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
-    - _FirstOutlineWidth: 0.092
     - _GlossMapScale: 1
-    - _Glossiness: 0.5
+    - _Glossiness: 0
     - _GlossyReflections: 1
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1
-    - _OutValue: 0.0275
-    - _OutlineWidth: 0.269
     - _Parallax: 0.02
-    - _SecondOutlineWidth: 0.091
+    - _RimThreshold: 0.7
+    - _RimWidth: 0.716
+    - _Shininess: 0.078125
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _AmbientLight: {r: 0.7830189, g: 0, b: 0, a: 1}
+    - _Color: {r: 0.1360778, g: 0.123798504, b: 0.24528301, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _FirstOutlineColor: {r: 1, g: 0, b: 0, a: 0.5}
-    - _OutColor: {r: 0.8584906, g: 0.10933607, b: 0.4585868, a: 1}
-    - _OutlineColor: {r: 0.8207547, g: 0.18195976, b: 0.18195976, a: 1}
-    - _SecondOutlineColor: {r: 0, g: 0, b: 1, a: 1}
+    - _RimColor: {r: 1, g: 1, b: 1, a: 1}
+    - _SpecColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+    - _SpecularColor: {r: 0.9716981, g: 0.9716981, b: 0.9716981, a: 1}
   m_BuildTextureStacks: []

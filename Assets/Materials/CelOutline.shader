@@ -20,16 +20,20 @@ Shader "PUNKSOULS/CelOutlineShader"
     }
         SubShader
         {
-
+            Tags
+            {
+                "Queue" = "Transparent"
+            }
             Pass
             {
                 Tags
                 {
-                "Queue" = "Opaque"
                 "IgnoreProjector" = "True"
                 }
-                
-                Cull Front
+
+                // Blend SrcAlpha OneMinusSrcAlpha
+                ZWrite Off
+                Cull Back
 
                 CGPROGRAM
 
@@ -83,7 +87,6 @@ Shader "PUNKSOULS/CelOutlineShader"
                 {
                     "LightMode" = "ForwardBase"
                     "PassFlags" = "OnlyDirectional"
-                    "Queue" = "Opaque"
                 }
 
                 CGPROGRAM
