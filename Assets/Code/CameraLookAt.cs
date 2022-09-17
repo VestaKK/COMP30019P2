@@ -9,7 +9,7 @@ public class CameraLookAt : MonoBehaviour
 
     private void Start()
     {
-        offset = new Vector3(-3, 9, -3);
+        offset = new Vector3(-3, 10, -3);
     }
 
     private void LateUpdate()

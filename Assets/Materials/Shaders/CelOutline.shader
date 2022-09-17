@@ -1,9 +1,9 @@
-Shader "PUNKSOULS/CelOutlineShader"
+Shader "PUNKSOULS/CelOutline"
 {
     Properties
     {
-        _MainTex("Texture", 2D) = "white" {}
         _Color("Color", Color) = (1,1,1,1)
+
         [HDR]
         _AmbientLight("Ambient Color", Color) = (1,1,1,1)
         _SpecularColor("Specular Color", Color) = (0.9,0.9,0.9,1)
@@ -12,10 +12,8 @@ Shader "PUNKSOULS/CelOutlineShader"
         _RimWidth("Rim Witdh", Range(0, 1)) = 0.716
         _RimThreshold("Rim Threshold", Range(0, 1)) = 0.1
 
-
         _OutlineColor("Outline color", Color) = (1,0,0,0.5)
         _OutlineWidth("Outlines width", Range(0.0, 2.0)) = 0.15
-
         _Angle("Switch shader on angle", Range(0.0, 180.0)) = 89
     }
         SubShader
@@ -47,7 +45,6 @@ Shader "PUNKSOULS/CelOutlineShader"
                 uniform float4 _OutlineColor;
                 uniform float _OutlineWidth;
 
-                uniform sampler2D _MainTex;
                 uniform float4 _Color;
                 uniform float _Angle;
 
@@ -104,14 +101,12 @@ Shader "PUNKSOULS/CelOutlineShader"
                 {
                     float4 vertex : POSITION;
                     float3 normal : NORMAL;
-                    float2 uv : TEXCOORD0;
 
                 };
 
                 struct v2f
                 {
                     float4 pos : SV_POSITION;
-                    float2 uv : TEXCOORD0;
                     float3 worldNormal : NORMAL;
                     float3 viewDir : TEXCOORD1;
                     SHADOW_COORDS(2)
@@ -125,7 +120,6 @@ Shader "PUNKSOULS/CelOutlineShader"
                     v2f o;
                     o.pos = UnityObjectToClipPos(v.vertex);
                     o.worldNormal = UnityObjectToWorldNormal(v.normal);
-                    o.uv = TRANSFORM_TEX(v.uv, _MainTex);
                     o.viewDir = WorldSpaceViewDir(v.vertex);
                     TRANSFER_SHADOW(o)
                     return o;
@@ -144,14 +138,13 @@ Shader "PUNKSOULS/CelOutlineShader"
                     float3 N = normalize(i.worldNormal);
 
                     // _WorldSpaceLightPos0 comes from "Lighting.cginc"
-                    // Its a normalized direction vector that points the direction
-                    // the main light is facing relative to the mesh
+                    // Its a normalized direction vector that points to the direction
+                    // opposite of the main light relative to the mesh
                     float3 V = normalize(i.viewDir);
                     float3 L = _WorldSpaceLightPos0;
                     float3 H = normalize(V + L);
                     float3 NdotH = dot(N, H);
                     float NdotL = dot(N, L);
-
 
                     float4 rimDot = 1 - dot(N, V);
                     float rimIntensity = smoothstep(_RimWidth - 0.01, _RimWidth - 0.01 + 0.01, rimDot * pow(NdotL, _RimThreshold));
@@ -168,11 +161,8 @@ Shader "PUNKSOULS/CelOutlineShader"
 
                     float4 DiffuseLight = lightIntensity * _LightColor0;
 
-                    // Texture color is sampled
-                    fixed4 TexColor = tex2D(_MainTex, i.uv);
-
                     // TODO: replace UNITY ambient light with Ambient for each room
-                    return _Color * TexColor * (UNITY_LIGHTMODEL_AMBIENT + DiffuseLight + specularIntensity * _SpecularColor + rimLight);
+                    return _Color * (UNITY_LIGHTMODEL_AMBIENT + DiffuseLight + specularIntensity * _SpecularColor + rimLight);
                 }
                 ENDCG
             }

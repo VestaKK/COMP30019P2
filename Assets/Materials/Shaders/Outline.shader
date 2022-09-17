@@ -40,7 +40,7 @@ Shader "PUNKSOULS/Outline"
 				"IgnoreProjector" = "True" 
 				"RenderType" = "Transparent" 
 				}
-				Blend SrcAlpha OneMinusSrcAlpha
+				// Blend SrcAlpha OneMinusSrcAlpha
 				ZWrite Off
 				Cull Back
 

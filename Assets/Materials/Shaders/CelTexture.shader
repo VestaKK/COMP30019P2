@@ -1,9 +1,9 @@
-Shader "PUNKSOULS/CelShader"
+Shader "PUNKSOULS/CelTexture"
 {
     Properties
     {
         _MainTex ("Texture", 2D) = "white" {}
-        _Color("Color", Color) = (1,1,1,1)
+
         [HDR]
         _AmbientLight("Ambient Color", Color) = (1,1,1,1)
         _SpecularColor("Specular Color", Color) = (0.9,0.9,0.9,1)
@@ -65,7 +65,6 @@ Shader "PUNKSOULS/CelShader"
                 return o;
             }
 
-            float4 _Color; 
             float4 _AmbientLight;
             float _Glossiness;
             float4 _SpecularColor;
@@ -78,14 +77,13 @@ Shader "PUNKSOULS/CelShader"
                 float3 N = normalize(i.worldNormal);
 
                 // _WorldSpaceLightPos0 comes from "Lighting.cginc"
-                // Its a normalized direction vector that points the direction
-                // the main light is facing relative to the mesh
+                // Its a normalized direction vector that points to the direction
+                // opposite of the main light relative to the mesh
                 float3 V = normalize(i.viewDir);
                 float3 L = _WorldSpaceLightPos0;
                 float3 H = normalize(V + L);
                 float3 NdotH = dot(N, H);
                 float NdotL = dot(N, L);
-
 
                 float4 rimDot = 1 - dot(N, V);
                 float rimIntensity = smoothstep(_RimWidth - 0.01, _RimWidth - 0.01 + 0.01, rimDot * pow(NdotL, _RimThreshold));
@@ -106,7 +104,7 @@ Shader "PUNKSOULS/CelShader"
                 fixed4 TexColor = tex2D(_MainTex, i.uv);
                 
                 // TODO: replace UNITY ambient light with Ambient for each room
-                return _Color * TexColor * (UNITY_LIGHTMODEL_AMBIENT + DiffuseLight + specularIntensity * _SpecularColor + rimLight);
+                return TexColor * (UNITY_LIGHTMODEL_AMBIENT + DiffuseLight + specularIntensity * _SpecularColor + rimLight);
             }
             ENDCG
         }
