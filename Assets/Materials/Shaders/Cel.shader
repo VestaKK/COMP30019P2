@@ -30,6 +30,7 @@ Shader "PUNKSOULS/Cel"
             #pragma multi_compile_fwdbase
 
             #include "UnityCG.cginc"
+
             // Gives us main directional light in scene
             #include "Lighting.cginc"
             #include "AutoLight.cginc"
@@ -44,6 +45,8 @@ Shader "PUNKSOULS/Cel"
             {
                 float4 pos : SV_POSITION;
                 float3 worldNormal : NORMAL;
+
+                // Just for shadows - this is done on Unity's side
                 float3 viewDir : TEXCOORD1;
                 SHADOW_COORDS(2)
             };
@@ -96,7 +99,7 @@ Shader "PUNKSOULS/Cel"
                 float4 DiffuseLight = lightIntensity * _LightColor0;
                 
                 // TODO: replace UNITY ambient light with Ambient for each room
-                return _Color * (UNITY_LIGHTMODEL_AMBIENT + DiffuseLight + specularIntensity * _SpecularColor + rimLight);
+                return _Color * (_AmbientLight + DiffuseLight + specularIntensity * _SpecularColor + rimLight);
             }
             ENDCG
         }

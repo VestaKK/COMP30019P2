@@ -4,10 +4,9 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-
     // TODO: add LockOnTarget action
     [SerializeField] CharacterController controller;
-    [SerializeField] float speed = 10f;
+    [SerializeField] float speed;
     [SerializeField] Camera camera;
     [SerializeField] Transform LockOnTarget = null;
 
@@ -18,7 +17,6 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
         // Lock onto a Target
         if (InputManager.instance.GetKeyDown(KeyBindingAction.LockOn))
         {

@@ -101,19 +101,17 @@ Shader "PUNKSOULS/CelOutline"
                 {
                     float4 vertex : POSITION;
                     float3 normal : NORMAL;
-
                 };
 
                 struct v2f
                 {
                     float4 pos : SV_POSITION;
                     float3 worldNormal : NORMAL;
+
+                    // Just for shadows - this is done on Unity's side
                     float3 viewDir : TEXCOORD1;
                     SHADOW_COORDS(2)
                 };
-
-                sampler2D _MainTex;
-                float4 _MainTex_ST;
 
                 v2f vert(MeshData v)
                 {
@@ -162,7 +160,7 @@ Shader "PUNKSOULS/CelOutline"
                     float4 DiffuseLight = lightIntensity * _LightColor0;
 
                     // TODO: replace UNITY ambient light with Ambient for each room
-                    return _Color * (UNITY_LIGHTMODEL_AMBIENT + DiffuseLight + specularIntensity * _SpecularColor + rimLight);
+                    return _Color * (_AmbientLight + DiffuseLight + specularIntensity * _SpecularColor + rimLight);
                 }
                 ENDCG
             }

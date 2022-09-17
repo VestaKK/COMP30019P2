@@ -3,7 +3,6 @@ Shader "PUNKSOULS/CelTexture"
     Properties
     {
         _MainTex ("Texture", 2D) = "white" {}
-
         [HDR]
         _AmbientLight("Ambient Color", Color) = (1,1,1,1)
         _SpecularColor("Specular Color", Color) = (0.9,0.9,0.9,1)
@@ -47,6 +46,8 @@ Shader "PUNKSOULS/CelTexture"
                 float4 pos : SV_POSITION;
                 float2 uv : TEXCOORD0;
                 float3 worldNormal : NORMAL;
+
+                // Just for shadows - this is done on Unity's side
                 float3 viewDir : TEXCOORD1;
                 SHADOW_COORDS(2)
             };
@@ -101,10 +102,10 @@ Shader "PUNKSOULS/CelTexture"
                 float4 DiffuseLight = lightIntensity * _LightColor0;
 
                 // Texture color is sampled
-                fixed4 TexColor = tex2D(_MainTex, i.uv);
+                fixed4 _OutColor = tex2D(_MainTex, i.uv);
                 
                 // TODO: replace UNITY ambient light with Ambient for each room
-                return TexColor * (UNITY_LIGHTMODEL_AMBIENT + DiffuseLight + specularIntensity * _SpecularColor + rimLight);
+                return _OutColor * (_AmbientLight + DiffuseLight + specularIntensity * _SpecularColor + rimLight);
             }
             ENDCG
         }

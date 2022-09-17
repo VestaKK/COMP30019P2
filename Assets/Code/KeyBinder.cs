@@ -13,5 +13,4 @@ public class KeyBinder : ScriptableObject
     }
 
     public KeyBind[] keyBinds;
-   
 }
