@@ -4,25 +4,30 @@ using UnityEngine;
 
 public class CameraLookAt : MonoBehaviour
 {
+    [SerializeField] private Camera camera;
     [SerializeField] private Transform target;
-    [SerializeField] private Vector3 offset;
+    [SerializeField] private Vector3 offsetDirection;
+    [SerializeField] private float cameraZoom;
 
     private void Start()
     {
-        offset = new Vector3(-3, 10, -3);
+        offsetDirection = new Vector3(-3, 10, -3).normalized;
+        camera = GetComponent<Camera>();
+        cameraZoom = 15.0f;
+        transform.position = target.position + cameraZoom * offsetDirection;
+        transform.LookAt(target);
     }
 
     private void LateUpdate()
     {
         Vector2 scrollDelta = Input.mouseScrollDelta;
 
-        if (scrollDelta.y < 0 && offset.y > 3 || scrollDelta.y > 0 && offset.y < 10)
+        if (scrollDelta.y < 0 && cameraZoom > 6 || scrollDelta.y > 0 && cameraZoom < 15)
         {
-            offset = new Vector3(offset.x, offset.y + scrollDelta.y * 0.3f, offset.z);
+            cameraZoom += scrollDelta.y;
         }
-
-        transform.position = target.position + offset;
-        transform.LookAt(target.transform);
+        
+        transform.position = target.position + cameraZoom * offsetDirection;
+        transform.LookAt(target.position);
     }
-
 }

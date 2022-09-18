@@ -23,3 +23,5 @@ MonoBehaviour:
     KeyCode: 115
   - Action: 4
     KeyCode: 32
+  - Action: 5
+    KeyCode: 101

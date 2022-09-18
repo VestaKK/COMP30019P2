@@ -21,6 +21,7 @@ Shader "PUNKSOULS/CelOutline"
             Tags
             {
                 "Queue" = "Transparent"
+                "RenderType" = "Opaque"
             }
             Pass
             {

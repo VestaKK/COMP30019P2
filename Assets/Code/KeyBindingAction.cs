@@ -4,5 +4,6 @@ public enum KeyBindingAction
     Right,
     Forward,
     Back,
+    Jump,
     LockOn
 }

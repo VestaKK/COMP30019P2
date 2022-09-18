@@ -82,7 +82,6 @@ Shader "PUNKSOULS/Cel"
                 float3 NdotH = dot(N, H);
                 float NdotL = dot(N, L);
 
-
                 float4 rimDot = 1 - dot(N, V);
                 float rimIntensity = smoothstep(_RimWidth - 0.01, _RimWidth - 0.01 + 0.01, rimDot * pow(NdotL, _RimThreshold));
                 float rimLight = _RimColor * rimIntensity;
