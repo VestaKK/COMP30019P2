@@ -8,7 +8,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] CharacterController controller;
     [SerializeField] Camera camera;
     [SerializeField] Transform LockOnTarget = null;
-    InputManager inputManager;
+    [SerializeField] InputManager inputManager;
 
     [SerializeField] float speed;
     [SerializeField] float vertSpeed;
@@ -30,7 +30,7 @@ public class PlayerController : MonoBehaviour
     {
         controller.enabled = true;
         // Lock onto a Target
-        if (inputManager.GetKeyDown(KeyBindingAction.LockOn))
+        if (inputManager.GetKeyDown(InputAction.LockOn))
         {
             // TODO: Create Enemies to actually lock onto LMAO
         }
@@ -99,10 +99,10 @@ public class PlayerController : MonoBehaviour
 
         Vector3 velocity = Vector3.zero;
 
-        float left = inputManager.GetKey(KeyBindingAction.Left) ? -1.0f : 0;
-        float right = inputManager.GetKey(KeyBindingAction.Right) ? 1.0f : 0;
-        float forward = inputManager.GetKey(KeyBindingAction.Forward) ? 1.0f : 0;
-        float back = inputManager.GetKey(KeyBindingAction.Back) ? -1.0f : 0;
+        float left = inputManager.GetKey(InputAction.Left) ? -1.0f : 0;
+        float right = inputManager.GetKey(InputAction.Right) ? 1.0f : 0;
+        float forward = inputManager.GetKey(InputAction.Forward) ? 1.0f : 0;
+        float back = inputManager.GetKey(InputAction.Back) ? -1.0f : 0;
 
         float horizontal = left + right;
         float vertical = forward + back;
@@ -149,7 +149,7 @@ public class PlayerController : MonoBehaviour
         if (timeSinceGrounded < 0.15f && hasJump)
         {
             vertSpeed = 0;
-            if (inputManager.GetKey(KeyBindingAction.Jump))
+            if (inputManager.GetKey(InputAction.Jump))
             {
                 hasJump = false;
                 vertSpeed += 20.0f;

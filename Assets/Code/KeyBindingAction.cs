@@ -1,4 +1,4 @@
-public enum KeyBindingAction
+public enum InputAction
 {
     Left,
     Right,

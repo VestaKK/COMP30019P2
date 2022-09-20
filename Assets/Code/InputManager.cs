@@ -21,7 +21,7 @@ public class InputManager : MonoBehaviour
         DontDestroyOnLoad(this);
     }
 
-    public KeyCode GetKeyForAction(KeyBindingAction action)
+    public KeyCode GetKeyForAction(InputAction action)
     {
         foreach (KeyBinder.KeyBind keyBind in binder.keyBinds) {
             if (keyBind.Action == action) {
@@ -31,7 +31,7 @@ public class InputManager : MonoBehaviour
         return KeyCode.None;
     }
 
-    public bool GetKeyDown(KeyBindingAction action) {
+    public bool GetKeyDown(InputAction action) {
 
         foreach(KeyBinder.KeyBind keyBind in binder.keyBinds) {
             if (keyBind.Action == action)
@@ -42,7 +42,7 @@ public class InputManager : MonoBehaviour
         return false;
     }
 
-    public bool GetKey(KeyBindingAction action)
+    public bool GetKey(InputAction action)
     {
         foreach (KeyBinder.KeyBind keyBind in binder.keyBinds)
         {

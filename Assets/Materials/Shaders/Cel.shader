@@ -2,26 +2,30 @@ Shader "PUNKSOULS/Cel"
 {
     Properties
     {
-        _Color("Color", Color) = (1,1,1,1)
+        _Color ("Color", Color) = (0,0,0,0)
+        _MainTex ("Texture", 2D) = "white" {}
 
         [HDR]
-        _AmbientLight("Ambient Color", Color) = (1,1,1,1)
-        _SpecularColor("Specular Color", Color) = (0.9,0.9,0.9,1)
-        _Glossiness("Glossiness", Float) = 32
+        _AmbientLight("Ambient Color", Color) = (0,0,0,0)
+        
+        [HDR]
+        _SpecularColor("Specular Color", Color) = (1,1,1,1)
+        _Gloss("Glossiness", Range(0, 1)) = 1
+
         _RimColor("Rim Color", Color) = (1,1,1,1)
         _RimWidth("Rim Witdh", Range(0, 1)) = 0.716
         _RimThreshold("Rim Threshold", Range(0, 1)) = 0.1
     }
     SubShader
     {
-        // Cel Shader
+        Tags{ "Queue" = "Geometry"  "RenderType" = "Opaque"}
+
+        // BASE PASS
         Pass
         {
             Tags
             {
                 "LightMode" = "ForwardBase"
-                "PassFlags" = "OnlyDirectional"
-                "Queue" = "Opaque"
             }
 
             CGPROGRAM
@@ -29,77 +33,28 @@ Shader "PUNKSOULS/Cel"
             #pragma fragment frag
             #pragma multi_compile_fwdbase
 
-            #include "UnityCG.cginc"
+            #include "Cel.cginc"
+            
+            ENDCG
+        }
 
-            // Gives us main directional light in scene
-            #include "Lighting.cginc"
-            #include "AutoLight.cginc"
-
-            struct MeshData
+        // ADD PASS
+        Pass
+        {
+            Tags
             {
-                float4 vertex : POSITION;
-                float3 normal : NORMAL;
-            };
-
-            struct v2f
-            {
-                float4 pos : SV_POSITION;
-                float3 worldNormal : NORMAL;
-
-                // Just for shadows - this is done on Unity's side
-                float3 viewDir : TEXCOORD1;
-                SHADOW_COORDS(2)
-            };
-
-            v2f vert (MeshData v)
-            {
-                v2f o;
-                o.pos = UnityObjectToClipPos(v.vertex);
-                o.worldNormal = UnityObjectToWorldNormal(v.normal);
-                o.viewDir = WorldSpaceViewDir(v.vertex);
-                TRANSFER_SHADOW(o)
-                return o;
+                "LightMode" = "ForwardAdd"
             }
 
-            float4 _Color; 
-            float4 _AmbientLight;
-            float _Glossiness;
-            float4 _SpecularColor;
-            float4 _RimColor;
-            float _RimWidth;
-            float _RimThreshold;
+            Blend One One // 1*src + 1*dst
+            CGPROGRAM
+            #pragma vertex vert
+            #pragma fragment frag
+            #pragma multi_compile_fwdadd
 
-            fixed4 frag(v2f i) : SV_Target
-            {
-                float3 N = normalize(i.worldNormal);
+            // Cel Shader
+            #include "Cel.cginc"
 
-                // _WorldSpaceLightPos0 comes from "Lighting.cginc"
-                // Its a normalized direction vector that points to the direction
-                // opposite of the main light relative to the mesh
-                float3 V = normalize(i.viewDir);
-                float3 L = _WorldSpaceLightPos0;
-                float3 H = normalize(V + L);
-                float3 NdotH = dot(N, H);
-                float NdotL = dot(N, L);
-
-                float4 rimDot = 1 - dot(N, V);
-                float rimIntensity = smoothstep(_RimWidth - 0.01, _RimWidth - 0.01 + 0.01, rimDot * pow(NdotL, _RimThreshold));
-                float rimLight = _RimColor * rimIntensity;
-
-                // Basically a lerp between 0 and 0.01, giving a value
-                // between 0 and 1. If NdotL is larger than the lower
-                // or upper bound, smoothstep() returns 0 and 1 respectively
-
-                float shadow = SHADOW_ATTENUATION(i);
-                float lightIntensity = smoothstep(0, 0.01, NdotL * shadow);
-                float specularIntensity = smoothstep(0.005, 0.01, 
-                                                        pow(NdotH * lightIntensity, _Glossiness * _Glossiness));
-
-                float4 DiffuseLight = lightIntensity * _LightColor0;
-                
-                // TODO: replace UNITY ambient light with Ambient for each room
-                return _Color * (_AmbientLight + DiffuseLight + specularIntensity * _SpecularColor + rimLight);
-            }
             ENDCG
         }
     UsePass "Legacy Shaders/VertexLit/SHADOWCASTER"
