@@ -29,6 +29,7 @@ Shader "PUNKSOULS/Cel"
             }
 
             CGPROGRAM
+            #define BASE_PASS
             #pragma vertex vert
             #pragma fragment frag
             #pragma multi_compile_fwdbase

@@ -33,7 +33,6 @@ Shader "PUNKSOULS/CelOutline"
                 "IgnoreProjector" = "True"
                 }
 
-            // Blend SrcAlpha OneMinusSrcAlpha
             ZWrite Off
             Cull Back
 

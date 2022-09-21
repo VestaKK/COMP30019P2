@@ -71,16 +71,16 @@ Material:
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
-    - _Gloss: 0.718
+    - _Gloss: 0.762
     - _GlossMapScale: 1
     - _Glossiness: 32
     - _GlossyReflections: 1
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1
-    - _OutlineWidth: 0.061
+    - _OutlineWidth: 0.084
     - _Parallax: 0.02
-    - _RimThreshold: 0.405
+    - _RimThreshold: 0
     - _RimWidth: 0.747
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
@@ -89,11 +89,11 @@ Material:
     - _WindQuality: 0
     - _ZWrite: 1
     m_Colors:
-    - _AmbientLight: {r: 0.22516909, g: 0.23935594, b: 0.41509432, a: 1}
-    - _Color: {r: 0.4339623, g: 0, b: 0, a: 1}
+    - _AmbientLight: {r: 0, g: 0, b: 0, a: 1}
+    - _Color: {r: 0.6981132, g: 0.10866857, b: 0.10866857, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _HueVariation: {r: 1, g: 0.5, b: 0, a: 0.1}
     - _OutlineColor: {r: 0.15686274, g: 1, b: 0, a: 0.5}
-    - _RimColor: {r: 1, g: 1, b: 1, a: 1}
-    - _SpecularColor: {r: 0.9528302, g: 0.9528302, b: 0.9528302, a: 1}
+    - _RimColor: {r: 1, g: 0, b: 0, a: 1}
+    - _SpecularColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []

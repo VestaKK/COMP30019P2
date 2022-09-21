@@ -18,14 +18,13 @@ public class PlayerController : MonoBehaviour
 
     // Controls smooth turning
     float turnVelocity;
-    float turnSpeed = 0.05f;
+    float turnTime = 0.05f;
 
     void Start()
     {
         inputManager = InputManager.instance;
     }
 
-    // Update is called once per frame
     void Update()
     {
         controller.enabled = true;
@@ -51,11 +50,11 @@ public class PlayerController : MonoBehaviour
     void LookAtMouse() {
 
         // Construct a plane that is level with the player position
-        // Fire a ray from the mouse position into world space
         Plane playerPlane = new Plane(Vector3.up, transform.position);
+
+        // Fire a ray from the mouse position into world space
         Ray mouseRay = camera.ScreenPointToRay(Input.mousePosition);
 
-        // Fire a ray through the plane and see where it lands
         if (playerPlane.Raycast(mouseRay, out float distanceToPlane)) {
 
             // Calculate hitpoint using ray and distance to plane
@@ -81,13 +80,12 @@ public class PlayerController : MonoBehaviour
         float targetAngle = Mathf.Atan2(P2T.x, P2T.z) * Mathf.Rad2Deg;
 
         // Rotate player towards the target
-        
+        // Ensures the player will face the target directly when given a small turning angle
         if (Vector3.Dot(P2T, transform.forward) < 0.95)
         {
-            float turnAngle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnVelocity, turnSpeed);
+            float turnAngle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnVelocity, turnTime);
             transform.rotation = Quaternion.Euler(0, turnAngle, 0);
         }
-        // Ensures the player will face the target directly when given a small turning angle
         else
         {
             turnVelocity = 0;
@@ -97,6 +95,7 @@ public class PlayerController : MonoBehaviour
 
     void PlayerMove() {
 
+        // Recalculate velocity every frame
         Vector3 velocity = Vector3.zero;
 
         float left = inputManager.GetKey(InputAction.Left) ? -1.0f : 0;
@@ -104,37 +103,31 @@ public class PlayerController : MonoBehaviour
         float forward = inputManager.GetKey(InputAction.Forward) ? 1.0f : 0;
         float back = inputManager.GetKey(InputAction.Back) ? -1.0f : 0;
 
+        // Calculate object space move direction
         float horizontal = left + right;
         float vertical = forward + back;
-
-        // Calculate world space move direction
         Vector3 direction = new Vector3(horizontal, 0, vertical).normalized;
 
         // Calculate the correct movement angle relative to the camera (Degrees)
         float moveAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + camera.transform.eulerAngles.y;
 
-        // Prevents random drift due to floating point stuff
+        // Prevents random movement drift due to floating point stuff
         if (direction.magnitude >= 0.1f)
         {
-            // Calculate movement direction and move the player
+            // Calculate movement direction and horizontal plane movement
             Vector3 moveDir = Quaternion.Euler(0f, moveAngle, 0f) * Vector3.forward;
-
-            // TODO: Decide on acceleration based or arcade style movement
             velocity = moveDir * speed;
 
-            // We only turn in the movement direction if
-            // we haven't rotated the player already
+            // We only turn in the movement direction if we haven't rotated the player already
             if (LockOnTarget == null && !Input.GetMouseButton(1))
             {
-                // Smooth out turning angle over time. May or may not be necessary
-                float turnAngle = Mathf.SmoothDampAngle(transform.eulerAngles.y, moveAngle, ref turnVelocity, turnSpeed);
-
-                // Rotate the player accordingly
+                // Smooth out turning angle over time.
+                float turnAngle = Mathf.SmoothDampAngle(transform.eulerAngles.y, moveAngle, ref turnVelocity, turnTime);
                 transform.rotation = Quaternion.Euler(0, turnAngle, 0);
             }
         }
 
-        // Vertical Speed calculations
+        // Vertical Speed and Jumping calculations (Probably going to be removed)
         if (controller.isGrounded)
         {
             vertSpeed = 0;
