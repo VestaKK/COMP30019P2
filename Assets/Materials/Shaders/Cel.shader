@@ -6,21 +6,22 @@ Shader "PUNKSOULS/Cel"
         _MainTex ("Texture", 2D) = "white" {}
 
         [HDR]
-        _AmbientLight("Ambient Color", Color) = (0,0,0,0)
+            _AmbientLight("Ambient Color", Color) = (0,0,0,0)
         
         [HDR]
-        _SpecularColor("Specular Color", Color) = (1,1,1,1)
-        _Gloss("Glossiness", Range(0, 1)) = 1
-
-        _RimColor("Rim Color", Color) = (1,1,1,1)
-        _RimWidth("Rim Witdh", Range(0, 1)) = 0.716
-        _RimThreshold("Rim Threshold", Range(0, 1)) = 0.1
+            _SpecularColor("Specular Color", Color) = (1,1,1,1)
+            _Gloss("Glossiness", Range(0, 1)) = 1
+        
+        [HDR]
+            _RimColor("Rim Color", Color) = (1,1,1,1)
+            _RimWidth("Rim Witdh", Range(0, 1)) = 0.716
+            _RimThreshold("Rim Threshold", Range(0, 1)) = 0.1
     }
     SubShader
     {
         Tags{ "Queue" = "Geometry"  "RenderType" = "Opaque"}
 
-        // BASE PASS
+        // BASE PASS (Directional light only (and shadows))
         Pass
         {
             Tags
@@ -39,7 +40,7 @@ Shader "PUNKSOULS/Cel"
             ENDCG
         }
 
-        // ADD PASS
+        // ADD PASS (Other lighting types)
         Pass
         {
             Tags

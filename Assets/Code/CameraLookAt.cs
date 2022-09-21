@@ -12,7 +12,7 @@ public class CameraLookAt : MonoBehaviour
     private void Start()
     {
         cameraZoom = 15.0f;
-        offsetDirection = new Vector3(-3, 10, -3).normalized;
+        offsetDirection = new Vector3(-4, 7, -4).normalized;
         transform.position = target.position + cameraZoom * offsetDirection;
         transform.LookAt(target);
     }
@@ -28,6 +28,6 @@ public class CameraLookAt : MonoBehaviour
         
         // Follow Player 
         transform.position = target.position + cameraZoom * offsetDirection;
-        transform.LookAt(target.position);
+        transform.LookAt(target);
     }
 }

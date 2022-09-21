@@ -26,6 +26,7 @@ Shader "PUNKSOULS/CelOutline"
         {
             Tags{ "Queue" = "Transparent"  "RenderType" = "Opaque"}
 
+            // Outline Pass
             Pass
             {
                 Tags
@@ -82,7 +83,7 @@ Shader "PUNKSOULS/CelOutline"
 
         }
 
-            // Base pass
+            // Cel BASE PASS (Directional light only (and shadows))
             Pass
             {
                 Tags
@@ -101,7 +102,7 @@ Shader "PUNKSOULS/CelOutline"
                 ENDCG
             }
 
-            // Add pass
+            // Cel ADD PASS (Other lighting types)
             Pass
             {
                 Tags

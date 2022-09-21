@@ -7,7 +7,7 @@ public class InputManager : MonoBehaviour
     public static InputManager instance;
     [SerializeField] KeyBinder binder;
 
-    // When object is created
+    // Singleton Stuff
     private void Awake()
     {
         if (instance == null)
@@ -18,6 +18,7 @@ public class InputManager : MonoBehaviour
         {
             Destroy(this);
         }
+        // Makes sure this isn't unloaded when loading a new scene
         DontDestroyOnLoad(this);
     }
 
@@ -32,7 +33,6 @@ public class InputManager : MonoBehaviour
     }
 
     public bool GetKeyDown(InputAction action) {
-
         foreach(KeyBinder.KeyBind keyBind in binder.keyBinds) {
             if (keyBind.Action == action)
             {

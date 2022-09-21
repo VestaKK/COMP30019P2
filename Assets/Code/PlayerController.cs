@@ -7,8 +7,11 @@ public class PlayerController : MonoBehaviour
     // TODO: add LockOnTarget action
     [SerializeField] CharacterController controller;
     [SerializeField] Camera camera;
-    [SerializeField] Transform LockOnTarget = null;
     [SerializeField] InputManager inputManager;
+
+    // TODO: Change to an ENEMY transform
+    // TODO: Find a way to lock on to targets using KeyBind
+    [SerializeField] Transform LockOnTarget = null;
 
     [SerializeField] float speed;
     [SerializeField] float vertSpeed;
@@ -23,11 +26,11 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         inputManager = InputManager.instance;
+        controller.enabled = true;
     }
 
     void Update()
     {
-        controller.enabled = true;
         // Lock onto a Target
         if (inputManager.GetKeyDown(InputAction.LockOn))
         {
@@ -44,6 +47,7 @@ public class PlayerController : MonoBehaviour
             LookAtTarget();
         }
 
+        // Move the Player
         PlayerMove();
     }
 
@@ -52,18 +56,16 @@ public class PlayerController : MonoBehaviour
         // Construct a plane that is level with the player position
         Plane playerPlane = new Plane(Vector3.up, transform.position);
 
-        // Fire a ray from the mouse position into world space
+        // Fire a ray from the mouse screen position into the world
         Ray mouseRay = camera.ScreenPointToRay(Input.mousePosition);
 
         if (playerPlane.Raycast(mouseRay, out float distanceToPlane)) {
 
             // Calculate hitpoint using ray and distance to plane
             Vector3 mouseHitPoint = mouseRay.GetPoint(distanceToPlane);
-
-            // direction vector from player to the mouse hit point
             Vector3 P2M = (mouseHitPoint - transform.position).normalized;
 
-            // Rotate player accordinly
+            // Rotate player accordingly
             float targetAngle = Mathf.Atan2(P2M.x, P2M.z) * Mathf.Rad2Deg;
             transform.rotation = Quaternion.Euler(0, targetAngle, 0);
         }
@@ -98,6 +100,7 @@ public class PlayerController : MonoBehaviour
         // Recalculate velocity every frame
         Vector3 velocity = Vector3.zero;
 
+        // Process Input
         float left = inputManager.GetKey(InputAction.Left) ? -1.0f : 0;
         float right = inputManager.GetKey(InputAction.Right) ? 1.0f : 0;
         float forward = inputManager.GetKey(InputAction.Forward) ? 1.0f : 0;
