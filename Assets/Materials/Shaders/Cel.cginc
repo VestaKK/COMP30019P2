@@ -5,30 +5,41 @@
 struct MeshData
 {
     float4 vertex : POSITION;
-    float3 normal : NORMAL;
     float2 uv : TEXCOORD0;
+    float3 normal : NORMAL;
+    float4 tangent : TANGENT; // xyz = tangent direction, w = tangent sign for flipped UVs
 };
 
 struct v2f
 {
     float4 pos : SV_POSITION;
     float2 uv : TEXCOORD0;
-    float3 worldNormal : NORMAL;
-    float3 wPos : TEXCOORD1;
-    LIGHTING_COORDS(2,3)
+    float3 normal : TEXCOORD1;
+    float3 tangent : TEXCOORD2;
+    float3 binormal : TEXCOORD3;
+    float3 wPos : TEXCOORD4;
+    LIGHTING_COORDS(5, 6)
+    
 };
 
-sampler2D _MainTex;
-float4 _MainTex_ST;
+sampler2D _Albedo;
+float4 _Albedo_ST;
+
+sampler2D _NormalMap;
+float4 _NormalMap_ST;
+float _NormalIntensity;
 
 v2f vert(MeshData v)
 {
     v2f o;
-    o.pos = UnityObjectToClipPos(v.vertex);             // mul(UNITY_MATRIX_MVP, v.vertex)
-    o.worldNormal = UnityObjectToWorldNormal(v.normal); // Saw this in workshop no need to use the long version
-    o.uv = TRANSFORM_TEX(v.uv, _MainTex);               // (v.uv * _MainTex_ST.xy + _MainTex_ST.zw) 
-    o.wPos = mul(unity_ObjectToWorld, v.vertex);        // World Position
-    TRANSFER_VERTEX_TO_FRAGMENT(o);                     // Unity gives us information on shadow and light positions (Actually Lighting LMAO)
+    o.pos = UnityObjectToClipPos(v.vertex);                 // mul(UNITY_MATRIX_MVP, v.vertex)
+    o.uv = TRANSFORM_TEX(v.uv, _Albedo);                    // (v.uv * _MainTex_ST.xy + _MainTex_ST.zw) 
+    o.normal = UnityObjectToWorldNormal(v.normal);          // Saw this in workshop no need to use the long version
+    o.tangent = UnityObjectToWorldDir(v.tangent.xyz);       // tangent to surface
+    o.binormal = cross(o.normal, o.tangent);                // perpendicular to tangent and normal
+    o.binormal *= v.tangent.w * unity_WorldTransformParams.w; // for handling flipping/mirroring textures
+    o.wPos = mul(unity_ObjectToWorld, v.vertex);            // World Position
+    TRANSFER_VERTEX_TO_FRAGMENT(o);                         // Unity gives us information on shadow and light positions (Actually Lighting LMAO)
     return o;
 }
 
@@ -45,12 +56,29 @@ fixed4 frag(v2f i) : SV_Target
     // Based on Blinn-Phong
     // TODOL: Normal Maps, possibly height maps
 
-    // Surface Vectors
-    float3 N = normalize(i.worldNormal);
+    // Albedo Color Calculation
+    fixed4 _TexColor = tex2D(_Albedo, i.uv);
+    float4 _OutColor = _Color * _TexColor;
+
+    // Take out Normal from Normal Map (Normals are packed weirdly because of compression)
+    fixed3 NormalMapNormal = UnpackNormal(tex2D(_NormalMap, i.uv));
+
+    // Allows us to adjust how much the normal map normal affects the look of the material
+    NormalMapNormal = normalize(lerp(float3(0, 0, 1), NormalMapNormal, _NormalIntensity));
+    // essentially multiply 
+    float3x3 tangentToWorld = {
+        i.tangent.x, i.binormal.x, i.normal.x,
+        i.tangent.y, i.binormal.y, i.normal.y,
+        i.tangent.z, i.binormal.z, i.normal.z
+    };
+
+    // N = convert normal from tangent space to world space
+    // L = surface to Light direction
+    // V = surface to camera position direction
+    // H = Half Vector for Blinn-Phong
+    float3 N = mul(tangentToWorld, NormalMapNormal);
     float3 L = normalize(UnityWorldSpaceLightDir(i.wPos)); 
     float3 V = normalize(_WorldSpaceCameraPos - i.wPos);
-
-    // Half Vector for Blinn-Phong
     float3 H = normalize(V + L);
 
     // Unity macros from Lighting.cginc and Autolight.cginc
@@ -63,10 +91,6 @@ fixed4 frag(v2f i) : SV_Target
 
     // Helps reduce aliasing along light borders
     float AntiAliasingStep = fwidth(NdotL);
-    
-    // Albedo Color Calculation
-    fixed4 _TexColor = tex2D(_MainTex, i.uv);
-    float4 _OutColor = _Color * _TexColor;
 
     // Ambient Light
     float4 AmbientLight = _AmbientLight;

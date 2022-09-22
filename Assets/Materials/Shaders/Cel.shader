@@ -3,7 +3,9 @@ Shader "PUNKSOULS/Cel"
     Properties
     {
         _Color ("Color", Color) = (0,0,0,0)
-        _MainTex ("Texture", 2D) = "white" {}
+        _Albedo ("Texture", 2D) = "white" {}
+        _NormalMap("Normal Map", 2D) = "bump" {}
+        _NormalIntensity("Normal Intensity", Range(0,1)) = 1
 
         [HDR]
             _AmbientLight("Ambient Color", Color) = (0,0,0,0)
@@ -29,6 +31,8 @@ Shader "PUNKSOULS/Cel"
                 "LightMode" = "ForwardBase"
             }
 
+            Cull Back
+
             CGPROGRAM
             #define BASE_PASS
             #pragma vertex vert
@@ -49,6 +53,8 @@ Shader "PUNKSOULS/Cel"
             }
 
             Blend One One // 1*src + 1*dst
+            Cull Back
+
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag

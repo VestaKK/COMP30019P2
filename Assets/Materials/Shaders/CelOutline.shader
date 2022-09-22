@@ -3,7 +3,9 @@ Shader "PUNKSOULS/CelOutline"
     Properties
     {
         _Color("Color", Color) = (0,0,0,0)
-        _MainTex("Texture", 2D) = "white" {}
+        _Albedo("Texture", 2D) = "white" {}
+        _NormalMap("Normal Map", 2D) = "bump" {}
+        _NormalIntensity("Normal Intensity", Range(0,1)) = 1
 
         [HDR]
             _AmbientLight("Ambient Color", Color) = (0,0,0,0)
@@ -48,8 +50,6 @@ Shader "PUNKSOULS/CelOutline"
 
             uniform float4 _OutlineColor;
             uniform float _OutlineWidth;
-
-            uniform sampler2D _MainTex;
             uniform float4 _Color;
             uniform float _Angle;
 
@@ -90,7 +90,9 @@ Shader "PUNKSOULS/CelOutline"
                 {
                     "LightMode" = "ForwardBase"
                 }
-
+                
+                Cull Back
+                
                 CGPROGRAM
                 #pragma vertex vert
                 #pragma fragment frag
@@ -111,6 +113,8 @@ Shader "PUNKSOULS/CelOutline"
                 }
 
                 Blend One One // 1*src + 1*dst
+                Cull Back
+
                 CGPROGRAM
                 #pragma vertex vert
                 #pragma fragment frag
