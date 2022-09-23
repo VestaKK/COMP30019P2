@@ -3,9 +3,11 @@ Shader "PUNKSOULS/CelOutline"
     Properties
     {
         _Color("Color", Color) = (0,0,0,0)
+
         _Albedo("Texture", 2D) = "white" {}
+
         _NormalMap("Normal Map", 2D) = "bump" {}
-        _NormalIntensity("Normal Intensity", Range(0,1)) = 1
+        _NormalIntensity("Normal Intensity", Range(-1,1)) = 1
 
         [HDR]
             _AmbientLight("Ambient Color", Color) = (0,0,0,0)
@@ -14,6 +16,7 @@ Shader "PUNKSOULS/CelOutline"
             _SpecularColor("Specular Color", Color) = (1,1,1,1)
             _Gloss("Glossiness", Range(0, 1)) = 1
 
+        [HDR]
             _RimColor("Rim Color", Color) = (1,1,1,1)
             _RimWidth("Rim Witdh", Range(0, 1)) = 0.716
             _RimThreshold("Rim Threshold", Range(0, 1)) = 0.1

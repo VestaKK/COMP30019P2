@@ -29,11 +29,15 @@ sampler2D _NormalMap;
 float4 _NormalMap_ST;
 float _NormalIntensity;
 
+sampler2D _HeightMap;
+float4 _HeightMap_ST;
+float _HeightIntensity;
+
 v2f vert(MeshData v)
 {
     v2f o;
     o.pos = UnityObjectToClipPos(v.vertex);                 // mul(UNITY_MATRIX_MVP, v.vertex)
-    o.uv = TRANSFORM_TEX(v.uv, _Albedo);                    // (v.uv * _MainTex_ST.xy + _MainTex_ST.zw) 
+    o.uv = TRANSFORM_TEX(v.uv, _Albedo);                    // (v.uv * _MainTex_ST.xy + _MainTex_ST.zw)
     o.normal = UnityObjectToWorldNormal(v.normal);          // Saw this in workshop no need to use the long version
     o.tangent = UnityObjectToWorldDir(v.tangent.xyz);       // tangent to surface
     o.binormal = cross(o.normal, o.tangent);                // perpendicular to tangent and normal
@@ -65,7 +69,7 @@ fixed4 frag(v2f i) : SV_Target
 
     // Allows us to adjust how much the normal map normal affects the look of the material
     NormalMapNormal = normalize(lerp(float3(0, 0, 1), NormalMapNormal, _NormalIntensity));
-    // essentially multiply 
+
     float3x3 tangentToWorld = {
         i.tangent.x, i.binormal.x, i.normal.x,
         i.tangent.y, i.binormal.y, i.normal.y,
@@ -76,7 +80,7 @@ fixed4 frag(v2f i) : SV_Target
     // L = surface to Light direction
     // V = surface to camera position direction
     // H = Half Vector for Blinn-Phong
-    float3 N = mul(tangentToWorld, NormalMapNormal);
+    float3 N = normalize(mul(tangentToWorld, NormalMapNormal));
     float3 L = normalize(UnityWorldSpaceLightDir(i.wPos)); 
     float3 V = normalize(_WorldSpaceCameraPos - i.wPos);
     float3 H = normalize(V + L);
@@ -102,7 +106,7 @@ fixed4 frag(v2f i) : SV_Target
     // Specular Light
     float exponentialGloss = exp2(_Gloss * 11) + 2;
     float specularIntensity = smoothstep(0.005, 0.01, pow(NdotH * lightIntensity, exponentialGloss));
-    float4 SpecularLight = specularIntensity * _SpecularColor;
+    float4 SpecularLight = specularIntensity * _SpecularColor * _LightColor0;
     
     // (Preference modification for specular light):
     // float DiffuseAvg = (DiffuseLight.r + DiffuseLight.g + DiffuseLight.b) / 3; 
