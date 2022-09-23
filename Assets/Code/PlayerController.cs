@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] CharacterController controller;
     [SerializeField] Camera camera;
     [SerializeField] InputManager inputManager;
+    [SerializeField] Animator playerAnimator;
 
     // TODO: Change to an ENEMY transform
     // TODO: Find a way to lock on to targets using KeyBind
@@ -16,12 +17,14 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float speed;
     [SerializeField] float vertSpeed;
     [SerializeField] float gravity;
-    [SerializeField] bool  hasJump = true;
-    [SerializeField] float timeSinceGrounded;
 
     // Controls smooth turning
     float turnVelocity;
     float turnTime = 0.05f;
+
+    // Variables used for movement logic
+    bool  hasJump = true;
+    float timeSinceGrounded;
 
     void Start()
     {
@@ -99,6 +102,7 @@ public class PlayerController : MonoBehaviour
 
         // Recalculate velocity every frame
         Vector3 velocity = Vector3.zero;
+        bool hasMoved = false;
 
         // Process Input
         float left = inputManager.GetKey(InputAction.Left) ? -1.0f : 0;
@@ -113,13 +117,14 @@ public class PlayerController : MonoBehaviour
 
         // Calculate the correct movement angle relative to the camera (Degrees)
         float moveAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + camera.transform.eulerAngles.y;
+        Vector3 moveDir = Quaternion.Euler(0f, moveAngle, 0f) * Vector3.forward;
 
         // Prevents random movement drift due to floating point stuff
         if (direction.magnitude >= 0.1f)
         {
             // Calculate movement direction and horizontal plane movement
-            Vector3 moveDir = Quaternion.Euler(0f, moveAngle, 0f) * Vector3.forward;
             velocity = moveDir * speed;
+            hasMoved = true;
 
             // We only turn in the movement direction if we haven't rotated the player already
             if (LockOnTarget == null && !Input.GetMouseButton(1))
@@ -128,6 +133,18 @@ public class PlayerController : MonoBehaviour
                 float turnAngle = Mathf.SmoothDampAngle(transform.eulerAngles.y, moveAngle, ref turnVelocity, turnTime);
                 transform.rotation = Quaternion.Euler(0, turnAngle, 0);
             }
+
+            
+        }
+        // Basic Animation Support Foundation 
+        // TODO: Add all movement directions, generalize into better functions
+        if (hasMoved && Vector3.Dot(transform.forward, moveDir) > 0)
+        {
+            playerAnimator.SetBool("MovingForwards", true);
+        }
+
+        if (!hasMoved || Vector3.Dot(transform.forward, moveDir) < 0) {
+            playerAnimator.SetBool("MovingForwards", false);
         }
 
         // Vertical Speed and Jumping calculations (Probably going to be removed)
