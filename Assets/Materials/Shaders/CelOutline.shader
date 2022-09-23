@@ -7,7 +7,7 @@ Shader "PUNKSOULS/CelOutline"
         _Albedo("Texture", 2D) = "white" {}
 
         _NormalMap("Normal Map", 2D) = "bump" {}
-        _NormalIntensity("Normal Intensity", Range(-1,1)) = 1
+        _NormalIntensity("Normal Intensity", Range(0,1)) = 1
 
         [HDR]
             _AmbientLight("Ambient Color", Color) = (0,0,0,0)
