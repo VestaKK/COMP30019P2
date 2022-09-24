@@ -23,8 +23,7 @@ public class PlayerController : MonoBehaviour
     float turnTime = 0.05f;
 
     // Variables used for movement logic
-    bool  hasJump = true;
-    float timeSinceGrounded;
+    bool hasJump = true;
 
     void Start()
     {
@@ -71,6 +70,34 @@ public class PlayerController : MonoBehaviour
             // Rotate player accordingly
             float targetAngle = Mathf.Atan2(P2M.x, P2M.z) * Mathf.Rad2Deg;
             transform.rotation = Quaternion.Euler(0, targetAngle, 0);
+        }
+    }
+
+    // Basic Animation Support Foundation (Just a test)
+    // TODO: Add all movement directions, generalize into better functions
+    void AnimatePlayer(bool hasMoved, Vector3 moveDirection) {
+
+        if ( hasMoved && (LockOnTarget != null || Input.GetMouseButton(1)) )
+        {
+            if (Vector3.Dot(moveDirection, transform.forward) > 0)
+            {
+                playerAnimator.SetBool("MovingForwards", true);
+                playerAnimator.SetBool("MovingBackwards", false);
+            }
+            else if (Vector3.Dot(moveDirection, transform.forward) < 0) 
+            {
+                playerAnimator.SetBool("MovingForwards", false);
+                playerAnimator.SetBool("MovingBackwards", true);
+            }
+        }
+        else if (hasMoved)
+        {
+            playerAnimator.SetBool("MovingForwards", true);
+            playerAnimator.SetBool("MovingBackwards", false);
+        }
+        else {
+            playerAnimator.SetBool("MovingForwards", false);
+            playerAnimator.SetBool("MovingBackwards", false);
         }
     }
 
@@ -133,45 +160,27 @@ public class PlayerController : MonoBehaviour
                 float turnAngle = Mathf.SmoothDampAngle(transform.eulerAngles.y, moveAngle, ref turnVelocity, turnTime);
                 transform.rotation = Quaternion.Euler(0, turnAngle, 0);
             }
-
-            
-        }
-        // Basic Animation Support Foundation 
-        // TODO: Add all movement directions, generalize into better functions
-        if (hasMoved && Vector3.Dot(transform.forward, moveDir) > 0)
-        {
-            playerAnimator.SetBool("MovingForwards", true);
         }
 
-        if (!hasMoved || Vector3.Dot(transform.forward, moveDir) < 0) {
-            playerAnimator.SetBool("MovingForwards", false);
-        }
+        AnimatePlayer(hasMoved, moveDir);
 
         // Vertical Speed and Jumping calculations (Probably going to be removed)
         if (controller.isGrounded)
         {
-            vertSpeed = 0;
-            timeSinceGrounded = 0;
+            vertSpeed = -0.1f * gravity * Time.deltaTime;
             hasJump = true;
         }
-        else 
-        {
-            timeSinceGrounded += Time.deltaTime;
+        else {
+            vertSpeed -= gravity * Time.deltaTime;
         }
 
-        if (timeSinceGrounded < 0.15f && hasJump)
+        if (hasJump)
         {
-            vertSpeed = 0;
             if (inputManager.GetKey(InputAction.Jump))
             {
                 hasJump = false;
-                vertSpeed += 20.0f;
+                vertSpeed = 20.0f;
             }
-        }
-        else
-        {
-            hasJump = false;
-            vertSpeed -= gravity * Time.deltaTime;
         }
 
         velocity.y = vertSpeed;
