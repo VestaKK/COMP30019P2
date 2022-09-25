@@ -19,7 +19,6 @@ struct v2f
     float3 binormal : TEXCOORD3;
     float3 wPos : TEXCOORD4;
     LIGHTING_COORDS(5, 6)
-    
 };
 
 sampler2D _Albedo;
@@ -41,7 +40,7 @@ v2f vert(MeshData v)
     o.normal = UnityObjectToWorldNormal(v.normal);          // Saw this in workshop no need to use the long version
     o.tangent = UnityObjectToWorldDir(v.tangent.xyz);       // tangent to surface
     o.binormal = cross(o.normal, o.tangent);                // perpendicular to tangent and normal
-    o.binormal *= v.tangent.w * unity_WorldTransformParams.w; // for handling flipping/mirroring textures
+    o.binormal *= v.tangent.w * unity_WorldTransformParams.w;// for handling flipping/mirroring textures
     o.wPos = mul(unity_ObjectToWorld, v.vertex);            // World Position
     TRANSFER_VERTEX_TO_FRAGMENT(o);                         // Unity gives us information on shadow and light positions (Actually Lighting LMAO)
     return o;

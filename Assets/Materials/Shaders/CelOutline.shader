@@ -21,7 +21,6 @@ Shader "PUNKSOULS/CelOutline"
             _RimWidth("Rim Witdh", Range(0, 1)) = 0.716
             _RimThreshold("Rim Threshold", Range(0, 1)) = 0.1
 
-
         _OutlineColor("Outline color", Color) = (1,0,0,0.5)
         _OutlineWidth("Outlines width", Range(0.0, 2.0)) = 0.15
 
@@ -36,7 +35,7 @@ Shader "PUNKSOULS/CelOutline"
             {
                 Tags
                 {
-                "IgnoreProjector" = "True"
+                    "IgnoreProjector" = "True"
                 }
 
             ZWrite Off

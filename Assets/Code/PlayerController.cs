@@ -15,7 +15,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Transform LockOnTarget = null;
 
     [SerializeField] float speed;
-    [SerializeField] float vertSpeed;
     [SerializeField] float gravity;
 
     // Controls smooth turning
@@ -26,14 +25,17 @@ public class PlayerController : MonoBehaviour
     bool hasJump = true;
     float timeSinceGrounded;
 
+    public float velocityY;
+    public Vector3 velocity;
+
     void Start()
     {
         inputManager = InputManager.instance;
+        controller.enabled = true;
     }
 
     void Update()
     {
-        controller.enabled = true;
         // Lock onto a Target
         if (inputManager.GetKeyDown(InputAction.LockOn))
         {
@@ -52,7 +54,12 @@ public class PlayerController : MonoBehaviour
 
         // Move the Player
         PlayerMove();
-    }
+        
+        // TODO: Separate animation from movement
+        // Player rotation
+        // Movement Direction
+        // hasMoved 
+    }   
 
     void LookAtMouse() {
 
@@ -127,9 +134,9 @@ public class PlayerController : MonoBehaviour
     } 
 
     void PlayerMove() {
-
+        
         // Recalculate velocity every frame
-        Vector3 velocity = Vector3.zero;
+        velocity = Vector3.zero;
         bool hasMoved = false;
 
         // Process Input
@@ -163,22 +170,20 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        AnimatePlayer(hasMoved, moveDir);
-
         // Vertical Speed and Jumping calculations (Probably going to be removed
         // DO NOT APPLY ROOT MOTION ON ANIMATION IT RUINS THIS CODE
         if (controller.isGrounded)
         {
             // Make sure controller will be sent into the ground
             // Otherwise controller won't be grounded
-            vertSpeed = -2.0f;
+            velocityY = -2.0f;
             timeSinceGrounded = 0;
             hasJump = true;
         }
         else 
         {
             timeSinceGrounded += Time.deltaTime;
-            vertSpeed -= gravity * Time.deltaTime;
+            velocityY -= gravity * Time.deltaTime;
         }
 
         if (timeSinceGrounded < 0.25f)
@@ -186,11 +191,13 @@ public class PlayerController : MonoBehaviour
             if (hasJump && inputManager.GetKey(InputAction.Jump))
             {
                 hasJump = false;
-                vertSpeed = 20.0f;
+                velocityY = 20.0f;
             }
         }
 
-        velocity.y = vertSpeed;
+        velocity.y = velocityY;
         controller.Move(velocity * Time.deltaTime);
+
+        AnimatePlayer(hasMoved, moveDir);
     }
 }
