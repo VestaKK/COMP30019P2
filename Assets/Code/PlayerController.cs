@@ -22,17 +22,18 @@ public class PlayerController : MonoBehaviour
     float turnVelocity;
     float turnTime = 0.05f;
 
-    // Variables used for movement logic
+    // Variables used for jump logic
     bool hasJump = true;
+    float timeSinceGrounded;
 
     void Start()
     {
         inputManager = InputManager.instance;
-        controller.enabled = true;
     }
 
     void Update()
     {
+        controller.enabled = true;
         // Lock onto a Target
         if (inputManager.GetKeyDown(InputAction.LockOn))
         {
@@ -164,19 +165,25 @@ public class PlayerController : MonoBehaviour
 
         AnimatePlayer(hasMoved, moveDir);
 
-        // Vertical Speed and Jumping calculations (Probably going to be removed)
+        // Vertical Speed and Jumping calculations (Probably going to be removed
+        // DO NOT APPLY ROOT MOTION ON ANIMATION IT RUINS THIS CODE
         if (controller.isGrounded)
         {
-            vertSpeed = -0.1f * gravity * Time.deltaTime;
+            // Make sure controller will be sent into the ground
+            // Otherwise controller won't be grounded
+            vertSpeed = -2.0f;
+            timeSinceGrounded = 0;
             hasJump = true;
         }
-        else {
+        else 
+        {
+            timeSinceGrounded += Time.deltaTime;
             vertSpeed -= gravity * Time.deltaTime;
         }
 
-        if (hasJump)
+        if (timeSinceGrounded < 0.25f)
         {
-            if (inputManager.GetKey(InputAction.Jump))
+            if (hasJump && inputManager.GetKey(InputAction.Jump))
             {
                 hasJump = false;
                 vertSpeed = 20.0f;
