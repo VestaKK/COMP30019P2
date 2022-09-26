@@ -2,12 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+public class OldPlayerController : MonoBehaviour
 {
     // TODO: add LockOnTarget action
     [SerializeField] CharacterController controller;
     [SerializeField] Camera camera;
-    [SerializeField] InputManager inputManager;
     [SerializeField] Animator playerAnimator;
 
     // TODO: Change to an ENEMY transform
@@ -21,23 +20,23 @@ public class PlayerController : MonoBehaviour
     float turnVelocity;
     float turnTime = 0.05f;
 
-    // Variables used for jump logic
+    // Variables used for jump logic (Will probably be deleted)
     bool hasJump = true;
     float timeSinceGrounded;
 
+    // We'll animate the player using 2D blend tree, so we'll need the player's velocity
     public float velocityY;
     public Vector3 velocity;
 
     void Start()
     {
-        inputManager = InputManager.instance;
         controller.enabled = true;
     }
 
     void Update()
     {
         // Lock onto a Target
-        if (inputManager.GetKeyDown(InputAction.LockOn))
+        if (InputManager.instance.GetKeyDown(InputAction.LockOn))
         {
             // TODO: Create Enemies to actually lock onto LMAO
         }
@@ -131,7 +130,7 @@ public class PlayerController : MonoBehaviour
             turnVelocity = 0;
             transform.rotation = Quaternion.Euler(0, targetAngle, 0);
         }
-    } 
+    }
 
     void PlayerMove() {
         
@@ -140,10 +139,10 @@ public class PlayerController : MonoBehaviour
         bool hasMoved = false;
 
         // Process Input
-        float left = inputManager.GetKey(InputAction.Left) ? -1.0f : 0;
-        float right = inputManager.GetKey(InputAction.Right) ? 1.0f : 0;
-        float forward = inputManager.GetKey(InputAction.Forward) ? 1.0f : 0;
-        float back = inputManager.GetKey(InputAction.Back) ? -1.0f : 0;
+        float left = InputManager.instance.GetKey(InputAction.Left) ? -1.0f : 0;
+        float right = InputManager.instance.GetKey(InputAction.Right) ? 1.0f : 0;
+        float forward = InputManager.instance.GetKey(InputAction.Forward) ? 1.0f : 0;
+        float back = InputManager.instance.GetKey(InputAction.Back) ? -1.0f : 0;
 
         // Calculate object space move direction
         float horizontal = left + right;
@@ -188,7 +187,7 @@ public class PlayerController : MonoBehaviour
 
         if (timeSinceGrounded < 0.25f)
         {
-            if (hasJump && inputManager.GetKey(InputAction.Jump))
+            if (hasJump && InputManager.instance.GetKey(InputAction.Jump))
             {
                 hasJump = false;
                 velocityY = 20.0f;

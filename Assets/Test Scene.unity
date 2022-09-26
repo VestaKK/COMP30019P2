@@ -447,6 +447,7 @@ GameObject:
   - component: {fileID: 834632996}
   - component: {fileID: 834632995}
   - component: {fileID: 834632997}
+  - component: {fileID: 834632998}
   m_Layer: 0
   m_Name: ThirdPersonPlayer
   m_TagString: Untagged
@@ -477,14 +478,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 834632992}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 318dff315be85f44180c6dd2b45f9c81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 834632996}
   camera: {fileID: 190386689}
-  inputManager: {fileID: 2006539036}
   playerAnimator: {fileID: 834632997}
   LockOnTarget: {fileID: 0}
   speed: 5
@@ -529,6 +529,26 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &834632998
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 834632992}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dbd1add78dee83e48be697686c5ed766, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  controller: {fileID: 834632996}
+  camera: {fileID: 190386689}
+  LockOnTarget: {fileID: 1664701220}
+  playerAnimator: {fileID: 0}
+  speed: 5
+  gravity: 60
+  velocityY: 0
+  velocity: {x: 0, y: 0, z: 0}
 --- !u!1 &1073924738
 GameObject:
   m_ObjectHideFlags: 0
