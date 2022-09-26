@@ -445,7 +445,6 @@ GameObject:
   m_Component:
   - component: {fileID: 834632994}
   - component: {fileID: 834632996}
-  - component: {fileID: 834632995}
   - component: {fileID: 834632997}
   - component: {fileID: 834632998}
   m_Layer: 0
@@ -471,26 +470,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &834632995
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 834632992}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 318dff315be85f44180c6dd2b45f9c81, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  controller: {fileID: 834632996}
-  camera: {fileID: 190386689}
-  playerAnimator: {fileID: 834632997}
-  LockOnTarget: {fileID: 0}
-  speed: 5
-  gravity: 60
-  velocityY: 0
-  velocity: {x: 0, y: 0, z: 0}
 --- !u!143 &834632996
 CharacterController:
   m_ObjectHideFlags: 0
