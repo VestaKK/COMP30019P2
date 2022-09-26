@@ -522,8 +522,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   controller: {fileID: 834632996}
   camera: {fileID: 190386689}
-  LockOnTarget: {fileID: 1664701220}
-  playerAnimator: {fileID: 0}
+  LockOnTarget: {fileID: 0}
+  playerAnimator: {fileID: 834632997}
   speed: 5
   gravity: 60
   velocityY: 0

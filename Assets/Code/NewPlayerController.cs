@@ -38,7 +38,16 @@ public class NewPlayerController : MonoBehaviour
 
         RotateTransform();
 
+        HandleAnimations();
+
         PlayerMove();
+    }
+
+    void HandleAnimations() {
+        Quaternion transformRotation = Quaternion.FromToRotation(transform.forward, Vector3.forward);
+        Vector3 relativeVelocity = transformRotation * velocity;
+        playerAnimator.SetFloat("RelativeVelocityX", relativeVelocity.x);
+        playerAnimator.SetFloat("RelativeVelocityZ", relativeVelocity.z);
     }
 
     void PlayerMove() { 
@@ -48,7 +57,6 @@ public class NewPlayerController : MonoBehaviour
 
     void LookAtMouse()
     {
-
         // Construct a plane that is level with the player position
         Plane playerPlane = new Plane(Vector3.up, transform.position);
 
