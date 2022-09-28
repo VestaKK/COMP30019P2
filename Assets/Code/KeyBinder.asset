@@ -14,14 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   keyBinds:
   - Action: 0
-    KeyCode: 97
-  - Action: 1
-    KeyCode: 100
-  - Action: 2
     KeyCode: 119
-  - Action: 3
+  - Action: 1
     KeyCode: 115
+  - Action: 2
+    KeyCode: 97
+  - Action: 3
+    KeyCode: 100
   - Action: 4
-    KeyCode: 32
+    KeyCode: 0
   - Action: 5
-    KeyCode: 101
+    KeyCode: 32
