@@ -3,19 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class OptionMenuButton : MonoBehaviour
+public class KeyBindButton : MonoBehaviour
 {
     [SerializeField] private Text ButtonText;
-    [SerializeField] private InputAction action;
-
-    private void Start()
-    {
-        ButtonText.text = InputManager.instance.GetKeyForAction(this.action).ToString();
-    }
+    public InputAction action;
 
     private void OnEnable()
     {
         OptionsMenu.OnKeyRebind += UpdateText;
+        ButtonText.text = InputManager.instance.GetKeyForAction(action).ToString();
     }
 
     private void OnDisable()

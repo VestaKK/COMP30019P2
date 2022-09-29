@@ -25,3 +25,5 @@ MonoBehaviour:
     KeyCode: 0
   - Action: 5
     KeyCode: 32
+  - Action: 6
+    KeyCode: 27

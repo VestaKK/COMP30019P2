@@ -1,17 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
+using UnityEngine.UI;
 
-public class OptionsMenu : MonoBehaviour
+public class OptionsMenu : UIPanel
 {
+    [SerializeField] GameObject WaitForInputScreen;
+    [SerializeField] Button backButton;
+
     public delegate void OptionMenuEvent(InputAction action);
     public static event OptionMenuEvent OnKeyRebind;
 
-    public GameObject WaitForInputScreen;
+    public override void Initialise()
+    {
+        backButton.onClick.AddListener(() => UIManager.instance.ShowLast());
+    }
 
     public void Rebind(string actionString) {
-
         foreach (InputAction action in System.Enum.GetValues(typeof(InputAction)))
         {
             if (action.ToString().Equals(actionString))
@@ -33,14 +38,13 @@ public class OptionsMenu : MonoBehaviour
                     if (Input.GetKeyDown(key))
                     {
                         keyPressed = key;
-                        
                         break;
                     }
                 }
 
                 WaitForInputScreen.SetActive(false);
                 InputManager.instance.RebindKey(action, keyPressed);
-                OnKeyRebind(action);
+                OnKeyRebind.Invoke(action);
                 break;
             }
             yield return null; // wait until next frame, then continue execution from here (loop continues)

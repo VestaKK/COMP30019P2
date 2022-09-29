@@ -5,5 +5,6 @@ public enum InputAction
     Left,
     Right,
     Jump,
-    LockOn
+    LockOn,
+    Pause
 }

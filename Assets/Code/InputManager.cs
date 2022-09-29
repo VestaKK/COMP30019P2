@@ -62,7 +62,6 @@ public class InputManager : MonoBehaviour
                 keyBind.KeyCode = newKey;
                 return;
             }
-            
         }
     }
 }
