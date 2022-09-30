@@ -1,9 +1,10 @@
 public enum InputAction
 {
-    Left,
-    Right,
     Forward,
     Back,
+    Left,
+    Right,
     Jump,
-    LockOn
+    LockOn,
+    Pause
 }

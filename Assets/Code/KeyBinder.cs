@@ -7,7 +7,7 @@ public class KeyBinder : ScriptableObject
 {
     [System.Serializable]
     public class KeyBind
-    {
+    { 
         public InputAction Action;
         public KeyCode KeyCode;
     }
