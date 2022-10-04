@@ -27,6 +27,9 @@ public class NewPlayerController : MonoBehaviour
     public float velocityY;
     public Vector3 velocity;
 
+    // Player's melee controller
+    public MeleeController playerMelee;
+
     void Start()
     {
         controller.enabled = true;
@@ -37,6 +40,8 @@ public class NewPlayerController : MonoBehaviour
         CalculateVelocity();
 
         RotateTransform();
+
+        HandleAttack();
 
         HandleAnimations();
 
@@ -161,5 +166,20 @@ public class NewPlayerController : MonoBehaviour
         }
 
         velocity.y = velocityY;
+    }
+
+    void HandleAttack()
+    {
+        if (playerMelee != null)
+        {
+            if (InputManager.instance.GetKey(InputAction.Attack))
+            {
+                playerMelee.isSwinging = true;
+            }
+            else
+            {
+                playerMelee.isSwinging = false;
+            }
+        }
     }
 }
