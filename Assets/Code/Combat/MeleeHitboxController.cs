@@ -22,9 +22,10 @@ public class MeleeHitboxController : MonoBehaviour
     public void OnTriggerEnter(Collider other)
     {
         GameObject objectOfHurtbox = other.gameObject.transform.parent.gameObject;
-        if (objectOfHurtbox.tag == "Enemy")
+        // This assumes we only have Player and Enemy tags for hitbox/hurtbox!
+        if (objectOfHurtbox.tag != this.transform.parent.gameObject.tag) 
         {
-            objectOfHurtbox.GetComponent<EnemyHealthManager>().HurtEnemy(damage);
+            objectOfHurtbox.GetComponent<HealthManager>().HurtEntity(damage);
         }
     }
 }
