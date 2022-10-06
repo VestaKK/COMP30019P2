@@ -22,8 +22,10 @@ MonoBehaviour:
   - Action: 3
     KeyCode: 100
   - Action: 4
-    KeyCode: 0
-  - Action: 5
     KeyCode: 32
+  - Action: 5
+    KeyCode: 0
   - Action: 6
     KeyCode: 27
+  - Action: 7
+    KeyCode: 323

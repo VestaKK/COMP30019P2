@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NewPlayerController : MonoBehaviour
+public class PlayerController : MonoBehaviour
 {
     [SerializeField] CharacterController controller;
     [SerializeField] Camera camera;
@@ -13,6 +13,7 @@ public class NewPlayerController : MonoBehaviour
     [SerializeField] Animator playerAnimator;
 
     [SerializeField] float speed;
+    [SerializeField] float attackMovementSpeedModifier = 0.6f;
     [SerializeField] float gravity;
 
     // Controls smooth turning
@@ -39,31 +40,41 @@ public class NewPlayerController : MonoBehaviour
     {
         CalculateVelocity();
 
-        RotateTransform();
-
         HandleAttack();
 
-        HandleAnimations();
+        HandleMovementAnimations();
+
+        RotateTransform();
 
         PlayerMove();
     }
 
-    void HandleAnimations() {
+    void HandleMovementAnimations() {
         Quaternion transformRotation = Quaternion.FromToRotation(transform.forward, Vector3.forward);
         Vector3 relativeVelocity = transformRotation * velocity;
         playerAnimator.SetFloat("RelativeVelocityX", relativeVelocity.x);
         playerAnimator.SetFloat("RelativeVelocityZ", relativeVelocity.z);
     }
 
-    void PlayerMove() { 
-        velocity = new Vector3(speed * velocity.x, velocity.y, speed * velocity.z); 
+    void PlayerMove() {
+
+        if (playerMelee.isAttacking)
+        {
+            float moveSpeed = speed * attackMovementSpeedModifier;
+            velocity = new Vector3(moveSpeed * velocity.x, velocity.y, moveSpeed * velocity.z);
+        }
+        else
+        {
+            velocity = new Vector3(speed * velocity.x, velocity.y, speed * velocity.z);
+        }
+        
         controller.Move(velocity * Time.deltaTime);
     }
 
     void LookAtMouse()
     {
         // Construct a plane that is level with the player position
-        Plane playerPlane = new Plane(Vector3.up, transform.position);
+        Plane playerPlane = new Plane(Vector3.up, controller.center);
 
         // Fire a ray from the mouse screen position into the world
         Ray mouseRay = camera.ScreenPointToRay(Input.mousePosition);
@@ -112,14 +123,14 @@ public class NewPlayerController : MonoBehaviour
     }
 
     void RotateTransform() {
-        if (Input.GetMouseButton(1)) {
+        if (InputManager.instance.GetKeyDown(InputAction.Attack) && playerMelee.isAttacking && LockOnTarget == null) {
             LookAtMouse();
         }
         else if (LockOnTarget != null)
         {
             LookAtTarget();
         }
-        else if (velocity.x != 0 && velocity.z != 0)
+        else if (velocity.x != 0 && velocity.z != 0 && !playerMelee.isAttacking)
         {
             LookAtMovementDirection();
         }
@@ -172,13 +183,9 @@ public class NewPlayerController : MonoBehaviour
     {
         if (playerMelee != null)
         {
-            if (InputManager.instance.GetKey(InputAction.Attack))
+            if (InputManager.instance.GetKeyDown(InputAction.Attack))
             {
-                playerMelee.isSwinging = true;
-            }
-            else
-            {
-                playerMelee.isSwinging = false;
+                playerMelee.OnClick();
             }
         }
     }

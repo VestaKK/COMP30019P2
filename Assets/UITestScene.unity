@@ -798,9 +798,10 @@ GameObject:
   - component: {fileID: 834632996}
   - component: {fileID: 834632997}
   - component: {fileID: 834632998}
+  - component: {fileID: 834632999}
   m_Layer: 0
   m_Name: ThirdPersonPlayer
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -879,6 +880,29 @@ MonoBehaviour:
   gravity: 60
   velocityY: 0
   velocity: {x: 0, y: 0, z: 0}
+  playerMelee: {fileID: 834632999}
+--- !u!114 &834632999
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 834632992}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58cf19250b4c91d439ea29263a7e4659, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  meleeHitbox: {fileID: 3896646994268137698, guid: 9e8928689c6016d4da0e521f6f20f090, type: 3}
+  damage: 20
+  meleeSwingSpeed: 2
+  meleeLingerTime: 0.5
+  meleeRange: 1
+  meleeReach: 2
+  offset: {x: 0, y: 0.9, z: 0}
+  playerAnimator: {fileID: 834632997}
+  clickCount: 0
+  lastTime: 0
 --- !u!1 &913238451
 GameObject:
   m_ObjectHideFlags: 0
