@@ -6,11 +6,6 @@ public class MeleeController : MonoBehaviour
 {
     [SerializeField] private MeleeHitboxController meleeHitbox;
     [SerializeField] private Vector3 offset;
-<<<<<<< HEAD
-    [SerializeField] private GameObject parent; // gameObject we want as parent of MeleeHitbox
-    private float swingTimer = 0;
-    public bool isSwinging = false;
-=======
     [SerializeField] private Animator playerAnimator;
 
     public bool isResting = false;
@@ -37,7 +32,6 @@ public class MeleeController : MonoBehaviour
         public float range;
         public float reach;
     }
->>>>>>> WeaponSystem
 
     void Update()
     {
