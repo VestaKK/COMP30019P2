@@ -797,8 +797,8 @@ GameObject:
   - component: {fileID: 834632994}
   - component: {fileID: 834632996}
   - component: {fileID: 834632997}
-  - component: {fileID: 834632998}
   - component: {fileID: 834632999}
+  - component: {fileID: 834633000}
   m_Layer: 0
   m_Name: ThirdPersonPlayer
   m_TagString: Player
@@ -860,31 +860,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &834632998
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 834632992}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dbd1add78dee83e48be697686c5ed766, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  controller: {fileID: 834632996}
-  camera: {fileID: 190386689}
-  LockOnTarget: {fileID: 0}
-  playerAnimator: {fileID: 834632997}
-  speed: 5
-  attackMovementSpeedModifier: 0.6
-  gravity: 60
-  timeSinceGrounded: 0
-  isRolling: 0
-  velocityY: 0
-  velocity: {x: 0, y: 0, z: 0}
-  relativeVelocity: {x: 0, y: 0, z: 0}
-  playerMelee: {fileID: 834632999}
 --- !u!114 &834632999
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -904,6 +879,31 @@ MonoBehaviour:
   isAttacking: 0
   attackCoolDown: 0
   clickCount: 0
+--- !u!114 &834633000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 834632992}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 769a65f022654254995a524ecdca8fa1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _controller: {fileID: 834632996}
+  _camera: {fileID: 190386689}
+  _lockOnTarget: {fileID: 0}
+  _playerAnimator: {fileID: 834632997}
+  _speed: 4.5
+  _gravity: 10
+  _timeSinceGrounded: 0
+  _isRolling: 0
+  _turnTime: 0.05
+  _velocityY: 0
+  _velocity: {x: 0, y: 0, z: 0}
+  _relativeVelocity: {x: 0, y: 0, z: 0}
+  playerMelee: {fileID: 834632999}
 --- !u!1 &913238451
 GameObject:
   m_ObjectHideFlags: 0
@@ -2022,7 +2022,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1502178942}
   m_LocalRotation: {x: -0, y: 0.42034933, z: -0, w: 0.90736234}
-  m_LocalPosition: {x: -9.344, y: 1.358, z: -8.122}
+  m_LocalPosition: {x: -9.344, y: 2.15, z: -8.122}
   m_LocalScale: {x: 3, y: 0.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

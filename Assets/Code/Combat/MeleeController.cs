@@ -18,27 +18,24 @@ public class MeleeController : MonoBehaviour
     struct MeleeAttackInfo 
     {
         public MeleeAttackInfo
-            (int damage, float swingSpeed, float lingerTime, 
+            (int damage, float lingerTime, 
             float range, float reach, Vector3 offset) 
         {
             this.damage = damage;
-            this.swingSpeed = swingSpeed;
             this.lingerTime = lingerTime;
             this.range = range;
             this.reach = reach;
         }
 
         public int damage;
-        public float swingSpeed;
         public float lingerTime;
         public float range;
         public float reach;
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if (playerAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f &&
+        if (playerAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.95f &&
             playerAnimator.GetCurrentAnimatorStateInfo(0).IsName("Melee Hit 1"))
         {
             playerAnimator.SetBool("Hit1", false);
@@ -47,20 +44,11 @@ public class MeleeController : MonoBehaviour
             isResting = true;
         }
 
-        if (playerAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f &&
+        if (playerAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.95f &&
             playerAnimator.GetCurrentAnimatorStateInfo(0).IsName("Melee Hit 2"))
         {
             playerAnimator.SetBool("Hit2", false);
-            attackCoolDown = 0.3f;
-            isAttacking = false;
-            isResting = true;
-        }
-
-        if (playerAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f &&
-            playerAnimator.GetCurrentAnimatorStateInfo(0).IsName("Melee Hit 3"))
-        {
-            playerAnimator.SetBool("Hit3", false);
-            attackCoolDown = 0.5f;
+            attackCoolDown = 0.1f;
             isAttacking = false;
             isResting = true;
         }
@@ -91,7 +79,7 @@ public class MeleeController : MonoBehaviour
 
         clickCount++;
 
-        clickCount = Mathf.Clamp(clickCount, 0, 3);
+        clickCount = Mathf.Clamp(clickCount, 0, 2);
 
         CheckAnimationTransitions();
     }
@@ -101,26 +89,19 @@ public class MeleeController : MonoBehaviour
         if (clickCount == 1)
         {
             isAttacking = true;
+            
             playerAnimator.SetBool("Hit1", true);
-            attackInfo = new MeleeAttackInfo(10, 10, 0.1f, 1, 1, offset);
+            attackInfo = new MeleeAttackInfo(10, 0.1f, 1, 3, offset);
         }
 
         if (clickCount >= 2 &&
+            playerAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.6f &&
             playerAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime < 0.9f &&
             playerAnimator.GetCurrentAnimatorStateInfo(0).IsName("Melee Hit 1"))
         {
-            attackInfo = new MeleeAttackInfo(10, 10, 0.2f, 1, 1, offset);
+            attackInfo = new MeleeAttackInfo(10, 0.2f, 1, 3, offset);
             playerAnimator.SetBool("Hit1", false);
             playerAnimator.SetBool("Hit2", true);
-        }
-
-        if (clickCount >= 3 &&
-            playerAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime < 0.9f &&
-            playerAnimator.GetCurrentAnimatorStateInfo(0).IsName("Melee Hit 2"))
-        {
-            attackInfo = new MeleeAttackInfo(10, 10, 0.3f, 1, 1, offset);
-            playerAnimator.SetBool("Hit2", false);
-            playerAnimator.SetBool("Hit3", true);
         }
     }
 

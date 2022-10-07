@@ -10,7 +10,7 @@ public class MainMenu : UIPanel
 
     public override void Initialise()
     {
-        playButton.onClick.AddListener(() => SceneManager.LoadScene("UITestScene"));
+        playButton.onClick.AddListener(() => SceneManager.LoadScene("NewControllerScene"));
         optionsButton.onClick.AddListener(() => UIManager.instance.Show<OptionsMenu>(true));
         quitButton.onClick.AddListener(() => Application.Quit());
     }
