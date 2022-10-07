@@ -69,6 +69,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _Angle: 89
     - _BumpScale: 1
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
@@ -81,8 +82,13 @@ Material:
     - _Mode: 0
     - _NormalIntensity: 1
     - _OcclusionStrength: 1
+    - _OutlineWidth: 0.15
     - _Parallax: 0.02
+<<<<<<< HEAD
     - _RimThreshold: 0.1
+=======
+    - _RimThreshold: 0.113
+>>>>>>> WeaponSystem
     - _RimWidth: 0.716
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
@@ -91,8 +97,14 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - _AmbientLight: {r: 0, g: 0, b: 0, a: 0}
+<<<<<<< HEAD
     - _Color: {r: 1, g: 0.6090977, b: 0.2688679, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+=======
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _OutlineColor: {r: 1, g: 0, b: 0, a: 0.5}
+>>>>>>> WeaponSystem
     - _RimColor: {r: 1, g: 1, b: 1, a: 1}
     - _SpecularColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []

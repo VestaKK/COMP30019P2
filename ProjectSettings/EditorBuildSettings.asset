@@ -11,7 +11,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/MainMenuScene.unity
     guid: 99ca0bb08817b474ea625222875cfc30
-  - enabled: 1
+  - enabled: 0
     path: Assets/UITestScene.unity
     guid: 52fd4732ecaecef478734347364bea1b
+  - enabled: 1
+    path: Assets/NewControllerScene.unity
+    guid: 2dc07fe5348ffcb408081c161649c921
   m_configObjects: {}

@@ -24,8 +24,13 @@ MonoBehaviour:
   - Action: 4
     KeyCode: 0
   - Action: 5
-    KeyCode: 32
+    KeyCode: 0
   - Action: 6
     KeyCode: 27
   - Action: 7
     KeyCode: 323
+<<<<<<< HEAD
+=======
+  - Action: 8
+    KeyCode: 32
+>>>>>>> WeaponSystem

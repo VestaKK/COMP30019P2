@@ -5,37 +5,133 @@ using UnityEngine;
 public class MeleeController : MonoBehaviour
 {
     [SerializeField] private MeleeHitboxController meleeHitbox;
-
-    [SerializeField] private int damage = 20;
-    [SerializeField] private float meleeSwingSpeed = 2f;
-    [SerializeField] private float meleeLingerTime = 0.5f; 
-    [SerializeField] private float meleeRange = 1.0f;
-    [SerializeField] private float meleeReach = 1.0f;
     [SerializeField] private Vector3 offset;
+<<<<<<< HEAD
     [SerializeField] private GameObject parent; // gameObject we want as parent of MeleeHitbox
     private float swingTimer = 0;
     public bool isSwinging = false;
+=======
+    [SerializeField] private Animator playerAnimator;
 
-    // Update is called once per frame
+    public bool isResting = false;
+    public bool isAttacking = false;
+    public float attackCoolDown = 0;
+    public int clickCount = 0;
+
+    private MeleeAttackInfo attackInfo = new MeleeAttackInfo();
+
+    struct MeleeAttackInfo 
+    {
+        public MeleeAttackInfo
+            (int damage, float lingerTime, 
+            float range, float reach, Vector3 offset) 
+        {
+            this.damage = damage;
+            this.lingerTime = lingerTime;
+            this.range = range;
+            this.reach = reach;
+        }
+
+        public int damage;
+        public float lingerTime;
+        public float range;
+        public float reach;
+    }
+>>>>>>> WeaponSystem
+
     void Update()
     {
-        if (swingTimer > 0)
+        if (playerAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.95f &&
+            playerAnimator.GetCurrentAnimatorStateInfo(0).IsName("Melee Hit 1"))
         {
-            swingTimer -= Time.deltaTime;
+            playerAnimator.SetBool("Hit1", false);
+            attackCoolDown = 0.1f;
+            isAttacking = false;
+            isResting = true;
         }
 
-        if (isSwinging && swingTimer <= 0 && meleeHitbox != null)
+        if (playerAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.95f &&
+            playerAnimator.GetCurrentAnimatorStateInfo(0).IsName("Melee Hit 2"))
         {
-            swingTimer = 1/meleeSwingSpeed;
-            Transform parentTransform = parent.transform;
-            MeleeHitboxController newMeleeSwing = Instantiate(
-                meleeHitbox, 
-                parentTransform.position + parentTransform.forward * meleeReach + offset, 
-                parentTransform.rotation, 
-                parentTransform) as MeleeHitboxController;
-            newMeleeSwing.transform.localScale *= meleeRange;
-            newMeleeSwing.damage = damage;
-            newMeleeSwing.meleeLingerTime = meleeLingerTime;
+            playerAnimator.SetBool("Hit2", false);
+            attackCoolDown = 0.1f;
+            isAttacking = false;
+            isResting = true;
+        }
+
+        if (attackCoolDown <= 0)
+        {
+            if (isResting) 
+            {
+                clickCount = 0;
+                isResting = false;
+            }
+            attackCoolDown = 0;
+        }
+        else 
+        {
+            attackCoolDown -= Time.deltaTime;
+        }
+
+        if (isAttacking) 
+        {
+            CheckAnimationTransitions();
         }
     }
+
+    public void OnClick() {
+
+        if (isResting) return;
+
+        clickCount++;
+
+        clickCount = Mathf.Clamp(clickCount, 0, 2);
+
+        CheckAnimationTransitions();
+    }
+
+    void CheckAnimationTransitions() 
+    {
+        if (clickCount == 1)
+        {
+            isAttacking = true;
+            
+            playerAnimator.SetBool("Hit1", true);
+            attackInfo = new MeleeAttackInfo(10, 0.1f, 1, 3, offset);
+        }
+
+        if (clickCount >= 2 &&
+            playerAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.6f &&
+            playerAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime < 0.9f &&
+            playerAnimator.GetCurrentAnimatorStateInfo(0).IsName("Melee Hit 1"))
+        {
+            attackInfo = new MeleeAttackInfo(10, 0.2f, 1, 3, offset);
+            playerAnimator.SetBool("Hit1", false);
+            playerAnimator.SetBool("Hit2", true);
+        }
+    }
+
+    public void AttackAnimationEvent() 
+    {
+        SpawnHitbox(attackInfo);
+    }
+
+    private void SpawnHitbox(MeleeAttackInfo attackInfo) {
+
+        int damage = attackInfo.damage;
+        float reach = attackInfo.reach;
+        float range = attackInfo.range;
+        float lingerTime = attackInfo.lingerTime;
+
+        MeleeHitboxController newMeleeSwing = Instantiate(
+                meleeHitbox,
+                transform.position + transform.forward * reach + offset,
+                transform.rotation,
+                transform) as MeleeHitboxController;
+        newMeleeSwing.transform.localScale *= range;
+        newMeleeSwing.damage = damage;
+        newMeleeSwing.meleeLingerTime = lingerTime;
+    }
+
+
 }

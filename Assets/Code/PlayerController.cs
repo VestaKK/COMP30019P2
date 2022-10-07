@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NewPlayerController : MonoBehaviour
+public class PlayerController : MonoBehaviour
 {
     [SerializeField] CharacterController controller;
     [SerializeField] Camera camera;
@@ -13,64 +13,94 @@ public class NewPlayerController : MonoBehaviour
     [SerializeField] Animator playerAnimator;
 
     [SerializeField] float speed;
+    [SerializeField] float attackMovementSpeedModifier = 0.6f;
     [SerializeField] float gravity;
 
     // Controls smooth turning
     float turnVelocity;
     float turnTime = 0.05f;
 
-    // Variables used for jump logic (Will probably be deleted)
-    bool hasJump = true;
-    float timeSinceGrounded;
+    // timeSinceGrounded is a debug variable
+    public float timeSinceGrounded;
+    public bool isRolling = false;
 
     // We'll animate the player using 2D blend tree, so we'll need the player's velocity
     public float velocityY;
     public Vector3 velocity;
+    public Vector3 relativeVelocity;
 
     // Player's melee controller
-    public MeleeController playerMelee;
+    [SerializeField] MeleeController playerMelee;
 
     void Start()
     {
         controller.enabled = true;
     }
 
+    // TODO: Use a coroutine for animation states or something
     private void Update()
     {
         CalculateVelocity();
-
+        
         RotateTransform();
+
+        CalculateRelativeVelocity();
 
         HandleAttack();
 
-        HandleAnimations();
+        HandleMovementAnimations();
 
         PlayerMove();
     }
 
-    void HandleAnimations() {
-        Quaternion transformRotation = Quaternion.FromToRotation(transform.forward, Vector3.forward);
-        Vector3 relativeVelocity = transformRotation * velocity;
+    void HandleMovementAnimations() {
         playerAnimator.SetFloat("RelativeVelocityX", relativeVelocity.x);
         playerAnimator.SetFloat("RelativeVelocityZ", relativeVelocity.z);
     }
 
-    void PlayerMove() { 
-        velocity = new Vector3(speed * velocity.x, velocity.y, speed * velocity.z); 
-        controller.Move(velocity * Time.deltaTime);
+    void CalculateRelativeVelocity() {
+        Quaternion transformRotation = Quaternion.FromToRotation(transform.forward, Vector3.forward);
+        relativeVelocity = transformRotation * velocity;
     }
 
-    void LookAtMouse()
+    void PlayerMove() {
+
+        if (InputManager.instance.GetKeyDown(InputAction.Roll) && !playerMelee.isAttacking && !isRolling)
+        {
+            if (velocity.x != 0 && velocity.z != 0) 
+            {
+                float targetAngle = Mathf.Atan2(velocity.x, velocity.z) * Mathf.Rad2Deg;
+                transform.rotation = Quaternion.Euler(0, targetAngle, 0);
+            }
+
+            playerAnimator.applyRootMotion = true;
+            playerAnimator.SetTrigger("Roll");
+            isRolling = true;
+            turnTime = 0.2f;
+        }
+        else if (isRolling != true && !playerMelee.isAttacking)
+        {
+            velocity = new Vector3(speed * velocity.x, velocity.y, speed * velocity.z);
+            controller.Move(velocity * Time.deltaTime);
+        }
+    }
+
+    // Called by rolling animation
+    void AnimationEndRoll() 
+    {
+        isRolling = false;
+    }
+
+    public void LookAtMouse()
     {
         // Construct a plane that is level with the player position
-        Plane playerPlane = new Plane(Vector3.up, transform.position);
+        Plane playerPlane = new Plane(Vector3.up, controller.center);
 
         // Fire a ray from the mouse screen position into the world
         Ray mouseRay = camera.ScreenPointToRay(Input.mousePosition);
 
         if (playerPlane.Raycast(mouseRay, out float distanceToPlane))
         {
-
             // Calculate hitpoint using ray and distance to plane
             Vector3 mouseHitPoint = mouseRay.GetPoint(distanceToPlane);
             Vector3 P2M = (mouseHitPoint - transform.position).normalized;
@@ -112,14 +142,14 @@ public class NewPlayerController : MonoBehaviour
     }
 
     void RotateTransform() {
-        if (Input.GetMouseButton(1)) {
+        if (InputManager.instance.GetKeyDown(InputAction.Attack) && !playerMelee.isResting && LockOnTarget == null) {
             LookAtMouse();
         }
-        else if (LockOnTarget != null)
+        else if (LockOnTarget != null && !isRolling)
         {
             LookAtTarget();
         }
-        else if (velocity.x != 0 && velocity.z != 0)
+        else if (velocity.x != 0 && velocity.z != 0 && !playerMelee.isAttacking)
         {
             LookAtMovementDirection();
         }
@@ -157,7 +187,6 @@ public class NewPlayerController : MonoBehaviour
             // Otherwise controller won't be grounded
             velocityY = -2.0f;
             timeSinceGrounded = 0;
-            hasJump = true;
         }
         else
         {
@@ -170,15 +199,11 @@ public class NewPlayerController : MonoBehaviour
 
     void HandleAttack()
     {
-        if (playerMelee != null)
+        if (playerMelee != null && !isRolling)
         {
-            if (InputManager.instance.GetKey(InputAction.Attack))
+            if (InputManager.instance.GetKeyDown(InputAction.Attack))
             {
-                playerMelee.isSwinging = true;
-            }
-            else
-            {
-                playerMelee.isSwinging = false;
+                playerMelee.OnClick();
             }
         }
     }

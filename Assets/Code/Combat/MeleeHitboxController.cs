@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class MeleeHitboxController : MonoBehaviour
@@ -7,6 +5,12 @@ public class MeleeHitboxController : MonoBehaviour
 
     public int damage = 10;
     public float meleeLingerTime = 0.3f;
+
+    public void Initialize(int damage, float lingerTime)
+    {
+        this.damage = damage;
+        meleeLingerTime = lingerTime;
+    }
 
     // Update is called once per frame
     private void Update()

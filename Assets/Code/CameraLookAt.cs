@@ -5,7 +5,7 @@ using UnityEngine;
 public class CameraLookAt : MonoBehaviour
 {
     [SerializeField] private Camera camera;
-    [SerializeField] private Transform target;
+    [SerializeField] private CharacterController playerController;
     [SerializeField] private Vector3 offsetDirection;
     [SerializeField] private float cameraZoom;
 
@@ -13,8 +13,8 @@ public class CameraLookAt : MonoBehaviour
     {
         cameraZoom = 15.0f;
         offsetDirection = new Vector3(-4, 5, -4).normalized;
-        transform.position = target.position + cameraZoom * offsetDirection;
-        transform.LookAt(target);
+        transform.position = playerController.transform.position + cameraZoom * offsetDirection;
+        transform.LookAt(playerController.transform);
     }
 
     private void LateUpdate()
@@ -25,9 +25,10 @@ public class CameraLookAt : MonoBehaviour
         {
             cameraZoom += scrollDelta.y;
         }
-        
+
         // Follow Player 
-        transform.position = target.position + cameraZoom * offsetDirection;
-        transform.LookAt(target);
+        Vector3 targetPosition = playerController.transform.position + cameraZoom * offsetDirection;
+        Vector3 lerpPosition = Vector3.Lerp(transform.position, targetPosition, 0.01f);
+        transform.position = lerpPosition;
     }
 }
