@@ -12,10 +12,16 @@ public abstract class EntityController : MonoBehaviour
 
     public abstract Vector3 CalculateMoveDirection();
 
+    public readonly Entity entity;
+
+    public EntityController(Entity entity) {
+        this.entity = entity;
+    }
+
     void Start() {
         controller.enabled = true;
     }
-    
+
     protected void LookInDirection(float angle) {
             transform.rotation = Quaternion.Euler(0, angle, 0);
     }

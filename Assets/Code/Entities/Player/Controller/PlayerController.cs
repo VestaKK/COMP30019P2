@@ -16,6 +16,10 @@ public class PlayerController : EntityController
     // Player's melee controller
     [SerializeField] MeleeController playerMelee;
 
+    public PlayerController(Player player) : base(player) {
+
+    }
+
     // TODO: Use a coroutine for animation states or something
     private void Update()
     {
