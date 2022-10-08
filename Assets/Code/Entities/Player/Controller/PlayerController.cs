@@ -11,9 +11,6 @@ public class PlayerController : EntityController
     // TODO: Find a way to lock on to targets using KeyBind
     [SerializeField] Transform LockOnTarget = null;
     [SerializeField] float attackMovementSpeedModifier = 0.6f;
-
-    // timeSinceGrounded is a debug variable
-    public float timeSinceGrounded;
     public bool isRolling = false;
 
     // Player's melee controller
@@ -22,43 +19,43 @@ public class PlayerController : EntityController
     // TODO: Use a coroutine for animation states or something
     private void Update()
     {
-        CalculateVelocity();
+        MotionHandler.UpdateVelocity();
         
-        RotateTransform();
+        RotatePlayer();
 
-        CalculateRelativeVelocity();
+        MotionHandler.UpdateRelativeVelocity();
 
         HandleAttack();
 
         HandleMovementAnimations();
 
-        PlayerMove();
+        MovePlayer();
     }
 
     void HandleMovementAnimations() {
-        playerAnimator.SetFloat("RelativeVelocityX", relativeVelocity.x);
-        playerAnimator.SetFloat("RelativeVelocityZ", relativeVelocity.z);
+        animator.SetFloat("RelativeVelocityX", MotionHandler.RelativeVelocity.x);
+        animator.SetFloat("RelativeVelocityZ", MotionHandler.RelativeVelocity.z);
     }
 
-    void PlayerMove() {
+    void MovePlayer() {
 
         if (InputManager.instance.GetKeyDown(InputAction.Roll) && !playerMelee.isAttacking && !isRolling)
         {
-            if (velocity.x != 0 && velocity.z != 0) 
+            if (Velocity.x != 0 && Velocity.z != 0) 
             {
-                float targetAngle = Mathf.Atan2(velocity.x, velocity.z) * Mathf.Rad2Deg;
+                float targetAngle = Mathf.Atan2(Velocity.x, Velocity.z) * Mathf.Rad2Deg;
                 transform.rotation = Quaternion.Euler(0, targetAngle, 0);
             }
 
-            playerAnimator.applyRootMotion = true;
-            playerAnimator.SetTrigger("Roll");
+            animator.applyRootMotion = true;
+            animator.SetTrigger("Roll");
             isRolling = true;
-            turnTime = 0.2f;
+            MotionHandler.RotationTime = 0.2f;
         }
         else if (isRolling != true && !playerMelee.isAttacking)
         {
-            velocity = new Vector3(speed * velocity.x, velocity.y, speed * velocity.z);
-            controller.Move(velocity * Time.deltaTime);
+            Velocity = new Vector3(Speed * Velocity.x, Velocity.y, Speed * Velocity.z);
+            controller.Move(Velocity * Time.deltaTime);
         }
     }
 
@@ -77,5 +74,32 @@ public class PlayerController : EntityController
                 playerMelee.OnClick();
             }
         }
+    }
+
+    void RotatePlayer() {
+        if (InputManager.instance.GetKeyDown(InputAction.Attack) && !playerMelee.isResting && LockOnTarget == null) {
+            LookAtMouse();
+        }
+        else if (LockOnTarget != null && !isRolling)
+        {
+            LookAtTarget(LockOnTarget);
+        }
+        else if (Velocity.x != 0 && Velocity.z != 0 && !playerMelee.isAttacking)
+        {
+            LookAtMovementDirection();
+        }
+    }
+
+    public override Vector3 CalculateMoveDirection() {
+        // Process Input
+        float left = InputManager.instance.GetKey(InputAction.Left) ? -1.0f : 0;
+        float right = InputManager.instance.GetKey(InputAction.Right) ? 1.0f : 0;
+        float forward = InputManager.instance.GetKey(InputAction.Forward) ? 1.0f : 0;
+        float back = InputManager.instance.GetKey(InputAction.Back) ? -1.0f : 0;
+
+        // Calculate object space move direction
+        float horizontal = left + right;
+        float vertical = forward + back;
+        return new Vector3(horizontal, 0, vertical).normalized;
     }
 }

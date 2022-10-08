@@ -2,34 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EntityController : MonoBehaviour
+public abstract class EntityController : MonoBehaviour
 {
-    private MotionController motionController;
+    [SerializeField] private MotionHandler motionHandler;
 
-    [SerializeField] CharacterController controller;
-    [SerializeField] Camera camera;
-    [SerializeField] Animator animator;
+    [SerializeField] protected CharacterController controller;
+    [SerializeField] protected Camera camera;
+    [SerializeField] protected Animator animator;
 
+    public abstract Vector3 CalculateMoveDirection();
 
     void Start() {
         controller.enabled = true;
     }
-
-    void RotateTransform() {
-        if (InputManager.instance.GetKeyDown(InputAction.Attack) && !playerMelee.isResting && LockOnTarget == null) {
-            LookAtMouse();
-        }
-        else if (LockOnTarget != null && !isRolling)
-        {
-            LookAtTarget();
-        }
-        else if (velocity.x != 0 && velocity.z != 0 && !playerMelee.isAttacking)
-        {
-            LookAtMovementDirection();
-        }
+    
+    protected void LookInDirection(float angle) {
+            transform.rotation = Quaternion.Euler(0, angle, 0);
     }
 
-    public void LookAtMouse()
+    protected void LookAtMouse()
     {
         // Construct a plane that is level with the player position
         Plane playerPlane = new Plane(Vector3.up, controller.center);
@@ -45,15 +36,15 @@ public class EntityController : MonoBehaviour
 
             // Rotate player accordingly
             float targetAngle = Mathf.Atan2(P2M.x, P2M.z) * Mathf.Rad2Deg;
-            transform.rotation = Quaternion.Euler(0, targetAngle, 0);
+            LookInDirection(targetAngle);
         }
     }
 
-    void LookAtTarget()
+    protected void LookAtTarget(Transform target)
     {
         // Create Vector from Player to the target
         Vector3 P = transform.position;
-        Vector3 T = new Vector3(LockOnTarget.position.x, transform.position.y, LockOnTarget.position.z);
+        Vector3 T = new Vector3(target.position.x, transform.position.y, target.position.z);
         Vector3 P2T = (T - P).normalized;
 
         // Find angles in degrees needed to face the target
@@ -63,65 +54,34 @@ public class EntityController : MonoBehaviour
         // Ensures the player will face the target directly when given a small turning angle
         if (Vector3.Dot(P2T, transform.forward) < 0.95)
         {
-            float turnAngle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnVelocity, turnTime);
-            transform.rotation = Quaternion.Euler(0, turnAngle, 0);
+            float turnAngle = MotionHandler.GetTurnAngle(targetAngle);
+            LookInDirection(turnAngle);
         }
         else
         {
-            turnVelocity = 0;
-            transform.rotation = Quaternion.Euler(0, targetAngle, 0);
+            MotionHandler.RotationSpeed = 0;
+            LookInDirection(targetAngle);
         }
     }
 
-    void LookAtMovementDirection() { 
-        float targetAngle = Mathf.Atan2(velocity.x, velocity.z) * Mathf.Rad2Deg;
-        float turnAngle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnVelocity, turnTime);
-        transform.rotation = Quaternion.Euler(0, turnAngle, 0);
+    protected void LookAtMovementDirection() { 
+        float targetAngle = Mathf.Atan2(Velocity.x, Velocity.z) * Mathf.Rad2Deg;
+        float turnAngle = MotionHandler.GetTurnAngle(targetAngle);
+        LookInDirection(turnAngle);
     }
 
-    void CalculateVelocity()
-    {
-        // Recalculate velocity every frame
-        velocity = Vector3.zero;
+    // Getters and Setters
+    public Animator Animator { get { return this.animator; } }
+    public MotionHandler MotionHandler { get { return this.motionHandler; } }
 
-        // Process Input
-        float left = InputManager.instance.GetKey(InputAction.Left) ? -1.0f : 0;
-        float right = InputManager.instance.GetKey(InputAction.Right) ? 1.0f : 0;
-        float forward = InputManager.instance.GetKey(InputAction.Forward) ? 1.0f : 0;
-        float back = InputManager.instance.GetKey(InputAction.Back) ? -1.0f : 0;
+    public float Speed { get { return MotionHandler.Speed; } }
 
-        // Calculate object space move direction
-        float horizontal = left + right;
-        float vertical = forward + back;
-        Vector3 direction = new Vector3(horizontal, 0, vertical).normalized;
-
-        // Calculate the correct movement angle relative to the camera (Degrees)
-        float moveAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + camera.transform.eulerAngles.y;
-        Vector3 moveDir = Quaternion.Euler(0f, moveAngle, 0f) * Vector3.forward;
-
-        // Prevents random movement drift due to floating point stuff
-        if (direction.magnitude >= 0.1f)
-        {
-            velocity = moveDir;
-        }
-
-        if (controller.isGrounded)
-        {
-            // Make sure controller will be sent into the ground
-            // Otherwise controller won't be grounded
-            velocityY = -2.0f;
-            timeSinceGrounded = 0;
-        }
-        else
-        {
-            timeSinceGrounded += Time.deltaTime;
-            velocityY -= gravity * Time.deltaTime;
-        }
-
-        velocity.y = velocityY;
+    public Vector3 Velocity { 
+        get { return MotionHandler.Velocity; }
+        set { MotionHandler.Velocity = value; } 
     }
 
-    public Animator Animator { get { return animator; } }
-    public MotionController MotionController { get { return motionController; } }
+    public Camera Camera { get { return this.camera; } }
+    public CharacterController Controller { get { return this.controller; } }
 
 }
