@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 public class IdleState : PlayerState
 {
-    public IdleState(PlayerContext playerContext, StateManager stateManager)
-        : base(playerContext, stateManager) {}
+    public IdleState(StateManager stateManager)
+        : base(stateManager) {}
 
     public override void Enter()
     {
-        _ctx.Velocity = new Vector3(0, 0, 0);
-        _ctx.RelativeVelocity = new Vector3(0, 0, 0);
-        _ctx.PlayerAnimator.SetFloat("RelativeVelocityX", _ctx.RelativeVelocity.x);
-        _ctx.PlayerAnimator.SetFloat("RelativeVelocityZ", _ctx.RelativeVelocity.z);
+        Player.Velocity = new Vector3(0, 0, 0);
+        Player.RelativeVelocity = new Vector3(0, 0, 0);
+        Player.Animator.SetFloat("RelativeVelocityX", Player.RelativeVelocity.x);
+        Player.Animator.SetFloat("RelativeVelocityZ", Player.RelativeVelocity.z);
     }
 
     public override void Exit()
@@ -21,12 +21,12 @@ public class IdleState : PlayerState
 
     public override void Update()
     {
-        if (_ctx.LockOnTarget != null)
+        if (Player.LockOnTarget != null)
         {
-            _ctx.LookAtTarget();
+            Player.LookAtTarget();
         }
 
-        _ctx.GravityOnly();
+        Player.Motion.GravityOnly();
     }
 
     public override void CheckSwitchStates()
@@ -36,11 +36,11 @@ public class IdleState : PlayerState
             _stateManager.SwitchState(_stateManager.Roll());
         }
         else if (InputManager.instance.GetKeyDown(InputAction.Attack) && 
-            !_ctx.PlayerMelee.isResting)
+            !Player.PlayerMelee.isResting)
         {
             _stateManager.SwitchState(_stateManager.Attack());
         }
-        else if ( !(_ctx.Velocity.x == 0 && _ctx.Velocity.z == 0) ) 
+        else if ( !(Player.Velocity.x == 0 && Player.Velocity.z == 0) ) 
         {
             _stateManager.SwitchState(_stateManager.Walk());
         }

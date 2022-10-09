@@ -22,7 +22,7 @@ public class Player : Entity
     }
 
     public Player() {
-        this.controller = new PlayerController(this);
+        // this.controller = new PlayerController(this);
     }
 
     public override void TakeDamage(int damage) {

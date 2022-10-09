@@ -4,32 +4,35 @@ using UnityEngine;
 
 public abstract class EntityController : MonoBehaviour
 {
-    [SerializeField] private MotionHandler motionHandler;
+    [SerializeField] private MotionHandler _motionHandler;
 
-    [SerializeField] protected CharacterController controller;
-    [SerializeField] protected Camera camera;
-    [SerializeField] protected Animator animator;
+    [SerializeField] protected CharacterController _controller;
+    [SerializeField] protected Camera _camera;
+    [SerializeField] protected Animator _animator;
+
+    [SerializeField] protected Transform _lockOnTarget = null;
 
     public abstract Vector3 CalculateMoveDirection();
 
-    public readonly Entity entity;
+    private Entity _entity;
 
-    public EntityController(Entity entity) {
-        this.entity = entity;
+    protected void Awake() {
+        _entity = this.GetComponent<Entity>();
+        _motionHandler = new MotionHandler(this);
     }
 
     void Start() {
-        controller.enabled = true;
+        _controller.enabled = true;
     }
 
-    protected void LookInDirection(float angle) {
+    public void LookInDirection(float angle) {
             transform.rotation = Quaternion.Euler(0, angle, 0);
     }
 
-    protected void LookAtMouse()
+    public void LookAtMouse()
     {
         // Construct a plane that is level with the player position
-        Plane playerPlane = new Plane(Vector3.up, controller.center);
+        Plane playerPlane = new Plane(Vector3.up, _controller.center);
 
         // Fire a ray from the mouse screen position into the world
         Ray mouseRay = GetComponent<Camera>().ScreenPointToRay(Input.mousePosition);
@@ -46,7 +49,10 @@ public abstract class EntityController : MonoBehaviour
         }
     }
 
-    protected void LookAtTarget(Transform target)
+    public void LookAtTarget(bool instant = false) {
+        LookAtTarget(_lockOnTarget, instant);
+    }
+    public void LookAtTarget(Transform target, bool instant = false)
     {
         // Create Vector from Player to the target
         Vector3 P = transform.position;
@@ -58,36 +64,43 @@ public abstract class EntityController : MonoBehaviour
 
         // Rotate player towards the target
         // Ensures the player will face the target directly when given a small turning angle
-        if (Vector3.Dot(P2T, transform.forward) < 0.95)
+        if (Vector3.Dot(P2T, transform.forward) < 0.95 && !instant)
         {
-            float turnAngle = MotionHandler.GetTurnAngle(targetAngle);
+            float turnAngle = Motion.GetTurnAngle(targetAngle);
             LookInDirection(turnAngle);
         }
         else
         {
-            MotionHandler.RotationSpeed = 0;
+            Motion.RotationSpeed = 0;
             LookInDirection(targetAngle);
         }
     }
-
-    protected void LookAtMovementDirection() { 
+    public void LookAtMovementDirection() { 
         float targetAngle = Mathf.Atan2(Velocity.x, Velocity.z) * Mathf.Rad2Deg;
-        float turnAngle = MotionHandler.GetTurnAngle(targetAngle);
+        float turnAngle = Motion.GetTurnAngle(targetAngle);
         LookInDirection(turnAngle);
     }
 
     // Getters and Setters
-    public Animator Animator { get { return this.animator; } }
-    public MotionHandler MotionHandler { get { return this.motionHandler; } }
+    public Animator Animator { get { return this._animator; } }
+    public MotionHandler Motion { get => this._motionHandler; }
 
-    public float Speed { get { return MotionHandler.Speed; } }
+    public float Speed { get { return Motion.Speed; } }
 
     public Vector3 Velocity { 
-        get { return MotionHandler.Velocity; }
-        set { MotionHandler.Velocity = value; } 
+        get { return Motion.Velocity; }
+        set { Motion.Velocity = value; } 
+    }
+    public Vector3 RelativeVelocity { 
+        get { return Motion.RelativeVelocity; }
+        set { Motion.RelativeVelocity = value; } 
     }
 
-    public Camera Camera { get { return this.camera; } }
-    public CharacterController Controller { get { return this.controller; } }
+    public Camera Camera { get { return this._camera; } }
+    public CharacterController Controller { get { return this._controller; } }
+
+    public Transform LockOnTarget { get { return this._lockOnTarget; } }
+
+    public Entity Entity { get => this._entity; } 
 
 }

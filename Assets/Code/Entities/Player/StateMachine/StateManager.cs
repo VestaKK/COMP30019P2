@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 public class StateManager
 {
-    private enum State
+    public enum State
     {
         Idle,
         Walk,
@@ -11,38 +11,53 @@ public class StateManager
         Attack
     }
 
-    private PlayerContext _playerContext;
+    private PlayerState _currentState;
+    private PlayerController _player;
     private readonly Dictionary<State, PlayerState> _states = new Dictionary<State, PlayerState>();
 
-    public StateManager(PlayerContext playerContext) 
+    public StateManager(PlayerController entity, State initialState) 
     {
-        _playerContext = playerContext;
-        _states.Add(State.Idle, new IdleState(playerContext, this));
-        _states.Add(State.Walk, new WalkState(playerContext, this));
-        _states.Add(State.Roll, new RollState(playerContext, this));
-        _states.Add(State.Attack, new AttackState(playerContext, this));
+        _player = entity;
+        _states.Add(State.Idle, new IdleState(this));
+        _states.Add(State.Walk, new WalkState(this));
+        _states.Add(State.Roll, new RollState(this));
+        _states.Add(State.Attack, new AttackState(this));
+        SwitchState(GetState(initialState));
     }
 
+    public PlayerState GetState(State s) {
+        return _states[s];
+    }
     public PlayerState Idle() { 
-        return _states[State.Idle];
+        return GetState(State.Idle);
     }
 
     public PlayerState Walk() {
-        return _states[State.Walk];
+        return  GetState(State.Walk);
     }
 
     public PlayerState Roll() {
-        return _states[State.Roll];
+        return GetState(State.Roll);
     }
 
     public PlayerState Attack() {
-        return _states[State.Attack];
+        return GetState(State.Attack);
+    }
+
+    public void Update() {
+        _currentState.Update();
+        _currentState.CheckSwitchStates();
     }
 
     public void SwitchState(PlayerState newState) {
         if (newState == null) return;
-        _playerContext.CurrentState.Exit();
-        _playerContext.CurrentState = newState;
+        if(_currentState != null) {
+            _currentState.Exit();
+        }
+        _currentState = newState;
         newState.Enter();
     }
+
+    public PlayerController Player { get { return _player; } }
+    public PlayerState CurrentState { get { return _currentState; } }
 }

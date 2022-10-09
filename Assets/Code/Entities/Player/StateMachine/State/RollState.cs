@@ -7,45 +7,45 @@ public class RollState : PlayerState
     private const float INCREASED_TURN_TIME = 0.2f;
     private float _normalTurnTime = 0;
 
-    public RollState(PlayerContext playerContext, StateManager stateManager)
-        : base(playerContext, stateManager) {}
+    public RollState(StateManager stateManager)
+        : base(stateManager) {}
 
     public override void Enter()
     {
-        if (!(_ctx.Velocity.x == 0 && _ctx.Velocity.z == 0))
+        if (!(Player.Velocity.x == 0 && Player.Velocity.z == 0))
         {
-            float targetAngle = Mathf.Atan2(_ctx.Velocity.x, _ctx.Velocity.z) * Mathf.Rad2Deg;
-            _ctx.transform.rotation = Quaternion.Euler(0, targetAngle, 0);
+            float targetAngle = Mathf.Atan2(Player.Velocity.x, Player.Velocity.z) * Mathf.Rad2Deg;
+            Player.transform.rotation = Quaternion.Euler(0, targetAngle, 0);
         }
 
-        _ctx.PlayerAnimator.applyRootMotion = true;
-        _ctx.PlayerAnimator.SetTrigger("Roll");
-        _ctx.IsRolling = true;
-        _normalTurnTime = _ctx.TurnTime;
-        _ctx.TurnTime = INCREASED_TURN_TIME;
+        Player.Animator.applyRootMotion = true;
+        Player.Animator.SetTrigger("Roll");
+        Player.IsRolling = true;
+        _normalTurnTime = Player.Motion.RotationTime;
+        Player.Motion.RotationTime = INCREASED_TURN_TIME;
     }
 
     public override void Exit()
     {
-        _ctx.PlayerAnimator.applyRootMotion = false;
-        _ctx.TurnTime = _normalTurnTime;
+        Player.Animator.applyRootMotion = false;
+        Player.Motion.RotationTime = _normalTurnTime;
     }
 
     public override void Update()
     {
-        if (_ctx.Velocity.x != 0 && _ctx.Velocity.z != 0)
-        _ctx.LookAtMovementDirection();
+        if (Player.Velocity.x != 0 && Player.Velocity.z != 0)
+        Player.LookAtMovementDirection();
     }
 
     public override void CheckSwitchStates()
     {
-        if (_ctx.IsRolling == false) 
+        if (Player.IsRolling == false) 
         {
-            if (!(_ctx.Velocity.x == 0 && _ctx.Velocity.z == 0))
+            if (!(Player.Velocity.x == 0 && Player.Velocity.z == 0))
             {
                 _stateManager.SwitchState(_stateManager.Walk());
             }
-            else if (_ctx.Velocity.x == 0 && _ctx.Velocity.z == 0) 
+            else if (Player.Velocity.x == 0 && Player.Velocity.z == 0) 
             { 
                 _stateManager.SwitchState(_stateManager.Idle());
             }
