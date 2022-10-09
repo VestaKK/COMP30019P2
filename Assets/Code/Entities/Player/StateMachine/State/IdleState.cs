@@ -8,8 +8,6 @@ public class IdleState : PlayerState
 
     public override void Enter()
     {
-        Player.Velocity = new Vector3(0, 0, 0);
-        Player.RelativeVelocity = new Vector3(0, 0, 0);
         Player.Animator.SetFloat("RelativeVelocityX", Player.RelativeVelocity.x);
         Player.Animator.SetFloat("RelativeVelocityZ", Player.RelativeVelocity.z);
     }

@@ -17,7 +17,6 @@ public abstract class EntityController : MonoBehaviour
     private Entity _entity;
 
     protected void Awake() {
-        _entity = this.GetComponent<Entity>();
         _motionHandler = new MotionHandler(this);
     }
 
@@ -35,7 +34,7 @@ public abstract class EntityController : MonoBehaviour
         Plane playerPlane = new Plane(Vector3.up, _controller.center);
 
         // Fire a ray from the mouse screen position into the world
-        Ray mouseRay = GetComponent<Camera>().ScreenPointToRay(Input.mousePosition);
+        Ray mouseRay = _camera.ScreenPointToRay(Input.mousePosition);
 
         if (playerPlane.Raycast(mouseRay, out float distanceToPlane))
         {
@@ -101,6 +100,6 @@ public abstract class EntityController : MonoBehaviour
 
     public Transform LockOnTarget { get { return this._lockOnTarget; } }
 
-    public Entity Entity { get => this._entity; } 
+    public Entity Entity { get => this._entity; set => this._entity = value; } 
 
 }

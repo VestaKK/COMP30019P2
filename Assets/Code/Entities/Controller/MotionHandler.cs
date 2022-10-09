@@ -9,7 +9,7 @@ public class MotionHandler
     // We'll animate the player using 2D blend tree, so we'll need the player's velocity
     private float _velocityY;
     private Vector3 _velocity = Vector3.zero;
-    private Vector3 _relativeVelocity;
+    private Vector3 _relativeVelocity = Vector3.zero;
 
     [SerializeField] float _speed;
     [SerializeField] float _gravity;
@@ -28,7 +28,7 @@ public class MotionHandler
     public void UpdateVelocity()
     {
         // Recalculate velocity every frame
-        _velocity = Vector3.zero;
+        Vector3 vel = Vector3.zero;
 
         Vector3 direction = _entity.CalculateMoveDirection();
 
@@ -39,7 +39,7 @@ public class MotionHandler
         // Prevents random movement drift due to floating point stuff
         if (direction.magnitude >= 0.1f)
         {
-            _velocity = moveDir;
+            vel = moveDir;
         }
 
         if (_entity.Controller.isGrounded)

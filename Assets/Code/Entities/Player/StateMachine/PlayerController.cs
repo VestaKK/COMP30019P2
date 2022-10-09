@@ -18,6 +18,7 @@ public class PlayerController : EntityController
     {
         base.Awake();
         _stateManager = new StateManager(this, StateManager.State.Idle);
+        Entity = this.GetComponent<Player>();
     }
 
     // Update is called once per frame
