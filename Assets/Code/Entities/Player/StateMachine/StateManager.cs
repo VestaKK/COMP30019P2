@@ -23,7 +23,6 @@ public class StateManager
         _states.Add(State.Walk, new WalkState(this));
         _states.Add(State.Roll, new RollState(this));
         _states.Add(State.Attack, new AttackState(this));
-        Debug.Log("Initializing");
         SwitchState(GetState(initialState));
     }
 

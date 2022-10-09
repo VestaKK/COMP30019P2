@@ -11,7 +11,7 @@ public class MotionHandler
     private Vector3 _velocity = Vector3.zero;
     private Vector3 _relativeVelocity = Vector3.zero;
 
-    [SerializeField] float _speed;
+    private float _speed;
     [SerializeField] float _gravity;
 
     // Controls smooth turning

@@ -46,7 +46,7 @@ public class WalkState : PlayerState
 
         HandleMovementAnimations();
 
-        Player.PlayerMove();
+        Player.EntityMove();
     }
 
     void HandleMovementAnimations()

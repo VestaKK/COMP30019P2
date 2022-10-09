@@ -79,12 +79,17 @@ public abstract class EntityController : MonoBehaviour
         float turnAngle = Motion.GetTurnAngle(targetAngle);
         LookInDirection(turnAngle);
     }
+    public void EntityMove()
+    {
+        Velocity = Entity.Speed * Velocity; //new Vector3(Entity.Speed * Velocity.x, Velocity.y, Velocity.z);
+        Controller.Move(Velocity * Time.deltaTime);
+    }
 
     // Getters and Setters
     public Animator Animator { get { return this._animator; } }
     public MotionHandler Motion { get => this._motionHandler; }
 
-    public float Speed { get { return Motion.Speed; } }
+   public float Speed { get { return Entity.Speed; } }
 
     public Vector3 Velocity { 
         get { return Motion.Velocity; }

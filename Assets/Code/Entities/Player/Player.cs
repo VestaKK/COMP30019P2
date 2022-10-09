@@ -19,7 +19,7 @@ public class Player : Entity
         {
             Destroy(this);
         }
-        this.controller = this.GetComponent<PlayerController>();
+        this._controller = this.GetComponent<PlayerController>();
     }
 
     public override void TakeDamage(int damage) {

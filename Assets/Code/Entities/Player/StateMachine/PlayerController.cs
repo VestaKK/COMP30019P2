@@ -34,12 +34,6 @@ public class PlayerController : EntityController
         _isRolling = false;
     }
 
-    public void PlayerMove()
-    {
-        Velocity = new Vector3(Velocity.x, Velocity.y, Velocity.z);
-        Debug.Log("Velocity: " + Velocity + " Speed: " + Motion.Speed);
-        Controller.Move(Velocity * Time.deltaTime);
-    }
 
     public override Vector3 CalculateMoveDirection()
     {
