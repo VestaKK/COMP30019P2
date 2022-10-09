@@ -36,7 +36,8 @@ public class PlayerController : EntityController
 
     public void PlayerMove()
     {
-        Velocity = Velocity * Motion.Speed;//new Vector3(Motion.Speed * Velocity.x, Velocity.y, Motion.Speed * Velocity.z);
+        Velocity = new Vector3(Velocity.x, Velocity.y, Velocity.z);
+        Debug.Log("Velocity: " + Velocity + " Speed: " + Motion.Speed);
         Controller.Move(Velocity * Time.deltaTime);
     }
 

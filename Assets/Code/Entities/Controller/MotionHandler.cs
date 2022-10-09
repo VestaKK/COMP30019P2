@@ -28,7 +28,7 @@ public class MotionHandler
     public void UpdateVelocity()
     {
         // Recalculate velocity every frame
-        Vector3 vel = Vector3.zero;
+        _velocity = Vector3.zero;
 
         Vector3 direction = _entity.CalculateMoveDirection();
 
@@ -39,7 +39,7 @@ public class MotionHandler
         // Prevents random movement drift due to floating point stuff
         if (direction.magnitude >= 0.1f)
         {
-            vel = moveDir;
+            _velocity = moveDir;
         }
 
         if (_entity.Controller.isGrounded)
