@@ -4,21 +4,21 @@ using UnityEngine;
 
 public class AttackState : PlayerState
 {
-    public AttackState(PlayerContext playerContext, StateManager stateManager)
-        : base(playerContext, stateManager) { }
+    public AttackState(StateManager stateManager)
+        : base(stateManager) { }
 
     public override void Enter()
     {
-        if (_ctx.LockOnTarget == null)
+        if (Player.LockOnTarget == null)
         {
-            _ctx.LookAtMouse();
+            Player.LookAtMouse();
         }
         else
         {
-            _ctx.LookAtTarget(true);
+            Player.LookAtTarget(true);
         }
 
-        _ctx.PlayerMelee.OnClick();
+        Player.PlayerMelee.OnClick();
 
     }
 
@@ -31,29 +31,29 @@ public class AttackState : PlayerState
     {
         if (InputManager.instance.GetKeyDown(InputAction.Attack)) 
         {
-            if (_ctx.LockOnTarget == null)
+            if (Player.LockOnTarget == null)
             {
-                _ctx.LookAtMouse();
+                Player.LookAtMouse();
             }
             else
             {
-                _ctx.LookAtTarget();
+                Player.LookAtTarget();
             }
-            _ctx.PlayerMelee.OnClick();
+            Player.PlayerMelee.OnClick();
         }
 
-        _ctx.GravityOnly();
+        Player.Motion.GravityOnly();
     }
 
     public override void CheckSwitchStates()
     {
-        if (_ctx.PlayerMelee.isResting && !_ctx.PlayerMelee.isAttacking) 
+        if (Player.PlayerMelee.isResting && !Player.PlayerMelee.isAttacking) 
         {
             if (InputManager.instance.GetKeyDown(InputAction.Roll))
             {
                 _stateManager.SwitchState(_stateManager.Roll());
             }
-            else if (!(_ctx.Velocity.x == 0 && _ctx.Velocity.z == 0)) 
+            else if (!(Player.Velocity.x == 0 && Player.Velocity.z == 0)) 
             {
                 _stateManager.SwitchState(_stateManager.Walk());
             }

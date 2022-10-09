@@ -4,9 +4,7 @@ using UnityEngine;
 
 public class PlayerHealthManager : MonoBehaviour
 {
-    public int health;
-    public int currentHealth;
-
+    private Player player;
     // duration and counter for player flashing when damaged
     public float flashDuration;
     private float flashCounter = 0;
@@ -16,7 +14,6 @@ public class PlayerHealthManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        currentHealth = health;
         rend = GetComponent<Renderer>();
         originalColor = rend.material.GetColor("_Color");
     }
@@ -24,9 +21,6 @@ public class PlayerHealthManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (currentHealth <= 0)
-            gameObject.SetActive(false);
-
         if (flashCounter > 0)
         {
             flashCounter -= Time.deltaTime;
@@ -39,7 +33,8 @@ public class PlayerHealthManager : MonoBehaviour
 
     public void HurtPlayer(int damage)
     {
-        currentHealth -= damage;
+        player.TakeDamage(damage);
+        player.Health -= damage;
         flashCounter = flashDuration;
         rend.material.SetColor("_Color", Color.white);
     }

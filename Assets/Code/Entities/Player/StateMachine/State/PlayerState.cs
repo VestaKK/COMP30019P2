@@ -1,11 +1,9 @@
 public abstract class PlayerState 
 {
-    protected PlayerContext _ctx;
     protected StateManager _stateManager;
 
-    protected PlayerState(PlayerContext playerContext, StateManager stateManager) 
+    protected PlayerState(StateManager stateManager) 
     {
-        _ctx = playerContext;
         _stateManager = stateManager;
     }
 
@@ -13,4 +11,6 @@ public abstract class PlayerState
     public abstract void Update();
     public abstract void Exit();
     public abstract void CheckSwitchStates();
+
+    public PlayerController Player { get { return _stateManager.Player; } }
 }
