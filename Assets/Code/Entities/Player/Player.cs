@@ -12,8 +12,6 @@ public class Player : Entity
         if (instance == null)
         {
             instance = this;
-            // Makes sure this isn't unloaded when loading a new scene
-            // DontDestroyOnLoad(this);
         }
         else if (instance != null)
         {
@@ -24,6 +22,7 @@ public class Player : Entity
 
     public override void TakeDamage(int damage) {
 
+        Health -= damage;
         if (Health <= 0)
         {
             OnDeath();
