@@ -92,7 +92,7 @@ public class MotionHandler
 
     public void GravityOnly()
     {
-        _entity.Controller.Move(new Vector3(0, _velocity.y, 0));
+        _entity.Controller.Move(new Vector3(0, _velocity.y * Time.deltaTime, 0));
     }
 
     public Camera Camera { get => _entity.Camera; }

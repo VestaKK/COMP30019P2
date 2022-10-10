@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44300658, g: 0.4921953, b: 0.57192475, a: 1}
+  m_IndirectSpecularColor: {r: 0.4430063, g: 0.4921952, b: 0.5719241, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -599,7 +599,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 484281529}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 73a58dec4fdfdea4ba6fc5fd7c36de82, type: 3}
+  m_Script: {fileID: 11500000, guid: b8076f872f93d89469eba0bf82dfbde0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   quitButton: {fileID: 913238453}
@@ -799,6 +799,7 @@ GameObject:
   - component: {fileID: 834632997}
   - component: {fileID: 834632999}
   - component: {fileID: 834633000}
+  - component: {fileID: 834633001}
   m_Layer: 0
   m_Name: ThirdPersonPlayer
   m_TagString: Player
@@ -888,22 +889,30 @@ MonoBehaviour:
   m_GameObject: {fileID: 834632992}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 769a65f022654254995a524ecdca8fa1, type: 3}
+  m_Script: {fileID: 11500000, guid: 9bc562d2aeeeb2443ae14c0415765c29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _controller: {fileID: 834632996}
   _camera: {fileID: 190386689}
+  _animator: {fileID: 834632997}
   _lockOnTarget: {fileID: 0}
-  _playerAnimator: {fileID: 834632997}
-  _speed: 4.5
-  _gravity: 10
-  _timeSinceGrounded: 0
-  _isRolling: 0
-  _turnTime: 0.05
-  _velocityY: 0
-  _velocity: {x: 0, y: 0, z: 0}
-  _relativeVelocity: {x: 0, y: 0, z: 0}
   playerMelee: {fileID: 834632999}
+  _isRolling: 0
+--- !u!114 &834633001
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 834632992}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 695ed5bccdbdf6d43851f42e18971b7e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _speed: 5
+  _health: 0
+  _maxHealth: 10
 --- !u!1 &913238451
 GameObject:
   m_ObjectHideFlags: 0
@@ -1483,10 +1492,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1301772349}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f596b6891f1bc9e448b61791f70e5e8d, type: 3}
+  m_Script: {fileID: 11500000, guid: 24838a1bf1a185f40a2ce96b25a6aa24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HPimage: {fileID: 1095761482}
+  HPimage: {fileID: 1688092387}
 --- !u!1 &1322495084
 GameObject:
   m_ObjectHideFlags: 0
@@ -1771,7 +1780,7 @@ GameObject:
   - component: {fileID: 1491811929}
   - component: {fileID: 1491811932}
   - component: {fileID: 1491811931}
-  - component: {fileID: 1491811930}
+  - component: {fileID: 1491811933}
   m_Layer: 5
   m_Name: PlayerHUD
   m_TagString: Untagged
@@ -1800,19 +1809,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1491811930
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1491811928}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a8be6ffbd13b994e89dc7c552dcb039, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  healthBar: {fileID: 1301772351}
 --- !u!114 &1491811931
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1851,6 +1847,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1491811928}
   m_CullTransparentMesh: 1
+--- !u!114 &1491811933
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1491811928}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d843be04094ecbd4f9ce2830e679e71a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healthBar: {fileID: 0}
 --- !u!1 &1499225797
 GameObject:
   m_ObjectHideFlags: 0
@@ -2311,13 +2320,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1945433542}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ba495fafd8b07da44a161e061be0bea6, type: 3}
+  m_Script: {fileID: 11500000, guid: 0d024cd325376804a89d3b8ec51771b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startPanel: {fileID: 1491811930}
+  startPanel: {fileID: 1491811933}
   panels:
-  - {fileID: 1491811930}
   - {fileID: 484281533}
+  - {fileID: 1491811933}
   currentPanel: {fileID: 0}
 --- !u!4 &1945433544
 Transform:
@@ -2362,7 +2371,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2006539035}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e4bf4298326e8a4195506cea0759722, type: 3}
+  m_Script: {fileID: 11500000, guid: 36e18d92fc14dff4ab86271c9f8b5edf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   binder: {fileID: 11400000, guid: 90177db463be7ae42a5bd9878bcd7cdf, type: 2}

@@ -26,9 +26,6 @@
 # Visual Studio cache directory
 .vs/
 
-# Unity Meta
-**/*.meta
-
 # Gradle cache directory
 .gradle/
 

@@ -85,6 +85,10 @@ public abstract class EntityController : MonoBehaviour
         Controller.Move(Velocity * Time.deltaTime);
     }
 
+    public bool isMoving() {
+        return (Velocity.x == 0 && Velocity.z == 0);
+    }
+
     // Getters and Setters
     public Animator Animator { get { return this._animator; } }
     public MotionHandler Motion { get => this._motionHandler; }
