@@ -91,7 +91,7 @@ public class MeleeController : MonoBehaviour
             isAttacking = true;
             
             playerAnimator.SetBool("Hit1", true);
-            attackInfo = new MeleeAttackInfo(10, 0.1f, 1, 3, offset);
+            attackInfo = new MeleeAttackInfo(1, 0.1f, 1, 3, offset);
         }
 
         if (clickCount >= 2 &&
@@ -99,7 +99,7 @@ public class MeleeController : MonoBehaviour
             playerAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime < 0.9f &&
             playerAnimator.GetCurrentAnimatorStateInfo(0).IsName("Melee Hit 1"))
         {
-            attackInfo = new MeleeAttackInfo(10, 0.2f, 1, 3, offset);
+            attackInfo = new MeleeAttackInfo(100, 0.2f, 1, 3, offset);
             playerAnimator.SetBool("Hit1", false);
             playerAnimator.SetBool("Hit2", true);
         }
@@ -117,14 +117,13 @@ public class MeleeController : MonoBehaviour
         float range = attackInfo.range;
         float lingerTime = attackInfo.lingerTime;
 
-        MeleeHitboxController newMeleeSwing = Instantiate(
+        MeleeHitboxController newMeleeHitbox = Instantiate(
                 meleeHitbox,
                 transform.position + transform.forward * reach + offset,
                 transform.rotation,
                 transform) as MeleeHitboxController;
-        newMeleeSwing.transform.localScale *= range;
-        newMeleeSwing.damage = damage;
-        newMeleeSwing.meleeLingerTime = lingerTime;
+        newMeleeHitbox.transform.localScale *= range;
+        newMeleeHitbox.Initialize(damage, lingerTime);
     }
 
 
