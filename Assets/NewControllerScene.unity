@@ -1023,16 +1023,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 834632992}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 58cf19250b4c91d439ea29263a7e4659, type: 3}
+  m_Script: {fileID: 11500000, guid: 098dc0d1bb9116768897f0b3207e087f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _entity: {fileID: 834633000}
+  _hitbox: {fileID: 0}
   _offset: {x: 0, y: 0, z: 0}
-  _maxAttacks: 0
+  _maxAttacks: 2
   isResting: 0
   isAttacking: 0
   coolDown: 0
-  _maxCooldown: 0.3
+  _maxCooldown: 0
   clickCount: 0
 --- !u!114 &834633000
 MonoBehaviour:
