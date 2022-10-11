@@ -2,16 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class AttackController<HitBox>: MonoBehaviour 
-    where HitBox : HitboxController 
+public abstract class AttackController: MonoBehaviour 
 {
     [SerializeField] protected EntityController _entity;
     [SerializeField] protected HitboxController _hitbox;
     [SerializeField] protected Vector3 _offset;
 
     [SerializeField] protected int _maxAttacks;
-
-    protected HitBox hitBox;
 
     public bool isResting = false;
     public bool isAttacking = false;
@@ -59,7 +56,6 @@ public abstract class AttackController<HitBox>: MonoBehaviour
 
     public void AttackAnimationEvent() 
     {
-        Debug.Log("Attacking!");
         SpawnHitbox(Controller.Entity.AttackInfo);
     }
 

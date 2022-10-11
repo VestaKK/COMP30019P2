@@ -10,7 +10,7 @@ public abstract class Entity : MonoBehaviour, IDamageable
     [SerializeField] private float _health;
     [SerializeField] private float _maxHealth;
 
-    [SerializeField] private AttackInfo _attackType;
+    private AttackInfo _attackType;
 
     public Entity() {
         this._health = _maxHealth;

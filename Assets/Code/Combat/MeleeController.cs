@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MeleeController : AttackController<MeleeHitboxController>
+public class MeleeController : AttackController
 {
     protected override void CheckAnimationTransitions() 
     {
@@ -11,6 +11,7 @@ public class MeleeController : AttackController<MeleeHitboxController>
         {
             isAttacking = true;
             
+            AttackInfo = new MeleeAttackInfo(1, 0.2f, 1, 3, _offset);
             Controller.Animator.SetBool("Hit1", true);
         }
 
@@ -34,7 +35,7 @@ public class MeleeController : AttackController<MeleeHitboxController>
                 transform.rotation,
                 transform) as MeleeHitboxController;
         newMeleeHitbox.transform.localScale *= info.Aoe;
-        newMeleeHitbox.Initialize(info.Damage, info.Duration);
+        newMeleeHitbox.Initialize(info, info.Duration);
     }
 
     // TODO: Make this nicer

@@ -11,9 +11,9 @@ public abstract class HitboxController : MonoBehaviour {
     // knockback vector, effects etc Hurtbox will take care of how these parameters
     // affect the entity
 
-    public void Initialize(float damage, float duration)
+    public void Initialize(AttackInfo attack, float duration)
     {
-        this.attackInfo.Damage = damage;
+        this.attackInfo = attack;
         this.duration = duration;
     }
 
