@@ -37,14 +37,12 @@ public class PlayerController : EntityController
 
     public override Vector3 CalculateMoveDirection()
     {
-        Debug.Log("Moving calculation");
         float left = InputManager.instance.GetKey(InputAction.Left) ? -1.0f : 0;
         float right = InputManager.instance.GetKey(InputAction.Right) ? 1.0f : 0;
         float forward = InputManager.instance.GetKey(InputAction.Forward) ? 1.0f : 0;
         float back = InputManager.instance.GetKey(InputAction.Back) ? -1.0f : 0;
         float horizontal = left + right;
         float vertical = forward + back;
-        Debug.Log("H" + horizontal + "V" + vertical);
         return new Vector3(horizontal, 0, vertical).normalized;
     }
 
