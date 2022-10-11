@@ -6,7 +6,7 @@ public abstract class AttackController<HitBox>: MonoBehaviour
     where HitBox : HitboxController 
 {
     [SerializeField] protected EntityController _entity;
-    protected HitboxController _hitbox;
+    [SerializeField] protected HitboxController _hitbox;
     [SerializeField] protected Vector3 _offset;
 
     [SerializeField] protected int _maxAttacks;
@@ -24,7 +24,6 @@ public abstract class AttackController<HitBox>: MonoBehaviour
 
     protected abstract void UpdateController();
     public void OnClick() {
-
         if (isResting) return;
 
         clickCount++;
@@ -60,6 +59,7 @@ public abstract class AttackController<HitBox>: MonoBehaviour
 
     public void AttackAnimationEvent() 
     {
+        Debug.Log("Attacking!");
         SpawnHitbox(Controller.Entity.AttackInfo);
     }
 

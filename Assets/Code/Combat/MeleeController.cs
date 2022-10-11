@@ -4,11 +4,6 @@ using UnityEngine;
 
 public class MeleeController : AttackController<MeleeHitboxController>
 {
-
-    void Awake() {
-        hitBox = new MeleeHitboxController();
-    }
-
     protected override void CheckAnimationTransitions() 
     {
         // TODO: Make this nicer
@@ -34,7 +29,7 @@ public class MeleeController : AttackController<MeleeHitboxController>
     {
         MeleeAttackInfo info = i as MeleeAttackInfo;
         MeleeHitboxController newMeleeHitbox = Instantiate(
-                hitBox,
+                _hitbox,
                 transform.position + transform.forward * info.Reach + _offset,
                 transform.rotation,
                 transform) as MeleeHitboxController;
