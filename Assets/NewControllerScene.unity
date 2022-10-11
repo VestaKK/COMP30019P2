@@ -1027,7 +1027,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _entity: {fileID: 834633000}
-  _hitbox: {fileID: 0}
+  _hitbox: {fileID: 3896646994268137698, guid: 9e8928689c6016d4da0e521f6f20f090, type: 3}
   _offset: {x: 0, y: 0, z: 0}
   _maxAttacks: 2
   isResting: 0
