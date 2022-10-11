@@ -1026,12 +1026,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58cf19250b4c91d439ea29263a7e4659, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  meleeHitbox: {fileID: 3896646994268137698, guid: 9e8928689c6016d4da0e521f6f20f090, type: 3}
-  offset: {x: 0, y: 0.9, z: 0}
-  playerAnimator: {fileID: 834632997}
+  _entity: {fileID: 834633000}
+  _offset: {x: 0, y: 0, z: 0}
+  _maxAttacks: 0
   isResting: 0
   isAttacking: 0
-  attackCoolDown: 0
+  coolDown: 0
+  _maxCooldown: 0.3
   clickCount: 0
 --- !u!114 &834633000
 MonoBehaviour:
@@ -1064,7 +1065,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 5
-  _health: 0
+  _health: 2
   _maxHealth: 10
 --- !u!1 &913238451
 GameObject:
