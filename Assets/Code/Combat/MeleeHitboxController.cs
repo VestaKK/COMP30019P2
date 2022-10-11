@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class MeleeHitboxController : MonoBehaviour
@@ -33,12 +35,13 @@ public class MeleeHitboxController : MonoBehaviour
     // Also, hitbox must be on the hitbox layer and hurtbox must be on the hurtbox layer.
     public void OnTriggerEnter(Collider other)
     {
-        if (other.TryGetComponent<Hurtbox>(out Hurtbox hurtbox)) 
+        // Since other is a Hurtbox typically this will work
+        // However we should still put a check in here to see if the collider belongs to a Hurtbox
+        IDamageable damageable = other.gameObject.GetComponentInParent(typeof(IDamageable)) as IDamageable;
+        if (damageable != null) 
         {
-            if (hurtbox != null) 
-            {
-                hurtbox.OnHit(hitInfo);
-            }
+            damageable.TakeDamage(hitInfo);
+            Destroy(this.gameObject);
         }
     }
 }

@@ -13,25 +13,7 @@ public class MeleeController : MonoBehaviour
     public float attackCoolDown = 0;
     public int clickCount = 0;
 
-    private MeleeAttackInfo attackInfo = new MeleeAttackInfo();
-
-    struct MeleeAttackInfo 
-    {
-        public MeleeAttackInfo
-            (int damage, float lingerTime, 
-            float range, float reach, Vector3 offset) 
-        {
-            this.damage = damage;
-            this.lingerTime = lingerTime;
-            this.range = range;
-            this.reach = reach;
-        }
-
-        public int damage;
-        public float lingerTime;
-        public float range;
-        public float reach;
-    }
+    private MeleeAttackInfo attackInfo;
 
     void Update()
     {
@@ -99,7 +81,7 @@ public class MeleeController : MonoBehaviour
             playerAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime < 0.9f &&
             playerAnimator.GetCurrentAnimatorStateInfo(0).IsName("Melee Hit 1"))
         {
-            attackInfo = new MeleeAttackInfo(100, 0.2f, 1, 3, offset);
+            attackInfo = new MeleeAttackInfo(1, 0.2f, 1, 3, offset);
             playerAnimator.SetBool("Hit1", false);
             playerAnimator.SetBool("Hit2", true);
         }

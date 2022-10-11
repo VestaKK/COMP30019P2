@@ -33,8 +33,8 @@ public class PlayerHealthManager : MonoBehaviour
 
     public void HurtPlayer(int damage)
     {
-        player.TakeDamage(damage);
-        player.Health -= damage;
+        // player.TakeDamage(damage);
+        // player.Health -= damage;
         flashCounter = flashDuration;
         rend.material.SetColor("_Color", Color.white);
     }

@@ -6,6 +6,8 @@ public class Player : Entity
 {
     public static Player instance;
 
+    public Player() : base() {}
+
     // Singleton Stuff
     private void Awake()
     {
@@ -20,9 +22,9 @@ public class Player : Entity
         this._controller = this.GetComponent<PlayerController>();
     }
 
-    public override void TakeDamage(int damage) {
+    public override void TakeDamage(AttackHitInfo info) {
 
-        Health -= damage;
+        Health -= info.damage;
         if (Health <= 0)
         {
             OnDeath();

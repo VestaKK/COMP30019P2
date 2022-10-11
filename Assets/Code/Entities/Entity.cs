@@ -7,14 +7,20 @@ public abstract class Entity : MonoBehaviour, IDamageable
     protected EntityController _controller;
 
     [SerializeField] float _speed;
-    [SerializeField] private int _health;
-    [SerializeField] private int _maxHealth;
+    [SerializeField] private float _health;
+    [SerializeField] private float _maxHealth;
 
-    public abstract void TakeDamage(int damage);
+    [SerializeField] private AttackHitInfo damage;
+
+    public Entity() {
+        this._health = _maxHealth;
+    }
+
+    public abstract void TakeDamage(AttackHitInfo info);
     public abstract void OnDeath();
 
     // Getters and Setters
-    public int Health {
+    public float Health {
         get { return this._health; }
         set { this._health = value; }
     }
