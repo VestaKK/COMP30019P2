@@ -81,7 +81,7 @@ public abstract class EntityController : MonoBehaviour
     }
     public void EntityMove()
     {
-        Velocity = Entity.Speed * Velocity; //new Vector3(Entity.Speed * Velocity.x, Velocity.y, Velocity.z);
+        Velocity = Entity.Speed * Velocity;
         Controller.Move(Velocity * Time.deltaTime);
     }
 
