@@ -89,6 +89,10 @@ public abstract class EntityController : MonoBehaviour
         return (Velocity.x == 0 && Velocity.z == 0);
     }
 
+    public AnimatorStateInfo GetAnimatorStateInfo(int index) { 
+        return Animator.GetCurrentAnimatorStateInfo(index); 
+    }
+
     // Getters and Setters
     public Animator Animator { get { return this._animator; } }
     public MotionHandler Motion { get => this._motionHandler; }

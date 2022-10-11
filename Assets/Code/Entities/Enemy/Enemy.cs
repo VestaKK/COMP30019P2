@@ -6,13 +6,12 @@ public class Enemy : Entity
 {
 
     public Enemy() : base() {}
-    public override void TakeDamage(AttackHitInfo info) {
+    public override void TakeDamage(AttackInfo info) {
 
-        Health -= info.damage;
+        Health -= info.Damage;
         if (Health <= 0)
         {
-            Debug.Log("Dead");
-            // OnDeath();
+            OnDeath();
         }
     }
 

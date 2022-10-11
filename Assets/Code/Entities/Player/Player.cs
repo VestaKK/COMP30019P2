@@ -22,9 +22,9 @@ public class Player : Entity
         this._controller = this.GetComponent<PlayerController>();
     }
 
-    public override void TakeDamage(AttackHitInfo info) {
+    public override void TakeDamage(AttackInfo info) {
 
-        Health -= info.damage;
+        Health -= info.Damage;
         if (Health <= 0)
         {
             OnDeath();

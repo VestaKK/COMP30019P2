@@ -1,8 +1,12 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
 public class MeleeAttackInfo : AttackInfo
 {
     private float _duration;
-    public AttackInfo(float damage, float duration, float range, Vector3 offset)
-         : base(damage, range, offset)
+    
+    public MeleeAttackInfo(float damage, float duration, float aoe, float reach, Vector3 offset) : base(damage, aoe, reach, offset)
     {
         this._duration = duration;
     }

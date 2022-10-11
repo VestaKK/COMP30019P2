@@ -2,110 +2,66 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MeleeController : MonoBehaviour
+public class MeleeController : AttackController<MeleeHitboxController>
 {
-    [SerializeField] private MeleeHitboxController meleeHitbox;
-    [SerializeField] private Vector3 offset;
-    [SerializeField] private Animator playerAnimator;
 
-    public bool isResting = false;
-    public bool isAttacking = false;
-    public float attackCoolDown = 0;
-    public int clickCount = 0;
-
-    private MeleeAttackInfo attackInfo;
-
-    void Update()
-    {
-        if (playerAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.95f &&
-            playerAnimator.GetCurrentAnimatorStateInfo(0).IsName("Melee Hit 1"))
-        {
-            playerAnimator.SetBool("Hit1", false);
-            attackCoolDown = 0.1f;
-            isAttacking = false;
-            isResting = true;
-        }
-
-        if (playerAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.95f &&
-            playerAnimator.GetCurrentAnimatorStateInfo(0).IsName("Melee Hit 2"))
-        {
-            playerAnimator.SetBool("Hit2", false);
-            attackCoolDown = 0.1f;
-            isAttacking = false;
-            isResting = true;
-        }
-
-        if (attackCoolDown <= 0)
-        {
-            if (isResting) 
-            {
-                clickCount = 0;
-                isResting = false;
-            }
-            attackCoolDown = 0;
-        }
-        else 
-        {
-            attackCoolDown -= Time.deltaTime;
-        }
-
-        if (isAttacking) 
-        {
-            CheckAnimationTransitions();
-        }
+    void Awake() {
+        hitBox = new MeleeHitboxController();
     }
 
-    public void OnClick() {
-
-        if (isResting) return;
-
-        clickCount++;
-
-        clickCount = Mathf.Clamp(clickCount, 0, 2);
-
-        CheckAnimationTransitions();
-    }
-
-    void CheckAnimationTransitions() 
+    protected override void CheckAnimationTransitions() 
     {
+        // TODO: Make this nicer
         if (clickCount == 1)
         {
             isAttacking = true;
             
-            playerAnimator.SetBool("Hit1", true);
-            attackInfo = new MeleeAttackInfo(1, 0.1f, 1, 3, offset);
+            Controller.Animator.SetBool("Hit1", true);
         }
 
         if (clickCount >= 2 &&
-            playerAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.6f &&
-            playerAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime < 0.9f &&
-            playerAnimator.GetCurrentAnimatorStateInfo(0).IsName("Melee Hit 1"))
+            Controller.GetAnimatorStateInfo(0).normalizedTime > 0.6f &&
+            Controller.GetAnimatorStateInfo(0).normalizedTime < 0.9f &&
+            Controller.GetAnimatorStateInfo(0).IsName("Melee Hit 1"))
         {
-            attackInfo = new MeleeAttackInfo(1, 0.2f, 1, 3, offset);
-            playerAnimator.SetBool("Hit1", false);
-            playerAnimator.SetBool("Hit2", true);
+            AttackInfo = new MeleeAttackInfo(1, 0.2f, 1, 3, _offset);
+            Controller.Animator.SetBool("Hit1", false);
+            Controller.Animator.SetBool("Hit2", true);
         }
     }
 
-    public void AttackAnimationEvent() 
+    protected override void SpawnHitbox(AttackInfo i)
     {
-        SpawnHitbox(attackInfo);
-    }
-
-    private void SpawnHitbox(MeleeAttackInfo attackInfo) {
-
-        int damage = attackInfo.damage;
-        float reach = attackInfo.reach;
-        float range = attackInfo.range;
-        float lingerTime = attackInfo.lingerTime;
-
+        MeleeAttackInfo info = i as MeleeAttackInfo;
         MeleeHitboxController newMeleeHitbox = Instantiate(
-                meleeHitbox,
-                transform.position + transform.forward * reach + offset,
+                hitBox,
+                transform.position + transform.forward * info.Reach + _offset,
                 transform.rotation,
                 transform) as MeleeHitboxController;
-        newMeleeHitbox.transform.localScale *= range;
-        newMeleeHitbox.Initialize(damage, lingerTime);
+        newMeleeHitbox.transform.localScale *= info.Aoe;
+        newMeleeHitbox.Initialize(info.Damage, info.Duration);
+    }
+
+    // TODO: Make this nicer
+    protected override void UpdateController()
+    {
+
+        if (Controller.GetAnimatorStateInfo(0).normalizedTime > 0.95f) {
+            if(Controller.GetAnimatorStateInfo(0).IsName("Melee Hit 1")) {
+                Controller.Animator.SetBool("Hit1", false);
+                coolDown = _maxCooldown;
+                isAttacking = false;
+                isResting = true;
+            }
+
+            if(Controller.GetAnimatorStateInfo(0).IsName("Melee Hit 2"))
+            {
+                Controller.Animator.SetBool("Hit2", false);
+                coolDown = _maxCooldown;
+                isAttacking = false;
+                isResting = true;
+            }
+        }
     }
 
 

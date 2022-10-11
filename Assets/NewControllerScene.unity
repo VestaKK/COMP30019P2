@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44300658, g: 0.4921953, b: 0.57192475, a: 1}
+  m_IndirectSpecularColor: {r: 0.44301474, g: 0.49220473, b: 0.57193065, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2217,6 +2217,7 @@ GameObject:
   - component: {fileID: 1664701219}
   - component: {fileID: 1664701218}
   - component: {fileID: 1664701217}
+  - component: {fileID: 1664701221}
   m_Layer: 0
   m_Name: Outline Capsule
   m_TagString: Untagged
@@ -2304,6 +2305,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
+--- !u!114 &1664701221
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1664701216}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52b7fe59e23dda93581dabd4debd14c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _speed: 0
+  _health: 10
+  _maxHealth: 100
 --- !u!1 &1688092385
 GameObject:
   m_ObjectHideFlags: 0

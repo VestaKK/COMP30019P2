@@ -4,6 +4,6 @@ using UnityEngine;
 
 public interface IDamageable {
 
-    public void TakeDamage(AttackHitInfo info);
+    public void TakeDamage(AttackInfo info);
     public void OnDeath();
 }
