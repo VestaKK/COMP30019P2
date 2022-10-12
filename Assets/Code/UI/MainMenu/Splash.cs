@@ -31,6 +31,6 @@ public class Splash : UIPanel {
     }
 
     private void Display() {
-        UIManager.instance.Show<MainMenu>();
+        UIManager.instance.Show(UIManager.instance.Get<MainMenu>(), 3);
     }
 }
