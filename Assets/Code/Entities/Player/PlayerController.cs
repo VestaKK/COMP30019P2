@@ -62,7 +62,7 @@ public class PlayerController : EntityController
         bool iRight = InputManager.GetKey(InputAction.Right);
         bool iBack = InputManager.GetKey(InputAction.Back);
         bool iForward = InputManager.GetKey(InputAction.Forward);
-        bool isMoving = iLeft || iRight || iBack || iForward;
+        bool isMoving = iForward || iRight || iBack || iLeft;
 
         // Prevents random movement drift due to floating point stuff
         if(!isMoving) {
