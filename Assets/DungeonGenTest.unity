@@ -163,8 +163,8 @@ MonoBehaviour:
   corridorWidth: 5
   distanceFromWall: 1
   floorMaterial: {fileID: 2100000, guid: 7d5c14ad130cc0e468f2ece0e3e451be, type: 2}
-  wallVertical: {fileID: 0}
-  wallHorizontal: {fileID: 0}
+  wallVertical: {fileID: 8753675751577585064, guid: e04cc0377edff8243864ba7c784d5a41, type: 3}
+  wallHorizontal: {fileID: 5662685844812434244, guid: 0b84e1940b269ca4fbec190d930348ae, type: 3}
 --- !u!4 &419025535
 Transform:
   m_ObjectHideFlags: 0
@@ -351,7 +351,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1882577076}
   m_LocalRotation: {x: 0.40821788, y: -0.23456968, z: 0.10938163, w: 0.8754261}
-  m_LocalPosition: {x: 0, y: 3, z: 0}
+  m_LocalPosition: {x: 6.73, y: 5.27, z: 1.69}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
