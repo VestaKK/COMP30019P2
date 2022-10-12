@@ -1,11 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
     public static UIManager instance;
+
+    [SerializeField] private GameObject blackOutSquare;
 
     [SerializeField] private UIPanel startPanel;
 
@@ -40,6 +43,29 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    public IEnumerator FadeBlackOutSquare(bool fadeToBlack = true, int fadeSpeed = 5) {
+        Color objectColor = blackOutSquare.GetComponent<Image>().color;
+        float fadeAmount;
+
+        if(fadeToBlack) {
+            while(blackOutSquare.GetComponent<Image>().color.a < 1) {
+                fadeAmount = objectColor.a + (fadeSpeed * Time.deltaTime);
+
+                objectColor = new Color(objectColor.r, objectColor.g, objectColor.b, fadeAmount);
+                blackOutSquare.GetComponent<Image>().color = objectColor;
+                yield return null;
+            }
+        } else {
+            while (blackOutSquare.GetComponent<Image>().color.a > 0) {
+                fadeAmount = objectColor.a - (fadeSpeed * Time.deltaTime);
+                objectColor = new Color(objectColor.r, objectColor.g, objectColor.b, fadeAmount);
+                blackOutSquare.GetComponent<Image>().color = objectColor;
+                yield return null;
+            }
+        }
+    }
+
+
     public T Get<T>() where T : UIPanel
     {
         foreach(UIPanel uIPanel in panels) 
@@ -71,7 +97,7 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    public void Show(UIPanel uIPanel, bool remember = true) 
+    public void Show(UIPanel uIPanel, float fadeSpeed, bool remember = true) 
     {
         if (currentPanel != null)
         {
@@ -85,6 +111,10 @@ public class UIManager : MonoBehaviour
 
         uIPanel.Show();
         currentPanel = uIPanel;
+    }
+
+    public void Show(UIPanel uIPanel, bool remember = true) {
+        Show(uIPanel, 0f, remember);
     }
 
     public void ShowLast() 
@@ -122,6 +152,13 @@ public class UIManager : MonoBehaviour
                     ShowLast();
                 }
             }   
+        }
+
+        if(InputManager.GetKeyDown(KeyCode.A)) {
+            StartCoroutine(FadeBlackOutSquare(true, 3));
+        }
+        if(InputManager.GetKeyDown(KeyCode.S)) {
+            StartCoroutine(FadeBlackOutSquare(false, 3));
         }
     }
 }
