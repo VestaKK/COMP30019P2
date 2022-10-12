@@ -45,7 +45,7 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    public IEnumerator FadeBlackOutSquare(bool fadeToBlack = true, float fadeSpeed = 5) {
+    private IEnumerator FadeBlackOutSquare(UIPanel next, bool fadeToBlack = true, float fadeSpeed = 5) {
         Color objectColor = blackOutSquare.GetComponent<Image>().color;
         float fadeAmount;
 
@@ -59,6 +59,7 @@ public class UIManager : MonoBehaviour
             }
             fadedOut = true;
         } else {
+            Show(next, 0f, true);
             while (blackOutSquare.GetComponent<Image>().color.a > 0) {
                 fadeAmount = objectColor.a - (fadeSpeed * Time.deltaTime);
                 objectColor = new Color(objectColor.r, objectColor.g, objectColor.b, fadeAmount);
@@ -69,7 +70,11 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    public IEnumerator FadeThrough(float fadeSpeed = 5) {
+    public IEnumerator FadeThrough(UIPanel next, float fadeSpeed = 5) {
+        return FadeThrough(next, true, fadeSpeed);
+    }
+
+    public IEnumerator FadeThrough(UIPanel next, bool remember, float fadeSpeed = 5) {
         Color objectColor = blackOutSquare.GetComponent<Image>().color;
         float fadeAmount;
 
@@ -80,7 +85,8 @@ public class UIManager : MonoBehaviour
             blackOutSquare.GetComponent<Image>().color = objectColor;
             yield return null;
         }
-        StartCoroutine(FadeBlackOutSquare(true, 3));
+        currentPanel.Hide();
+        StartCoroutine(FadeBlackOutSquare(next, false, 3));
     }
 
 
@@ -111,6 +117,7 @@ public class UIManager : MonoBehaviour
 
                 uIPanel.Show();
                 currentPanel = uIPanel;
+                return;
             }
         }
     }
@@ -125,12 +132,15 @@ public class UIManager : MonoBehaviour
             }
 
             if(fadeSpeed != 0f) {
-                StartCoroutine(FadeThrough(fadeSpeed));
-            }
-            currentPanel.Hide();
+                StartCoroutine(FadeThrough(uIPanel, fadeSpeed));
+            } else 
+                currentPanel.Hide();
         }
-        uIPanel.Show();
-        currentPanel = uIPanel;
+        // Will be shown in FadeThrough otherwise
+        if(fadeSpeed == 0f) {
+            uIPanel.Show();
+            currentPanel = uIPanel;
+        }
     }
 
     public void Show(UIPanel uIPanel, bool remember = true) {
