@@ -7,9 +7,10 @@ using UnityEngine.SceneManagement;
 // Might honestly be a container for other UI elements on the screen
 public class PlayerHUD : UIPanel
 {
-    [SerializeField] PlayerHealthBar healthBar;
+    [SerializeField] Player _player;
 
     public override void Initialise()
     {
+
     }
 }

@@ -43,7 +43,7 @@ public class OptionsMenu : UIPanel
                 }
 
                 WaitForInputScreen.SetActive(false);
-                InputManager.instance.RebindKey(action, keyPressed);
+                InputManager.RebindKey(action, keyPressed);
                 OnKeyRebind.Invoke(action);
                 break;
             }
