@@ -16,8 +16,6 @@ public class UIManager : MonoBehaviour
 
     [SerializeField] private UIPanel currentPanel;
 
-    public bool fadedOut = false;
-
     private readonly Stack<UIPanel> panelStack = new();
 
     // Not using a strict singleton (One UI Manager Per Scene)
@@ -50,6 +48,7 @@ public class UIManager : MonoBehaviour
         float fadeAmount;
 
         if(fadeToBlack) {
+            blackOutSquare.SetActive(true);
             while(blackOutSquare.GetComponent<Image>().color.a < 1) {
                 fadeAmount = objectColor.a + (fadeSpeed * Time.deltaTime);
 
@@ -57,7 +56,6 @@ public class UIManager : MonoBehaviour
                 blackOutSquare.GetComponent<Image>().color = objectColor;
                 yield return null;
             }
-            fadedOut = true;
         } else {
             Show(next, 0f, true);
             while (blackOutSquare.GetComponent<Image>().color.a > 0) {
@@ -66,7 +64,7 @@ public class UIManager : MonoBehaviour
                 blackOutSquare.GetComponent<Image>().color = objectColor;
                 yield return null;
             }
-            fadedOut = false;
+            blackOutSquare.SetActive(false);
         }
     }
 
