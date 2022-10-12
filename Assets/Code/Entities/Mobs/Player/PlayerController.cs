@@ -70,18 +70,22 @@ public class PlayerController : MobController
     */
     public void HandleLockOn() {
         if(IsLockedOn()) {
+            Debug.Log("Unlocking");
             LockOn(null);
             return;
         }
+        Debug.Log("Locking on");
 
         Vector3 mousePos;
         if(!GetMouseWorldCoords(out mousePos)) {
             // TODO: DECIDE ON THIS LockOn(null);
+            Debug.Log("Could not find Mouse position");
             return;
         }
 
         // Lock on to something if possible
         Mob[] mobs = FindObjectsOfType(typeof(Mob)) as Mob[];
+        Debug.Log("Found " + mobs.Length + " mobs");
         if(mobs.Length > 0) {
             Mob closestToMouse = null;
             float closestDist = 0f;
@@ -101,6 +105,7 @@ public class PlayerController : MobController
                     closestDist = dist;
                 }
             }
+            LockOn(closestToMouse);
         } else // Unlock target
             LockOn(null);     
     }

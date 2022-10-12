@@ -18,8 +18,10 @@ public abstract class MobController : EntityController
     }
 
     public void LockOn(Mob other) {
-        if(other == null)
+        if(other == null) {
             _lockOnTarget = null;
+            return;
+        }
         _lockOnTarget = other.transform;
     }
 
