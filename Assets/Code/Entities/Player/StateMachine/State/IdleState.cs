@@ -34,11 +34,11 @@ public class IdleState : PlayerState
             _stateManager.SwitchState(_stateManager.Roll());
         }
         else if (InputManager.GetKeyDown(InputAction.Attack) && 
-            !Player.PlayerMelee.isResting)
+            !Player.PlayerMelee.IsResting)
         {
             _stateManager.SwitchState(_stateManager.Attack());
         }
-        else if ( !(Player.Velocity.x == 0 && Player.Velocity.z == 0) ) 
+        else if ( Player.IsMoving() ) 
         {
             _stateManager.SwitchState(_stateManager.Walk());
         }

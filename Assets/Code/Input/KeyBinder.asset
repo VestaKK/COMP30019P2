@@ -27,3 +27,5 @@ MonoBehaviour:
     KeyCode: 323
   - Action: 6
     KeyCode: 27
+  - Action: 5
+    KeyCode: 114

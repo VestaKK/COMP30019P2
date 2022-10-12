@@ -9,18 +9,17 @@ public class Enemy : Entity
     public override void TakeDamage(AttackInfo info) {
 
         Health -= info.Damage;
-        if(Controller.HealthBar != null) {
-            Controller.HealthBar.UpdateHealthbar();
-        }
         if (Health <= 0)
         {
             OnDeath();
         }
+        HealthBar.SetProgress(Health / MaxHealth);
     }
 
     public override void OnDeath()
     {
         gameObject.SetActive(false);
+        Destroy(HealthBar.gameObject);
         Destroy(this.gameObject);
         // die
     }

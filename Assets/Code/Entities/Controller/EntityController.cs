@@ -11,10 +11,11 @@ public abstract class EntityController : MonoBehaviour
 
     [SerializeField] protected Transform _lockOnTarget = null;
 
+    [SerializeField] protected ProgressBar _healthBar;
+
     public abstract Vector3 CalculateMoveDirection();
 
     private Entity _entity;
-    private HealthBar _healthbar;
 
     protected void Awake() {
         _motionHandler = new MotionHandler(this);
@@ -100,7 +101,6 @@ public abstract class EntityController : MonoBehaviour
     public Entity Entity { get => this._entity; set => this._entity = value; }
     public float Health { get => this.Entity.Health; set => this.Entity.Health = value; }
     public float MaxHealth {get => this.Entity.MaxHealth; }
-
-    public HealthBar HealthBar { get => this._healthbar; set => this._healthbar = value; }
+    public ProgressBar HealthBar { get => this._healthBar; }
 
 }

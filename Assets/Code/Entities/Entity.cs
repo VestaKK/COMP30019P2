@@ -12,12 +12,23 @@ public abstract class Entity : MonoBehaviour, IDamageable
 
     private AttackInfo _attackType;
 
-    public Entity() {
+    public abstract void TakeDamage(AttackInfo info);
+    public abstract void OnDeath();
+
+    protected void Awake() {
         this._health = _maxHealth;
     }
 
-    public abstract void TakeDamage(AttackInfo info);
-    public abstract void OnDeath();
+    public void SetupHealthbar(Canvas canvas, Camera camera) {
+        HealthBar.transform.SetParent(canvas.transform);
+        // if(HealthBar.TryGetComponent<FaceCamera>(out FaceCamera faceCamera)) {
+        //     faceCamera.Camera = camera;
+        // }
+    }
+
+    public void TakeDamage(int dmg) {
+        TakeDamage(new AttackInfo(dmg, 0,0,Vector3.zero));
+    }
 
     // Getters and Setters
     public float Health {
@@ -34,5 +45,7 @@ public abstract class Entity : MonoBehaviour, IDamageable
     }
 
     public EntityController Controller { get => this._controller; }
+
+    public ProgressBar HealthBar { get => this.Controller.HealthBar; }
 
 }

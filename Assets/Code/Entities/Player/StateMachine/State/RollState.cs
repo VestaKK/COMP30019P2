@@ -33,7 +33,7 @@ public class RollState : PlayerState
 
     public override void Update()
     {
-        if (Player.Velocity.x != 0 && Player.Velocity.z != 0)
+        if (Player.IsMoving())
         Player.LookAtMovementDirection();
     }
 

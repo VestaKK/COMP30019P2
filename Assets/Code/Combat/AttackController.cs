@@ -10,9 +10,9 @@ public abstract class AttackController: MonoBehaviour
 
     [SerializeField] protected int _maxAttacks;
 
-    public bool isResting = false;
-    public bool isAttacking = false;
-    public float coolDown = 0;
+    private bool isResting = false;
+    private bool isAttacking = false;
+    protected float coolDown = 0;
     [SerializeField] protected float _maxCooldown;
     public int clickCount = 0;
 
@@ -64,4 +64,7 @@ public abstract class AttackController: MonoBehaviour
         get => Controller.Entity.AttackInfo;
         set => Controller.Entity.AttackInfo = value;
     }
+    
+    public bool IsAttacking { get => isAttacking; set => isAttacking = value; }
+    public bool IsResting { get => isResting; set => isResting = value; }
 }

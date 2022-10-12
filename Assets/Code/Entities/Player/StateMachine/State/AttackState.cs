@@ -47,7 +47,7 @@ public class AttackState : PlayerState
 
     public override void CheckSwitchStates()
     {
-        if (Player.PlayerMelee.isResting && !Player.PlayerMelee.isAttacking) 
+        if (Player.PlayerMelee.IsResting && !Player.PlayerMelee.IsAttacking) 
         {
             if (InputManager.GetKeyDown(InputAction.Roll))
             {

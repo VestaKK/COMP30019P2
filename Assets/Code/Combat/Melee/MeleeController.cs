@@ -9,9 +9,9 @@ public class MeleeController : AttackController
         // TODO: Make this nicer
         if (clickCount == 1)
         {
-            isAttacking = true;
+            IsAttacking = true;
             
-            AttackInfo = new MeleeAttackInfo(1, 0.2f, 1, 3, _offset);
+            AttackInfo = new MeleeAttackInfo(10, 0.2f, 1, 3, _offset);
             Controller.Animator.SetBool("Hit1", true);
         }
 
@@ -20,7 +20,7 @@ public class MeleeController : AttackController
             Controller.GetAnimatorStateInfo(0).normalizedTime < 0.9f &&
             Controller.GetAnimatorStateInfo(0).IsName("Melee Hit 1"))
         {
-            AttackInfo = new MeleeAttackInfo(1, 0.2f, 1, 3, _offset);
+            AttackInfo = new MeleeAttackInfo(10, 0.2f, 1, 3, _offset);
             Controller.Animator.SetBool("Hit1", false);
             Controller.Animator.SetBool("Hit2", true);
         }
@@ -46,16 +46,16 @@ public class MeleeController : AttackController
             if(Controller.GetAnimatorStateInfo(0).IsName("Melee Hit 1")) {
                 Controller.Animator.SetBool("Hit1", false);
                 coolDown = _maxCooldown;
-                isAttacking = false;
-                isResting = true;
+                IsAttacking = false;
+                IsResting = true;
             }
 
             if(Controller.GetAnimatorStateInfo(0).IsName("Melee Hit 2"))
             {
                 Controller.Animator.SetBool("Hit2", false);
                 coolDown = _maxCooldown;
-                isAttacking = false;
-                isResting = true;
+                IsAttacking = false;
+                IsResting = true;
             }
         }
     }

@@ -62,7 +62,7 @@ public class WalkState : PlayerState
             _stateManager.SwitchState(_stateManager.Roll());
         }
         else if (InputManager.GetKeyDown(InputAction.Attack) && 
-            !Player.PlayerMelee.isResting)
+            !Player.PlayerMelee.IsResting)
         {
             _stateManager.SwitchState(_stateManager.Attack());
         }

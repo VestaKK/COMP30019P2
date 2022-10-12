@@ -5,7 +5,7 @@ using UnityEngine;
 /**
 Generic AttackInfo class to be used to encapsulate damage data for different entities
 */
-public class AttackInfo 
+public class AttackInfo
 {
     private float _damage;
     private float _aoe;
