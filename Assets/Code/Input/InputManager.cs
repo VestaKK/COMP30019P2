@@ -38,6 +38,10 @@ public class InputManager : MonoBehaviour
         return instance.LocalGetKeyDown(action);
     }
 
+    public static bool GetKeyDown(KeyCode kc) {
+        return instance.LocalGetKeyDown(kc);
+    }
+
     private KeyCode LocalGetKeyForAction(InputAction action)
     {
         foreach (KeyBinder.KeyBind keyBind in binder.keyBinds) {
@@ -52,10 +56,14 @@ public class InputManager : MonoBehaviour
         foreach(KeyBinder.KeyBind keyBind in binder.keyBinds) {
             if (keyBind.Action == action)
             {
-                return Input.GetKeyDown(keyBind.KeyCode);
+                return LocalGetKeyDown(keyBind.KeyCode);
             }
         }
         return false;
+    }
+
+    private bool LocalGetKeyDown(KeyCode kc) {
+        return Input.GetKeyDown(kc);
     }
 
     private bool LocalGetKey(InputAction action)
