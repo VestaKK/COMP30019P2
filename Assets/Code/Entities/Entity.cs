@@ -24,6 +24,7 @@ public abstract class Entity : MonoBehaviour, IDamageable
         get { return this._health; }
         set { this._health = value; }
     }
+    public float MaxHealth { get => this._maxHealth; }
 
     public float Speed { get => this._speed; }
 
@@ -31,5 +32,7 @@ public abstract class Entity : MonoBehaviour, IDamageable
         get => this._attackType; 
         set => this._attackType = value;    
     }
+
+    public EntityController Controller { get => this._controller; }
 
 }
