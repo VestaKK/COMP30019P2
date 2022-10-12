@@ -49,7 +49,7 @@ public class UIManager : MonoBehaviour
         return null;
     }
 
-    public void Show<T>(bool remember = true) where T : UIPanel
+    public void Show<T>(float transitionTime, bool remember = true) where T : UIPanel
     {
         foreach (UIPanel uIPanel in panels)
         {
