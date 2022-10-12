@@ -69,6 +69,20 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    public IEnumerator FadeThrough(float fadeSpeed = 5) {
+        Color objectColor = blackOutSquare.GetComponent<Image>().color;
+        float fadeAmount;
+
+        while(blackOutSquare.GetComponent<Image>().color.a < 1) {
+            fadeAmount = objectColor.a + (fadeSpeed * Time.deltaTime);
+
+            objectColor = new Color(objectColor.r, objectColor.g, objectColor.b, fadeAmount);
+            blackOutSquare.GetComponent<Image>().color = objectColor;
+            yield return null;
+        }
+        StartCoroutine(FadeBlackOutSquare(true, 3));
+    }
+
 
     public T Get<T>() where T : UIPanel
     {
@@ -111,15 +125,10 @@ public class UIManager : MonoBehaviour
             }
 
             if(fadeSpeed != 0f) {
-                StartCoroutine(FadeBlackOutSquare(true, fadeSpeed));
+                StartCoroutine(FadeThrough(fadeSpeed));
             }
-            while(fadedOut) {}
             currentPanel.Hide();
         }
-        if(fadeSpeed != 0f) {
-            StartCoroutine(FadeBlackOutSquare(false, fadeSpeed));
-        }
-        while(!fadedOut) {}
         uIPanel.Show();
         currentPanel = uIPanel;
     }
@@ -163,13 +172,6 @@ public class UIManager : MonoBehaviour
                     ShowLast();
                 }
             }   
-        }
-
-        if(InputManager.GetKeyDown(KeyCode.A)) {
-            StartCoroutine(FadeBlackOutSquare(true, 3));
-        }
-        if(InputManager.GetKeyDown(KeyCode.S)) {
-            StartCoroutine(FadeBlackOutSquare(false, 3));
         }
     }
 }
