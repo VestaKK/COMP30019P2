@@ -24,8 +24,8 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _Albedo:
-        m_Texture: {fileID: 2800000, guid: f657591b89e8c7942b515efdc8d30669, type: 3}
-        m_Scale: {x: 1, y: 1}
+        m_Texture: {fileID: 2800000, guid: 7b47fe8710359fa49b1e207b16cda268, type: 3}
+        m_Scale: {x: 5, y: 5}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
         m_Texture: {fileID: 0}
@@ -64,7 +64,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _NormalMap:
-        m_Texture: {fileID: 2800000, guid: c84d034c5edc9ed4dbf8a4f65b0bf1b0, type: 3}
+        m_Texture: {fileID: 2800000, guid: ed65c323969671e428fe09d4d92bb3f5, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
@@ -85,6 +85,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _Angle: 89
     - _BumpScale: 1
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
@@ -99,9 +100,10 @@ Material:
     - _Mode: 0
     - _NormalIntensity: 1
     - _OcclusionStrength: 1
+    - _OutlineWidth: 0.15
     - _Parallax: 0.02
     - _RimThreshold: 1
-    - _RimWidth: 0.612
+    - _RimWidth: 0.563
     - _Shininess: 0.078125
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
@@ -110,9 +112,10 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - _AmbientLight: {r: 0, g: 0, b: 0, a: 1}
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 0.42959723, g: 0.32778567, b: 0.5471698, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _OutlineColor: {r: 1, g: 0, b: 0, a: 0.5}
     - _RimColor: {r: 0.05660379, g: 0.049394816, b: 0.049394816, a: 1}
     - _SpecColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
-    - _SpecularColor: {r: 0.03773582, g: 0.03773582, b: 0.03773582, a: 1}
+    - _SpecularColor: {r: 0.1509434, g: 0.1509434, b: 0.1509434, a: 1}
   m_BuildTextureStacks: []
