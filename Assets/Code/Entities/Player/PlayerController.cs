@@ -83,7 +83,6 @@ public class PlayerController : EntityController
         return moveDir;
     }
 
-
     // Getters and Setters
     public Camera Camera { get { return this._camera; } }
     public bool IsRolling { get => _isRolling; set => _isRolling = value; }

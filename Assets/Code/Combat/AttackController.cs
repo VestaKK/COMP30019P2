@@ -17,17 +17,21 @@ public abstract class AttackController: MonoBehaviour
     public int clickCount = 0;
 
     protected abstract void SpawnHitbox(AttackInfo info);
-    protected abstract void CheckAnimationTransitions();
+
+    // Should return whether or not an an animation has triggered
+    protected abstract bool CheckAnimationTransitions();
 
     protected abstract void UpdateController();
-    public void OnClick() {
-        if (isResting) return;
+
+    // OnClick returns the result of CheckAnimationTransitions
+    public bool OnClick() {
+        if (isResting) return false;
 
         clickCount++;
 
         clickCount = Mathf.Clamp(clickCount, 0, _maxAttacks);
 
-        CheckAnimationTransitions();
+        return CheckAnimationTransitions();
     }
 
     void Update()

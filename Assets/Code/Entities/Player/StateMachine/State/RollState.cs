@@ -12,7 +12,7 @@ public class RollState : PlayerState
 
     public override void Enter()
     {
-        if (!Player.IsMoving())
+        if (Player.IsMoving())
         {
             float targetAngle = Mathf.Atan2(Player.Velocity.x, Player.Velocity.z) * Mathf.Rad2Deg;
             Player.transform.rotation = Quaternion.Euler(0, targetAngle, 0);
