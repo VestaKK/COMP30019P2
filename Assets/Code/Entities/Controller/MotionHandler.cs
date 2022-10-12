@@ -31,7 +31,7 @@ public class MotionHandler
         _velocity = Vector3.zero;
 
         Vector3 direction = _entity.CalculateMoveDirection();
-        if(direction != Vector3.zero) {
+        if(direction.magnitude >= 0.1f) {
             _velocity = direction;
         }
         if (_entity.Controller.isGrounded)

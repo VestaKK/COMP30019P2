@@ -49,11 +49,12 @@ public class AttackState : PlayerState
     {
         if (Player.PlayerMelee.isResting && !Player.PlayerMelee.isAttacking) 
         {
+            Debug.Log("Checking Switch: " + Player.IsMoving());
             if (InputManager.GetKeyDown(InputAction.Roll))
             {
                 _stateManager.SwitchState(_stateManager.Roll());
             }
-            else if (!(Player.Velocity.x == 0 && Player.Velocity.z == 0)) 
+            else if (Player.IsMoving()) 
             {
                 _stateManager.SwitchState(_stateManager.Walk());
             }
@@ -61,6 +62,7 @@ public class AttackState : PlayerState
             {
                 _stateManager.SwitchState(_stateManager.Idle());
             }
-        }
+        } else 
+        Debug.Log("Checking Switch: " + Player.PlayerMelee.isResting + " " + (!Player.PlayerMelee.isAttacking));
     }
 }

@@ -70,8 +70,8 @@ public abstract class EntityController : MonoBehaviour
         Controller.Move(Velocity * Time.deltaTime);
     }
 
-    public bool isMoving() {
-        return (Velocity.x == 0 && Velocity.z == 0);
+    public bool IsMoving() {
+        return (Velocity.x != 0 || Velocity.z != 0);
     }
 
     public AnimatorStateInfo GetAnimatorStateInfo(int index) { 

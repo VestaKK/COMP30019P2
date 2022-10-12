@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract class Entity : MonoBehaviour, IDamageable
 {
-    protected EntityController _controller;
+    [SerializeField] protected EntityController _controller;
 
     [SerializeField] float _speed;
     [SerializeField] private float _health;

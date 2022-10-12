@@ -66,7 +66,7 @@ public class WalkState : PlayerState
         {
             _stateManager.SwitchState(_stateManager.Attack());
         }
-        else if ( Player.Velocity.x == 0 && Player.Velocity.z == 0 )
+        else if (!Player.IsMoving())
         {
             _stateManager.SwitchState(_stateManager.Idle());
         }

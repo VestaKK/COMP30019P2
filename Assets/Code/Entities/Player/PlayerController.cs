@@ -77,7 +77,6 @@ public class PlayerController : EntityController
         float vertical = forward + back;
         
         Vector3 direction = new Vector3(horizontal, 0, vertical).normalized;
-
         // Calculate the correct movement angle relative to the Camera (Degrees)
         float moveAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + Camera.transform.eulerAngles.y;
         Vector3 moveDir = Quaternion.Euler(0f, moveAngle, 0f) * Vector3.forward;

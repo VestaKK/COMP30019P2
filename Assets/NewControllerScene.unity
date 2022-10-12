@@ -1033,7 +1033,7 @@ MonoBehaviour:
   isResting: 0
   isAttacking: 0
   coolDown: 0
-  _maxCooldown: 0
+  _maxCooldown: 0.3
   clickCount: 0
 --- !u!114 &834633000
 MonoBehaviour:
@@ -1065,6 +1065,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 695ed5bccdbdf6d43851f42e18971b7e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _controller: {fileID: 0}
   _speed: 5
   _health: 2
   _maxHealth: 10
@@ -2319,6 +2320,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52b7fe59e23dda93581dabd4debd14c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _controller: {fileID: 0}
   _speed: 0
   _health: 10
   _maxHealth: 100
