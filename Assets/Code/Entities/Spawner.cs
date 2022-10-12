@@ -15,10 +15,14 @@ public abstract class Spawner<EntityType> : MonoBehaviour
         public abstract EntityType SpawnEntity(); 
 
         public void Awake() {
-            // for(int i = 0; i < _entityCount; i++) {
+            StartCoroutine(SpawnEntities());
+        }
+
+        private IEnumerator SpawnEntities() {
+            for(int i = 0; i < _entityCount; i++) {
                 Entity e = SpawnEntity();
-                
-            // }
+                yield return new WaitForSeconds(5);
+            }
         }
 
         public EntityType Prefab { get => _prefab; }
