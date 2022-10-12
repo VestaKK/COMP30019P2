@@ -6,7 +6,7 @@ public class MeleeAttackInfo : AttackInfo
 {
     private float _duration;
     
-    public MeleeAttackInfo(float damage, float duration, float aoe, float reach, Vector3 offset) : base(damage, aoe, reach, offset)
+    public MeleeAttackInfo(float damage, float duration, Vector3 aoe, float reach, Vector3 offset) : base(damage, aoe, reach, offset)
     {
         this._duration = duration;
     }

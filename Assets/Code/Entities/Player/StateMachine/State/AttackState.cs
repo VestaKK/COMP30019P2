@@ -9,17 +9,17 @@ public class AttackState : PlayerState
 
     public override void Enter()
     {
-        if (Player.LockOnTarget == null)
+        if (Player.PlayerMelee.OnClick())
         {
-            Player.LookAtMouse();
+            if (Player.LockOnTarget == null)
+            {
+                Player.LookAtMouse();
+            }
+            else
+            {
+                Player.LookAtTarget();
+            }
         }
-        else
-        {
-            Player.LookAtTarget(true);
-        }
-
-        Player.PlayerMelee.OnClick();
-
     }
 
     public override void Exit()
@@ -31,15 +31,17 @@ public class AttackState : PlayerState
     {
         if (InputManager.GetKeyDown(InputAction.Attack)) 
         {
-            if (Player.LockOnTarget == null)
+            if (Player.PlayerMelee.OnClick()) 
             {
-                Player.LookAtMouse();
+                if (Player.LockOnTarget == null)
+                {
+                    Player.LookAtMouse();
+                }
+                else
+                {
+                    Player.LookAtTarget();
+                }
             }
-            else
-            {
-                Player.LookAtTarget();
-            }
-            Player.PlayerMelee.OnClick();
         }
 
         Player.Motion.GravityOnly();

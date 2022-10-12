@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44301474, g: 0.49220473, b: 0.57193065, a: 1}
+  m_IndirectSpecularColor: {r: 0.44300658, g: 0.4921953, b: 0.57192475, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -419,7 +419,6 @@ GameObject:
   - component: {fileID: 346478797}
   - component: {fileID: 346478798}
   - component: {fileID: 346478799}
-  - component: {fileID: 346478800}
   m_Layer: 7
   m_Name: Hurtbox
   m_TagString: Untagged
@@ -472,18 +471,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 0
---- !u!114 &346478800
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 346478796}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eed206949f335fb4b98ab7a7d083c9aa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &378509594
 GameObject:
   m_ObjectHideFlags: 0
@@ -1028,7 +1015,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _entity: {fileID: 834633000}
   _hitbox: {fileID: 3896646994268137698, guid: 9e8928689c6016d4da0e521f6f20f090, type: 3}
-  _offset: {x: 0, y: 0, z: 0}
+  _offset: {x: 0, y: 0.9, z: 0}
   _maxAttacks: 2
   _maxCooldown: 0.3
   clickCount: 0

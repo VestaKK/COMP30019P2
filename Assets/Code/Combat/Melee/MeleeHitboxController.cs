@@ -18,7 +18,6 @@ public class MeleeHitboxController : HitboxController
         if (damageable != null) 
         {
             damageable.TakeDamage(attackInfo);
-            Destroy(this.gameObject);
         }
     }
 }

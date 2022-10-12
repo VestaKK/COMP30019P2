@@ -4,15 +4,16 @@ using UnityEngine;
 
 public class MeleeController : AttackController
 {
-    protected override void CheckAnimationTransitions() 
+    // TODO: Animation names need to be paramaterised
+    protected override bool CheckAnimationTransitions() 
     {
         // TODO: Make this nicer
         if (clickCount == 1)
         {
             IsAttacking = true;
-            
-            AttackInfo = new MeleeAttackInfo(10, 0.2f, 1, 3, _offset);
+            AttackInfo = new MeleeAttackInfo(10, 0.2f,  new Vector3(0.2f, 0.2f, 0.2f), 3, _offset);
             Controller.Animator.SetBool("Hit1", true);
+            return true;
         }
 
         if (clickCount >= 2 &&
@@ -20,10 +21,13 @@ public class MeleeController : AttackController
             Controller.GetAnimatorStateInfo(0).normalizedTime < 0.9f &&
             Controller.GetAnimatorStateInfo(0).IsName("Melee Hit 1"))
         {
-            AttackInfo = new MeleeAttackInfo(10, 0.2f, 1, 3, _offset);
+            AttackInfo = new MeleeAttackInfo(10, 0.2f,  new Vector3(0.2f, 0.2f, 0.2f), 3, _offset);
             Controller.Animator.SetBool("Hit1", false);
             Controller.Animator.SetBool("Hit2", true);
+            return true;
         }
+
+        return false;
     }
 
     protected override void SpawnHitbox(AttackInfo i)
@@ -34,7 +38,7 @@ public class MeleeController : AttackController
                 transform.position + transform.forward * info.Reach + _offset,
                 transform.rotation,
                 transform) as MeleeHitboxController;
-        newMeleeHitbox.transform.localScale *= info.Aoe;
+        newMeleeHitbox.transform.localScale = info.Aoe;
         newMeleeHitbox.Initialize(info, info.Duration);
     }
 

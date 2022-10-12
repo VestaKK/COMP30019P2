@@ -27,7 +27,7 @@ public abstract class Entity : MonoBehaviour, IDamageable
     }
 
     public void TakeDamage(int dmg) {
-        TakeDamage(new AttackInfo(dmg, 0,0,Vector3.zero));
+        TakeDamage(new AttackInfo(dmg, Vector3.zero,0,Vector3.zero));
     }
 
     // Getters and Setters
