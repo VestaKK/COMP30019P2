@@ -31,6 +31,9 @@ public class MotionHandler
         _velocity = Vector3.zero;
 
         Vector3 direction = _entity.CalculateMoveDirection();
+        if(direction != Vector3.zero) {
+            _velocity = direction;
+        }
         if (_entity.Controller.isGrounded)
         {
             // Make sure controller will be sent into the ground

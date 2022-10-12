@@ -58,19 +58,26 @@ public class PlayerController : EntityController
 
     public override Vector3 CalculateMoveDirection()
     {
-        float left = InputManager.instance.GetKey(InputAction.Left) ? -1.0f : 0;
-        float right = InputManager.instance.GetKey(InputAction.Right) ? 1.0f : 0;
-        float forward = InputManager.instance.GetKey(InputAction.Forward) ? 1.0f : 0;
-        float back = InputManager.instance.GetKey(InputAction.Back) ? -1.0f : 0;
+        bool iLeft = InputManager.GetKey(InputAction.Left);
+        bool iRight = InputManager.GetKey(InputAction.Right);
+        bool iBack = InputManager.GetKey(InputAction.Back);
+        bool iForward = InputManager.GetKey(InputAction.Forward);
+        bool isMoving = iLeft || iRight || iBack || iForward;
+
+        // Prevents random movement drift due to floating point stuff
+        if(!isMoving) {
+            return new Vector3(0,0,0);
+        }
+
+        float left = iLeft ? -1.0f : 0;
+        float right = iRight ? 1.0f : 0;
+        float forward = iForward ? 1.0f : 0;
+        float back = iBack ? -1.0f : 0;
         float horizontal = left + right;
         float vertical = forward + back;
         
         Vector3 direction = new Vector3(horizontal, 0, vertical).normalized;
-        
-        // Prevents random movement drift due to floating point stuff
-        if(direction.magnitude < 0.1f) {
-            return new Vector3(0, 0, 0);
-        }
+
         // Calculate the correct movement angle relative to the Camera (Degrees)
         float moveAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + Camera.transform.eulerAngles.y;
         Vector3 moveDir = Quaternion.Euler(0f, moveAngle, 0f) * Vector3.forward;

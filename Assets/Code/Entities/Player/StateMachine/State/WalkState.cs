@@ -57,11 +57,11 @@ public class WalkState : PlayerState
 
     public override void CheckSwitchStates()
     {
-        if (InputManager.instance.GetKeyDown(InputAction.Roll))
+        if (InputManager.GetKeyDown(InputAction.Roll))
         {
             _stateManager.SwitchState(_stateManager.Roll());
         }
-        else if (InputManager.instance.GetKeyDown(InputAction.Attack) && 
+        else if (InputManager.GetKeyDown(InputAction.Attack) && 
             !Player.PlayerMelee.isResting)
         {
             _stateManager.SwitchState(_stateManager.Attack());

@@ -29,7 +29,7 @@ public class AttackState : PlayerState
 
     public override void Update()
     {
-        if (InputManager.instance.GetKeyDown(InputAction.Attack)) 
+        if (InputManager.GetKeyDown(InputAction.Attack)) 
         {
             if (Player.LockOnTarget == null)
             {
@@ -49,7 +49,7 @@ public class AttackState : PlayerState
     {
         if (Player.PlayerMelee.isResting && !Player.PlayerMelee.isAttacking) 
         {
-            if (InputManager.instance.GetKeyDown(InputAction.Roll))
+            if (InputManager.GetKeyDown(InputAction.Roll))
             {
                 _stateManager.SwitchState(_stateManager.Roll());
             }

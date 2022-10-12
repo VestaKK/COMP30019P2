@@ -107,7 +107,7 @@ public class UIManager : MonoBehaviour
     // Controlled by a game manager But this will do for now
     private void Update()
     {
-        if (InputManager.instance.GetKeyDown(InputAction.Pause)) 
+        if (InputManager.GetKeyDown(InputAction.Pause)) 
         {
             UIPanel pauseMenu = Get<PauseMenu>();
 
