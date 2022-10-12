@@ -27,7 +27,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1932765875945191551}
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 1.1}
+  m_LocalPosition: {x: 0, y: 0, z: 0.66}
   m_LocalScale: {x: 0.002093395, y: 0.002093395, z: 0.002093395}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -37,7 +37,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -0.00000023842, y: 0.00000010431}
+  m_AnchoredPosition: {x: -0.00000023842, y: 1.448}
   m_SizeDelta: {x: 1101, y: 509}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &3157225846157515624
@@ -180,7 +180,6 @@ GameObject:
   - component: {fileID: 3326934664413890111}
   - component: {fileID: 3326934664413890109}
   - component: {fileID: 3326934664413890108}
-  - component: {fileID: 3326934664413890098}
   m_Layer: 0
   m_Name: Outline Capsule
   m_TagString: Untagged
@@ -282,7 +281,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _controller: {fileID: 3326934664413890108}
-  _speed: 0
+  _speed: 2
   _health: 0
   _maxHealth: 100
 --- !u!143 &3326934664413890109
@@ -318,56 +317,7 @@ MonoBehaviour:
   _controller: {fileID: 3326934664413890109}
   _animator: {fileID: 0}
   _lockOnTarget: {fileID: 0}
-  _healthBar: {fileID: 0}
---- !u!114 &3326934664413890098
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3326934664413890106}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6a4e3f7ea948c3a1aaa9bdc0cf6aa8a2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _progressImage: {fileID: 0}
-  _defaultSpeed: 1
-  _colorGradient:
-    serializedVersion: 2
-    key0: {r: 0.21698111, g: 0.019446416, b: 0.019446416, a: 1}
-    key1: {r: 0.3773585, g: 0.033819854, b: 0.033819854, a: 1}
-    key2: {r: 0.49056602, g: 0.020825908, b: 0.020825908, a: 1}
-    key3: {r: 1, g: 0, b: 0, a: 0}
-    key4: {r: 0, g: 0, b: 0, a: 0}
-    key5: {r: 0, g: 0, b: 0, a: 0}
-    key6: {r: 0, g: 0, b: 0, a: 0}
-    key7: {r: 0, g: 0, b: 0, a: 0}
-    ctime0: 0
-    ctime1: 24479
-    ctime2: 46067
-    ctime3: 65535
-    ctime4: 0
-    ctime5: 0
-    ctime6: 0
-    ctime7: 0
-    atime0: 0
-    atime1: 65535
-    atime2: 65535
-    atime3: 0
-    atime4: 0
-    atime5: 0
-    atime6: 0
-    atime7: 0
-    m_Mode: 0
-    m_NumColorKeys: 4
-    m_NumAlphaKeys: 2
-  _onProgress:
-    m_PersistentCalls:
-      m_Calls: []
-  _onCompleted:
-    m_PersistentCalls:
-      m_Calls: []
+  _healthBar: {fileID: 1264699916455806509}
 --- !u!1 &7135356446795251460
 GameObject:
   m_ObjectHideFlags: 0
@@ -486,10 +436,10 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_Sprite: {fileID: 21300000, guid: 2e3114d985590df4aa127f319a3d1012, type: 3}
-  m_Type: 0
+  m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1
-  m_FillMethod: 4
+  m_FillMethod: 0
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
@@ -507,4 +457,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e27a6479c42a7e15fb8e5844d62313ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Camera: {fileID: 0}
+  _camera: {fileID: 0}

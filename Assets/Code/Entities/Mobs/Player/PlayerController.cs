@@ -2,14 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : EntityController
+public class PlayerController : MobController
 {
 
     // Player's melee controller
     [SerializeField] MeleeController playerMelee;
     [SerializeField] protected Camera _camera;
 
-    // TODO: Change to an ENEMY transform
     [SerializeField] bool _isRolling = false;
 
     StateManager _stateManager;
@@ -26,6 +25,9 @@ public class PlayerController : EntityController
     void Update()
     {
         base.Update();
+        if(InputManager.GetKeyDown(InputAction.LockOn)) {
+            HandleLockOn();
+        }
         StateManager.Update();
     }
 
@@ -37,6 +39,15 @@ public class PlayerController : EntityController
 
     public void LookAtMouse()
     {
+        Vector3 P2M;
+        if(GetMouseWorldCoords(out P2M)) {
+            // Rotate player accordingly
+            float targetAngle = Mathf.Atan2(P2M.x, P2M.z) * Mathf.Rad2Deg;
+            LookInDirection(targetAngle);
+        }
+    }
+
+    public bool GetMouseWorldCoords(out Vector3 mouseCoords) {
         // Construct a plane that is level with the player position
         Plane playerPlane = new Plane(Vector3.up, _controller.center);
 
@@ -47,14 +58,52 @@ public class PlayerController : EntityController
         {
             // Calculate hitpoint using ray and distance to plane
             Vector3 mouseHitPoint = mouseRay.GetPoint(distanceToPlane);
-            Vector3 P2M = (mouseHitPoint - transform.position).normalized;
-
-            // Rotate player accordingly
-            float targetAngle = Mathf.Atan2(P2M.x, P2M.z) * Mathf.Rad2Deg;
-            LookInDirection(targetAngle);
+            mouseCoords = (mouseHitPoint - transform.position).normalized;
+            return true;
         }
+        mouseCoords = Vector3.zero;
+        return false;
     }
 
+    /**
+    Toggle lock on
+    */
+    public void HandleLockOn() {
+        if(IsLockedOn()) {
+            LockOn(null);
+            return;
+        }
+
+        Vector3 mousePos;
+        if(!GetMouseWorldCoords(out mousePos)) {
+            // TODO: DECIDE ON THIS LockOn(null);
+            return;
+        }
+
+        // Lock on to something if possible
+        Mob[] mobs = FindObjectsOfType(typeof(Mob)) as Mob[];
+        if(mobs.Length > 0) {
+            Mob closestToMouse = null;
+            float closestDist = 0f;
+            foreach(Mob mob in mobs) {
+                if(mob.Equals(this.Mob))
+                    continue;
+
+                float dist = Mob.DistanceToSq(mob);
+                if(closestToMouse == null) {
+                    closestToMouse = mob;
+                    closestDist = dist;
+                    continue;
+                }
+
+                if(dist < closestDist) {
+                    closestToMouse = mob;
+                    closestDist = dist;
+                }
+            }
+        } else // Unlock target
+            LockOn(null);     
+    }
 
     public override Vector3 CalculateMoveDirection()
     {

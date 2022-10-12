@@ -8,25 +8,24 @@ public abstract class Entity : MonoBehaviour
 
     [SerializeField] float _speed;
 
-    private AttackInfo _attackType;
-    protected void Awake() {
-        this._health = _maxHealth;
+    public float DistanceToSq(Entity other) {
+        float dX = other.Position.x - this.Position.x;
+        float dY = other.Position.y - this.Position.y;
+        dX *= dX;
+        dY *= dY;
+
+        return dX + dY;
+    }
+
+    public float DistanceTo(Entity other) {
+        return Mathf.Sqrt(DistanceToSq(other));
     }
 
     // Getters and Setters
-    public float Health {
-        get { return this._health; }
-        set { this._health = value; }
-    }
-    public float MaxHealth { get => this._maxHealth; }
 
     public float Speed { get => this._speed; }
+    public EntityController EntityController { get => this._controller; }
 
-    public AttackInfo AttackInfo { 
-        get => this._attackType; 
-        set => this._attackType = value;    
-    }
-
-    public EntityController Controller { get => this._controller; }
-
+    public Transform ObjectTransform { get => this.gameObject.transform; }
+    public Vector3 Position { get => ObjectTransform.position; }
 }

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyController : EntityController
+public class EnemyController : MobController
 {
     private void Awake()
     {
@@ -14,6 +14,7 @@ public class EnemyController : EntityController
     void Update()
     {
         base.Update();
+        EntityMove();
     }
 
     public override Vector3 CalculateMoveDirection()

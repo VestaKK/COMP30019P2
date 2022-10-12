@@ -12,7 +12,7 @@ public class MotionHandler
     private Vector3 _relativeVelocity = Vector3.zero;
 
     private float _speed;
-    [SerializeField] float _gravity;
+    float _gravity;
 
     // Controls smooth turning
     float rotationSpeed;
@@ -21,8 +21,9 @@ public class MotionHandler
     // timeSinceGrounded is a debug variable
     public float timeSinceGrounded;
 
-    public MotionHandler(EntityController entity) {
+    public MotionHandler(EntityController entity, float gravity) {
         this._entity = entity;
+        this._gravity = gravity;
     }
 
     public void UpdateVelocity()

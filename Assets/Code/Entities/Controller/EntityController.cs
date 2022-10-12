@@ -9,16 +9,12 @@ public abstract class EntityController : MonoBehaviour
     [SerializeField] protected CharacterController _controller;
     [SerializeField] protected Animator _animator;
 
-    [SerializeField] protected Transform _lockOnTarget = null;
-
-    [SerializeField] protected ProgressBar _healthBar;
-
     public abstract Vector3 CalculateMoveDirection();
 
     private Entity _entity;
 
     protected void Awake() {
-        _motionHandler = new MotionHandler(this);
+        _motionHandler = new MotionHandler(this, 100f);
     }
 
     protected void Update() {
@@ -30,44 +26,19 @@ public abstract class EntityController : MonoBehaviour
     }
 
     public void LookInDirection(float angle) {
-            transform.rotation = Quaternion.Euler(0, angle, 0);
+        transform.rotation = Quaternion.Euler(0, angle, 0);
     }
 
-
-    public void LookAtTarget(bool instant = false) {
-        LookAtTarget(_lockOnTarget, instant);
-    }
-    public void LookAtTarget(Transform target, bool instant = false)
-    {
-        // Create Vector from Player to the target
-        Vector3 P = transform.position;
-        Vector3 T = new Vector3(target.position.x, transform.position.y, target.position.z);
-        Vector3 P2T = (T - P).normalized;
-
-        // Find angles in degrees needed to face the target
-        float targetAngle = Mathf.Atan2(P2T.x, P2T.z) * Mathf.Rad2Deg;
-
-        // Rotate player towards the target
-        // Ensures the player will face the target directly when given a small turning angle
-        if (Vector3.Dot(P2T, transform.forward) < 0.95 && !instant)
-        {
-            float turnAngle = Motion.GetTurnAngle(targetAngle);
-            LookInDirection(turnAngle);
-        }
-        else
-        {
-            Motion.RotationSpeed = 0;
-            LookInDirection(targetAngle);
-        }
-    }
     public void LookAtMovementDirection() { 
         float targetAngle = Mathf.Atan2(Velocity.x, Velocity.z) * Mathf.Rad2Deg;
         float turnAngle = Motion.GetTurnAngle(targetAngle);
         LookInDirection(turnAngle);
     }
+
     public void EntityMove()
     {
-        Velocity = Entity.Speed * Velocity;
+        // Speed should only multiply Velocity x and z. Let Gravity do its thing
+        Velocity = new Vector3(Entity.Speed * Velocity.x, Velocity.y, Entity.Speed * Velocity.z);
         Controller.Move(Velocity * Time.deltaTime);
     }
 
@@ -96,11 +67,7 @@ public abstract class EntityController : MonoBehaviour
 
     public CharacterController Controller { get { return this._controller; } }
 
-    public Transform LockOnTarget { get { return this._lockOnTarget; } }
 
     public Entity Entity { get => this._entity; set => this._entity = value; }
-    public float Health { get => this.Entity.Health; set => this.Entity.Health = value; }
-    public float MaxHealth {get => this.Entity.MaxHealth; }
-    public ProgressBar HealthBar { get => this._healthBar; }
 
 }
