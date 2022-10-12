@@ -49,7 +49,6 @@ public class AttackState : PlayerState
     {
         if (Player.PlayerMelee.isResting && !Player.PlayerMelee.isAttacking) 
         {
-            Debug.Log("Checking Switch: " + Player.IsMoving());
             if (InputManager.GetKeyDown(InputAction.Roll))
             {
                 _stateManager.SwitchState(_stateManager.Roll());
@@ -62,7 +61,6 @@ public class AttackState : PlayerState
             {
                 _stateManager.SwitchState(_stateManager.Idle());
             }
-        } else 
-        Debug.Log("Checking Switch: " + Player.PlayerMelee.isResting + " " + (!Player.PlayerMelee.isAttacking));
+        }
     }
 }
