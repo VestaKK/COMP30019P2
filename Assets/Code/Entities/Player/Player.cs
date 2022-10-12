@@ -6,6 +6,8 @@ public class Player : Entity
 {
     public static Player instance;
 
+    public Player() : base() {}
+
     // Singleton Stuff
     private void Awake()
     {
@@ -17,22 +19,23 @@ public class Player : Entity
         {
             Destroy(this);
         }
-        this._controller = this.GetComponent<PlayerController>();
+        base.Awake();
     }
 
-    public override void TakeDamage(int damage) {
-
-        Health -= damage;
+    public override void TakeDamage(AttackInfo info) {
+        Health -= info.Damage;
+        HealthBar.SetProgress(Health / MaxHealth);
         if (Health <= 0)
         {
             OnDeath();
         }
+
     }
 
     public override void OnDeath()
     {
         gameObject.SetActive(false);
-        Destroy(this.gameObject);
+        // Destroy(this.gameObject);
         // die
     }
 }

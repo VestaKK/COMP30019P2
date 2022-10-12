@@ -7,10 +7,11 @@ public abstract class EntityController : MonoBehaviour
     [SerializeField] private MotionHandler _motionHandler;
 
     [SerializeField] protected CharacterController _controller;
-    [SerializeField] protected Camera _camera;
     [SerializeField] protected Animator _animator;
 
     [SerializeField] protected Transform _lockOnTarget = null;
+
+    [SerializeField] protected ProgressBar _healthBar;
 
     public abstract Vector3 CalculateMoveDirection();
 
@@ -18,6 +19,10 @@ public abstract class EntityController : MonoBehaviour
 
     protected void Awake() {
         _motionHandler = new MotionHandler(this);
+    }
+
+    protected void Update() {
+        Motion.UpdateVelocity();
     }
 
     void Start() {
@@ -28,25 +33,6 @@ public abstract class EntityController : MonoBehaviour
             transform.rotation = Quaternion.Euler(0, angle, 0);
     }
 
-    public void LookAtMouse()
-    {
-        // Construct a plane that is level with the player position
-        Plane playerPlane = new Plane(Vector3.up, _controller.center);
-
-        // Fire a ray from the mouse screen position into the world
-        Ray mouseRay = _camera.ScreenPointToRay(Input.mousePosition);
-
-        if (playerPlane.Raycast(mouseRay, out float distanceToPlane))
-        {
-            // Calculate hitpoint using ray and distance to plane
-            Vector3 mouseHitPoint = mouseRay.GetPoint(distanceToPlane);
-            Vector3 P2M = (mouseHitPoint - transform.position).normalized;
-
-            // Rotate player accordingly
-            float targetAngle = Mathf.Atan2(P2M.x, P2M.z) * Mathf.Rad2Deg;
-            LookInDirection(targetAngle);
-        }
-    }
 
     public void LookAtTarget(bool instant = false) {
         LookAtTarget(_lockOnTarget, instant);
@@ -81,12 +67,16 @@ public abstract class EntityController : MonoBehaviour
     }
     public void EntityMove()
     {
-        Velocity = Entity.Speed * Velocity; //new Vector3(Entity.Speed * Velocity.x, Velocity.y, Velocity.z);
+        Velocity = Entity.Speed * Velocity;
         Controller.Move(Velocity * Time.deltaTime);
     }
 
-    public bool isMoving() {
-        return (Velocity.x == 0 && Velocity.z == 0);
+    public bool IsMoving() {
+        return (Velocity.x != 0 || Velocity.z != 0);
+    }
+
+    public AnimatorStateInfo GetAnimatorStateInfo(int index) { 
+        return Animator.GetCurrentAnimatorStateInfo(index); 
     }
 
     // Getters and Setters
@@ -104,11 +94,13 @@ public abstract class EntityController : MonoBehaviour
         set { Motion.RelativeVelocity = value; } 
     }
 
-    public Camera Camera { get { return this._camera; } }
     public CharacterController Controller { get { return this._controller; } }
 
     public Transform LockOnTarget { get { return this._lockOnTarget; } }
 
-    public Entity Entity { get => this._entity; set => this._entity = value; } 
+    public Entity Entity { get => this._entity; set => this._entity = value; }
+    public float Health { get => this.Entity.Health; set => this.Entity.Health = value; }
+    public float MaxHealth {get => this.Entity.MaxHealth; }
+    public ProgressBar HealthBar { get => this._healthBar; }
 
 }

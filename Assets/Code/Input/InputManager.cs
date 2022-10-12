@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class InputManager : MonoBehaviour
 {
-    public static InputManager instance;
+    private static InputManager instance;
     [SerializeField] KeyBinder binder;
 
     // Singleton Stuff
@@ -22,7 +22,23 @@ public class InputManager : MonoBehaviour
         }
     }
 
-    public KeyCode GetKeyForAction(InputAction action)
+    public static bool GetKey(InputAction action) {
+        return instance.LocalGetKey(action);
+    }
+
+    public static bool RebindKey(InputAction action, KeyCode newKey) {
+        return instance.LocalRebindKey(action, newKey);
+    }
+
+    public static KeyCode GetKeyForAction(InputAction action) {
+        return instance.LocalGetKeyForAction(action);
+    }
+
+    public static bool GetKeyDown(InputAction action) {
+        return instance.LocalGetKeyDown(action);
+    }
+
+    private KeyCode LocalGetKeyForAction(InputAction action)
     {
         foreach (KeyBinder.KeyBind keyBind in binder.keyBinds) {
             if (keyBind.Action == action) {
@@ -32,7 +48,7 @@ public class InputManager : MonoBehaviour
         return KeyCode.None;
     }
 
-    public bool GetKeyDown(InputAction action) {
+    private bool LocalGetKeyDown(InputAction action) {
         foreach(KeyBinder.KeyBind keyBind in binder.keyBinds) {
             if (keyBind.Action == action)
             {
@@ -42,7 +58,7 @@ public class InputManager : MonoBehaviour
         return false;
     }
 
-    public bool GetKey(InputAction action)
+    private bool LocalGetKey(InputAction action)
     {
         foreach (KeyBinder.KeyBind keyBind in binder.keyBinds)
         {
@@ -54,14 +70,17 @@ public class InputManager : MonoBehaviour
         return false;
     }
 
-    public void RebindKey(InputAction action, KeyCode newKey) {
+    private bool LocalRebindKey(InputAction action, KeyCode newKey) {
         foreach (KeyBinder.KeyBind keyBind in binder.keyBinds)
         {
             if (keyBind.Action == action)
             {
                 keyBind.KeyCode = newKey;
-                return;
+                return true;
             }
         }
+
+        return false;
     }
+
 }

@@ -29,16 +29,16 @@ public class IdleState : PlayerState
 
     public override void CheckSwitchStates()
     {
-        if (InputManager.instance.GetKeyDown(InputAction.Roll))
+        if (InputManager.GetKeyDown(InputAction.Roll))
         {
             _stateManager.SwitchState(_stateManager.Roll());
         }
-        else if (InputManager.instance.GetKeyDown(InputAction.Attack) && 
-            !Player.PlayerMelee.isResting)
+        else if (InputManager.GetKeyDown(InputAction.Attack) && 
+            !Player.PlayerMelee.IsResting)
         {
             _stateManager.SwitchState(_stateManager.Attack());
         }
-        else if ( !(Player.Velocity.x == 0 && Player.Velocity.z == 0) ) 
+        else if ( Player.IsMoving() ) 
         {
             _stateManager.SwitchState(_stateManager.Walk());
         }

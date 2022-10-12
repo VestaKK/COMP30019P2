@@ -9,27 +9,7 @@ public class AttackState : PlayerState
 
     public override void Enter()
     {
-        if (Player.LockOnTarget == null)
-        {
-            Player.LookAtMouse();
-        }
-        else
-        {
-            Player.LookAtTarget(true);
-        }
-
-        Player.PlayerMelee.OnClick();
-
-    }
-
-    public override void Exit()
-    {
-
-    }
-
-    public override void Update()
-    {
-        if (InputManager.instance.GetKeyDown(InputAction.Attack)) 
+        if (Player.PlayerMelee.OnClick())
         {
             if (Player.LockOnTarget == null)
             {
@@ -39,7 +19,29 @@ public class AttackState : PlayerState
             {
                 Player.LookAtTarget();
             }
-            Player.PlayerMelee.OnClick();
+        }
+    }
+
+    public override void Exit()
+    {
+
+    }
+
+    public override void Update()
+    {
+        if (InputManager.GetKeyDown(InputAction.Attack)) 
+        {
+            if (Player.PlayerMelee.OnClick()) 
+            {
+                if (Player.LockOnTarget == null)
+                {
+                    Player.LookAtMouse();
+                }
+                else
+                {
+                    Player.LookAtTarget();
+                }
+            }
         }
 
         Player.Motion.GravityOnly();
@@ -47,13 +49,13 @@ public class AttackState : PlayerState
 
     public override void CheckSwitchStates()
     {
-        if (Player.PlayerMelee.isResting && !Player.PlayerMelee.isAttacking) 
+        if (Player.PlayerMelee.IsResting && !Player.PlayerMelee.IsAttacking) 
         {
-            if (InputManager.instance.GetKeyDown(InputAction.Roll))
+            if (InputManager.GetKeyDown(InputAction.Roll))
             {
                 _stateManager.SwitchState(_stateManager.Roll());
             }
-            else if (!(Player.Velocity.x == 0 && Player.Velocity.z == 0)) 
+            else if (Player.IsMoving()) 
             {
                 _stateManager.SwitchState(_stateManager.Walk());
             }

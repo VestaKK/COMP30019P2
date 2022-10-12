@@ -11,7 +11,7 @@ public class KeyBindButton : MonoBehaviour
     private void OnEnable()
     {
         OptionsMenu.OnKeyRebind += UpdateText;
-        ButtonText.text = InputManager.instance.GetKeyForAction(action).ToString();
+        ButtonText.text = InputManager.GetKeyForAction(action).ToString();
     }
 
     private void OnDisable()
@@ -21,6 +21,6 @@ public class KeyBindButton : MonoBehaviour
 
     void UpdateText(InputAction action) {
         if (this.action == action)
-            ButtonText.text = InputManager.instance.GetKeyForAction(this.action).ToString();
+            ButtonText.text = InputManager.GetKeyForAction(this.action).ToString();
     }
 }
