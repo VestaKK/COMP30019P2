@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using Random = UnityEngine.Random; 
 
 public class DungeonGenerator
 {
@@ -20,6 +21,10 @@ public class DungeonGenerator
         int maxIterations, 
         int roomWidthMin, 
         int roomLengthMin, 
+        int spawnRoomWidth,
+        int spawnRoomLength,
+        int exitRoomWidth,
+        int exitRoomLength,
         float bottomCornerModifier, 
         float topCornerModifier, 
         int offset, 
@@ -39,6 +44,84 @@ public class DungeonGenerator
                 bottomCornerModifier, 
                 topCornerModifier, 
                 offset);
+
+        // Find room center closest to center of dungeon, set as spawn
+        RoomNode spawnRoom = 
+            roomList.OrderBy(
+                child => Vector2.Distance(
+                    StructureHelper.CalculateMiddlePoint(
+                        child.BottomLeftAreaCorner, 
+                        child.TopRightAreaCorner
+                    ), new Vector2(dungeonWidth/2, dungeonLength/2))
+            ).ToList()[0];
+        spawnRoom.IsSpawn = true;
+
+        // Adjust spawn room size
+        float spawnWidthChange, spawnLengthChange;
+        spawnWidthChange = (spawnRoom.Width - spawnRoomWidth) / 2;
+        spawnLengthChange = (spawnRoom.Length - spawnRoomLength) / 2;
+        spawnRoom.BottomLeftAreaCorner += 
+            new Vector2Int(Mathf.FloorToInt(spawnWidthChange), Mathf.FloorToInt(spawnLengthChange));
+        spawnRoom.BottomRightAreaCorner += 
+            new Vector2Int(-Mathf.FloorToInt(spawnWidthChange), Mathf.CeilToInt(spawnLengthChange));
+        spawnRoom.TopLeftAreaCorner += 
+            new Vector2Int(Mathf.CeilToInt(spawnWidthChange), -Mathf.FloorToInt(spawnLengthChange));
+        spawnRoom.TopRightAreaCorner += 
+            new Vector2Int(-Mathf.CeilToInt(spawnWidthChange), -Mathf.CeilToInt(spawnLengthChange));
+        spawnRoom.SpawnPoint = 
+            StructureHelper.CalculateMiddlePoint(
+                spawnRoom.BottomLeftAreaCorner, 
+                spawnRoom.TopRightAreaCorner);
+
+        // Randomly select exit room between four corners
+        RoomNode exitRoom;
+        int corner = Random.Range(0,4);
+        if (corner == 0) // Bottom left corner exit
+        {   
+            exitRoom = 
+                roomList.OrderBy(
+                    child => child.BottomLeftAreaCorner.x + child.BottomLeftAreaCorner.y
+                ).ToList()[0];
+        }
+        else if (corner == 1) // Bottom Right corner exit
+        {
+            exitRoom = 
+                roomList.OrderBy(
+                    child => - child.BottomLeftAreaCorner.x + child.BottomLeftAreaCorner.y
+                ).ToList()[0];
+        }
+        else if (corner == 2) // Top Left corner exit
+        {
+            exitRoom = 
+                roomList.OrderBy(
+                    child => child.BottomLeftAreaCorner.x - child.BottomLeftAreaCorner.y
+                ).ToList()[0];
+        }
+        else // Top Right corner exit
+        {
+            exitRoom = 
+                roomList.OrderByDescending(
+                    child => child.BottomLeftAreaCorner.x + child.BottomLeftAreaCorner.y
+                ).ToList()[0];
+        }
+        exitRoom.IsExit = true;
+
+        // Adjust exit room size
+        float exitWidthChange, exitLengthChange;
+        exitWidthChange = (exitRoom.Width - exitRoomWidth) / 2;
+        exitLengthChange = (exitRoom.Length - exitRoomLength) / 2;
+        exitRoom.BottomLeftAreaCorner += 
+            new Vector2Int(Mathf.FloorToInt(exitWidthChange), Mathf.FloorToInt(exitLengthChange));
+        exitRoom.BottomRightAreaCorner += 
+            new Vector2Int(-Mathf.FloorToInt(exitWidthChange), Mathf.CeilToInt(exitLengthChange));
+        exitRoom.TopLeftAreaCorner += 
+            new Vector2Int(Mathf.CeilToInt(exitWidthChange), -Mathf.FloorToInt(exitLengthChange));
+        exitRoom.TopRightAreaCorner += 
+            new Vector2Int(-Mathf.CeilToInt(exitWidthChange), -Mathf.CeilToInt(exitLengthChange));
+        exitRoom.ExitPoint = 
+            StructureHelper.CalculateMiddlePoint(
+                exitRoom.BottomLeftAreaCorner, 
+                exitRoom.TopRightAreaCorner);
 
         // Generate corridors given the rooms we generated
         CorridorGenerator corridorGenerator = new CorridorGenerator();

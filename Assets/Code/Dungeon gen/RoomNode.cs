@@ -1,6 +1,11 @@
 using UnityEngine;
 public class RoomNode : Node
 {
+    public bool IsSpawn { get; set; }
+    public Vector2Int SpawnPoint { get; set; }
+    public bool IsExit { get; set; }
+    public Vector2Int ExitPoint { get; set; }
+
     public RoomNode(
         Vector2Int bottomLeftAreaCorner, 
         Vector2Int topRightAreaCorner, 

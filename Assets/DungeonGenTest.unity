@@ -154,12 +154,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dungeonWidth: 100
   dungeonLength: 100
-  roomWidthMin: 15
-  roomLengthMin: 15
+  roomWidthMin: 20
+  roomLengthMin: 20
+  spawnRoomWidth: 15
+  spawnRoomLength: 15
+  exitRoomWidth: 15
+  exitRoomLength: 15
   bottomCornerModifier: 0.2
   topCornerModifier: 0.8
   offset: 1
-  maxIterations: 20
+  maxIterations: 30
   corridorWidth: 5
   distanceFromWall: 1
   floorMaterial: {fileID: 2100000, guid: 7d5c14ad130cc0e468f2ece0e3e451be, type: 2}

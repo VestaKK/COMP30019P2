@@ -11,6 +11,10 @@ public class DungeonSpawner: MonoBehaviour
     [SerializeField] private int dungeonWidth, dungeonLength;
     // Min room width & length
     [SerializeField] private int roomWidthMin, roomLengthMin; 
+    // Spawn room size
+    [SerializeField] private int spawnRoomWidth, spawnRoomLength;
+    // Exit room size
+    [SerializeField] private int exitRoomWidth, exitRoomLength;
     // Multiplier for how far the separation between the space allocated and the room is at bottom left corner
     [SerializeField] [Range(0.0f, 0.3f)] private float bottomCornerModifier; 
     // Multiplier for how far the separation between the space allocated and the room is at top right corner
@@ -37,6 +41,8 @@ public class DungeonSpawner: MonoBehaviour
     List<Vector3Int> possibleWallVerticalPosition;
     List<Vector3Int> possibleWallHorizontalPosition;
 
+    public List<Node> listOfNodes;
+
     void Start()
     {
         SpawnDungeon();
@@ -50,16 +56,29 @@ public class DungeonSpawner: MonoBehaviour
 
         // Generate dungeon rooms
         DungeonGenerator generator = new DungeonGenerator(dungeonWidth, dungeonLength);
-        var listOfRooms = generator.CalculateRoomsAndCorridors(
+        listOfNodes = generator.CalculateRoomsAndCorridors(
             maxIterations, 
             roomWidthMin, 
             roomLengthMin, 
+            spawnRoomWidth,
+            spawnRoomLength,
+            exitRoomWidth,
+            exitRoomLength,
             bottomCornerModifier, 
             topCornerModifier, 
             offset, 
             corridorWidth, 
             distanceFromWall
         );
+
+        // DEBUG purposes
+        List<RoomNode> listRooms = 
+            listOfNodes.FindAll(node => node is RoomNode)
+            .Select(node => (RoomNode) node).ToList();
+        RoomNode spawn = listRooms.Find((room) => room.IsSpawn);
+        Debug.Log(spawn.SpawnPoint);
+        RoomNode exit = listRooms.Find((room) => room.IsExit);
+        Debug.Log(exit.ExitPoint);
 
         // Instantiate object which will be parent of all walls,
         GameObject wallParent = new GameObject("WallParent");
@@ -70,16 +89,13 @@ public class DungeonSpawner: MonoBehaviour
         possibleWallHorizontalPosition = new List<Vector3Int>();
 
         // Create mesh for rooms
-        for (int i = 0; i < listOfRooms.Count; i++)
+        for (int i = 0; i < listOfNodes.Count; i++)
         {
-            CreateMesh(listOfRooms[i].BottomLeftAreaCorner, listOfRooms[i].TopRightAreaCorner);
+            CreateMesh(listOfNodes[i].BottomLeftAreaCorner, listOfNodes[i].TopRightAreaCorner);
         }
 
         // Instantiate walls
         CreateWalls(wallParent);
-
-        // Randomise spawn and exit room
-        CreateSpawnAndExitPoint(listOfRooms);
     }
 
     // Function to create meshes for a room
@@ -207,67 +223,6 @@ public class DungeonSpawner: MonoBehaviour
     private void CreateWall(GameObject wallParent, Vector3Int wallPosition, GameObject wallPrefab)
     {
         Instantiate(wallPrefab, wallPosition, Quaternion.identity, wallParent.transform);
-    }
-
-    // Randomise one of the four corner rooms as a exit point
-    // Find centermost room and spawn player in there
-    private void CreateSpawnAndExitPoint(List<Node> listOfRooms)
-    {
-        Vector3 playerSpawnPoint;
-        Vector3 exitPoint;
-        Node exitRoom;
-
-        // Find room center closest to center of dungeon, set as spawn
-        Vector2 spawnRoomMiddle = 
-            listOfRooms.Select(
-                child => StructureHelper.CalculateMiddlePoint(
-                    child.BottomLeftAreaCorner, 
-                    child.TopRightAreaCorner)
-            ).OrderBy(
-                child => Vector2.Distance(child, new Vector2(dungeonWidth/2, dungeonLength/2))
-            ).ToList()[0];
-        playerSpawnPoint = new Vector3(spawnRoomMiddle.x, 0, spawnRoomMiddle.y);
-
-        // Randomly select exit room between four corners
-        int corner = Random.Range(0,4);
-        if (corner == 0) // Bottom left corner exit
-        {   
-            exitRoom = 
-                listOfRooms.OrderBy(
-                    child => child.BottomLeftAreaCorner.x + child.BottomLeftAreaCorner.y
-                ).ToList()[0];
-        }
-        else if (corner == 1) // Bottom Right corner exit
-        {
-            exitRoom = 
-                listOfRooms.OrderBy(
-                    child => - child.BottomLeftAreaCorner.x + child.BottomLeftAreaCorner.y
-                ).ToList()[0];
-        }
-        else if (corner == 2) // Top Left corner exit
-        {
-            exitRoom = 
-                listOfRooms.OrderBy(
-                    child => child.BottomLeftAreaCorner.x - child.BottomLeftAreaCorner.y
-                ).ToList()[0];
-        }
-        else // Top Right corner exit
-        {
-            exitRoom = 
-                listOfRooms.OrderByDescending(
-                    child => child.BottomLeftAreaCorner.x + child.BottomLeftAreaCorner.y
-                ).ToList()[0];
-        }
-
-        Vector2 exitRoomMiddle = 
-            StructureHelper.CalculateMiddlePoint(
-                exitRoom.BottomLeftAreaCorner, 
-                exitRoom.TopRightAreaCorner);
-        exitPoint = new Vector3(exitRoomMiddle.x, 0, exitRoomMiddle.y);
-
-        // Debug purposes
-        Debug.Log(playerSpawnPoint);
-        Debug.Log(exitPoint);
     }
 
     private void DestroyAllChildren()
