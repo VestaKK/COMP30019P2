@@ -8,15 +8,15 @@ public class UIManager : MonoBehaviour
 {
     public static UIManager instance;
 
-    [SerializeField] private GameObject blackOutSquare;
-
     [SerializeField] private UIPanel startPanel;
 
     [SerializeField] private UIPanel[] panels;
 
-    [SerializeField] private UIPanel currentPanel;
+    [SerializeField] public UIPanel currentPanel;
 
     private readonly Stack<UIPanel> panelStack = new();
+
+    [SerializeField] private SceneFader fader;
 
     // Not using a strict singleton (One UI Manager Per Scene)
     private void Awake()
@@ -42,51 +42,6 @@ public class UIManager : MonoBehaviour
             Destroy(this);
         }
     }
-
-    private IEnumerator FadeBlackOutSquare(UIPanel next, bool fadeToBlack = true, float fadeSpeed = 5) {
-        Color objectColor = blackOutSquare.GetComponent<Image>().color;
-        float fadeAmount;
-
-        if(fadeToBlack) {
-            blackOutSquare.SetActive(true);
-            while(blackOutSquare.GetComponent<Image>().color.a < 1) {
-                fadeAmount = objectColor.a + (fadeSpeed * Time.deltaTime);
-
-                objectColor = new Color(objectColor.r, objectColor.g, objectColor.b, fadeAmount);
-                blackOutSquare.GetComponent<Image>().color = objectColor;
-                yield return null;
-            }
-        } else {
-            Show(next, 0f, true);
-            while (blackOutSquare.GetComponent<Image>().color.a > 0) {
-                fadeAmount = objectColor.a - (fadeSpeed * Time.deltaTime);
-                objectColor = new Color(objectColor.r, objectColor.g, objectColor.b, fadeAmount);
-                blackOutSquare.GetComponent<Image>().color = objectColor;
-                yield return null;
-            }
-            blackOutSquare.SetActive(false);
-        }
-    }
-
-    public IEnumerator FadeThrough(UIPanel next, float fadeSpeed = 5) {
-        return FadeThrough(next, true, fadeSpeed);
-    }
-
-    public IEnumerator FadeThrough(UIPanel next, bool remember, float fadeSpeed = 5) {
-        Color objectColor = blackOutSquare.GetComponent<Image>().color;
-        float fadeAmount;
-
-        while(blackOutSquare.GetComponent<Image>().color.a < 1) {
-            fadeAmount = objectColor.a + (fadeSpeed * Time.deltaTime);
-
-            objectColor = new Color(objectColor.r, objectColor.g, objectColor.b, fadeAmount);
-            blackOutSquare.GetComponent<Image>().color = objectColor;
-            yield return null;
-        }
-        currentPanel.Hide();
-        StartCoroutine(FadeBlackOutSquare(next, false, 3));
-    }
-
 
     public T Get<T>() where T : UIPanel
     {
@@ -129,15 +84,14 @@ public class UIManager : MonoBehaviour
                 panelStack.Push(currentPanel);
             }
 
-            if(fadeSpeed != 0f) {
-                StartCoroutine(FadeThrough(uIPanel, fadeSpeed));
-            } else 
+            if(fadeSpeed == 0f)
                 currentPanel.Hide();
         }
-        // Will be shown in FadeThrough otherwise
         if(fadeSpeed == 0f) {
             uIPanel.Show();
             currentPanel = uIPanel;
+        } else {
+            StartCoroutine(fader.FadeTransition(uIPanel));
         }
     }
 

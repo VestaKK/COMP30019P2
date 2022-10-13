@@ -711,7 +711,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0, g: 0, b: 0, a: 0}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -989,6 +989,7 @@ GameObject:
   m_Component:
   - component: {fileID: 748992008}
   - component: {fileID: 748992009}
+  - component: {fileID: 748992010}
   m_Layer: 0
   m_Name: UIManager
   m_TagString: Untagged
@@ -1025,14 +1026,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d024cd325376804a89d3b8ec51771b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  blackOutSquare: {fileID: 589881594}
   startPanel: {fileID: 1487507536}
   panels:
   - {fileID: 539095836}
   - {fileID: 1416805493}
   - {fileID: 1487507536}
   currentPanel: {fileID: 0}
-  fadedOut: 0
+  fader: {fileID: 748992010}
+--- !u!114 &748992010
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 748992007}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 166eb79ee6135c1a992234ef86efc31f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fadeOutUIImage: {fileID: 589881596}
+  fadeSpeed: 0.8
 --- !u!1 &757971094
 GameObject:
   m_ObjectHideFlags: 0
@@ -1508,7 +1522,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _splashImage: {fileID: 1487507534}
   _splashDisplayTimeSeconds: 2
-  fadeTime: 3
+  fadeSpeed: 3
 --- !u!1 &1578727509
 GameObject:
   m_ObjectHideFlags: 0
