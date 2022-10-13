@@ -4,13 +4,16 @@ using UnityEngine;
 
 public class Player : Mob
 {
+    [SerializeField] private PlayerInventory _inventory;
+
     public static Player instance;
+
+    private PlayerInventory inventory;
 
     public Player() : base() {}
 
     // Singleton Stuff
-    private void Awake()
-    {
+    private void InitSingleton() {
         if (instance == null)
         {
             instance = this;
@@ -19,6 +22,13 @@ public class Player : Mob
         {
             Destroy(this);
         }
+
+        inventory = GetComponent<PlayerInventory>();
+    }
+
+    private void Awake()
+    {
+        InitSingleton();
         base.Awake();
     }
 
