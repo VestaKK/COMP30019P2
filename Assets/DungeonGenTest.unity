@@ -169,6 +169,13 @@ MonoBehaviour:
   floorMaterial: {fileID: 2100000, guid: 7d5c14ad130cc0e468f2ece0e3e451be, type: 2}
   wallVertical: {fileID: 8753675751577585064, guid: e04cc0377edff8243864ba7c784d5a41, type: 3}
   wallHorizontal: {fileID: 5662685844812434244, guid: 0b84e1940b269ca4fbec190d930348ae, type: 3}
+  spawnObject: {fileID: 919132149155446097, guid: da58bc99d94ad5b4983b6b841a0a2344, type: 3}
+  propsList:
+  - {fileID: 919132149155446097, guid: da58bc99d94ad5b4983b6b841a0a2344, type: 3}
+  propsPerRoomMin: 3
+  propsPerRoomMax: 8
+  bigRoomMultiplier: 1
+  pillarObject: {fileID: 919132149155446097, guid: da58bc99d94ad5b4983b6b841a0a2344, type: 3}
 --- !u!4 &419025535
 Transform:
   m_ObjectHideFlags: 0
