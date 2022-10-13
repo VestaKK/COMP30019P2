@@ -76,7 +76,7 @@ public class SceneFader : MonoBehaviour {
 	private void SetColorImage(ref float alpha, FadeDirection fadeDirection)
 	{
 		fadeOutUIImage.color = new Color (fadeOutUIImage.color.r,fadeOutUIImage.color.g, fadeOutUIImage.color.b, alpha);
-		alpha += Time.deltaTime * (1.0f / splash.fadeSpeed) * ((fadeDirection == FadeDirection.Out)? -1 : 1) ;
+		alpha += Time.deltaTime * (1.0f / splash.fadeTime) * ((fadeDirection == FadeDirection.Out)? -1 : 1) ;
 	}
 	#endregion
 }

@@ -8,7 +8,7 @@ using UnityEngine.SceneManagement;
 public class Splash : UIPanel {
     public Image _splashImage;
     [SerializeField] float _splashDisplayTimeSeconds;
-    public float fadeSpeed;
+    public float fadeTime;
     private float _futureTime;
     private float _totalTime;
     public override void Initialise()
@@ -31,6 +31,6 @@ public class Splash : UIPanel {
     }
 
     private void Display() {
-        UIManager.instance.Show(UIManager.instance.Get<MainMenu>(), fadeSpeed != 0f ? fadeSpeed : 3);
+        UIManager.instance.Show(UIManager.instance.Get<MainMenu>(), fadeTime != 0f ? fadeTime : 3);
     }
 }
