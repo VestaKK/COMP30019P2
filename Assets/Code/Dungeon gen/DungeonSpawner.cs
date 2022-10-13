@@ -30,12 +30,15 @@ public class DungeonSpawner: MonoBehaviour
     // Game object for vertical & horizontal walls
     [SerializeField] GameObject wallVertical, wallHorizontal;
 
+
     // Possible positions for a wall/door
     // Currently no implementation for doors
     List<Vector3Int> possibleDoorVerticalPosition;
     List<Vector3Int> possibleDoorHorizontalPosition;
     List<Vector3Int> possibleWallVerticalPosition;
     List<Vector3Int> possibleWallHorizontalPosition;
+    
+    private Dungeon _dungeon;
 
     void Start()
     {
@@ -43,7 +46,7 @@ public class DungeonSpawner: MonoBehaviour
     }
 
     // Spawn a dungeon
-    public void SpawnDungeon() 
+    public Dungeon SpawnDungeon() 
     {
         // Destroy previous instance of dungeon
         DestroyAllChildren();
@@ -280,5 +283,7 @@ public class DungeonSpawner: MonoBehaviour
             }
         }
     }
+
+    public Dungeon Dungeon { get => this._dungeon; }
     
 }
