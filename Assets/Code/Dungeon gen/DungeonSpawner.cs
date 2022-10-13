@@ -34,6 +34,12 @@ public class DungeonSpawner: MonoBehaviour
     // Game object for vertical & horizontal walls
     [SerializeField] GameObject wallVertical, wallHorizontal;
 
+    [SerializeField] private GameObject spawnObject;
+    [SerializeField] private GameObject[] propsList;
+    [SerializeField] private int propsPerRoomMin, propsPerRoomMax;
+    [SerializeField] private float bigRoomMultiplier;
+    [SerializeField] private GameObject pillarObject;
+
     // Possible positions for a wall/door
     // Currently no implementation for doors
     List<Vector3Int> possibleDoorVerticalPosition;
@@ -42,6 +48,8 @@ public class DungeonSpawner: MonoBehaviour
     List<Vector3Int> possibleWallHorizontalPosition;
 
     public List<Node> listOfNodes;
+    public RoomNode spawnRoom; // Spawn point room
+    public RoomNode exitRoom; // Exit point room
 
     void Start()
     {
@@ -75,10 +83,10 @@ public class DungeonSpawner: MonoBehaviour
         List<RoomNode> listRooms = 
             listOfNodes.FindAll(node => node is RoomNode)
             .Select(node => (RoomNode) node).ToList();
-        RoomNode spawn = listRooms.Find((room) => room.IsSpawn);
-        Debug.Log(spawn.SpawnPoint);
-        RoomNode exit = listRooms.Find((room) => room.IsExit);
-        Debug.Log(exit.ExitPoint);
+        spawnRoom = listRooms.Find((room) => room.IsSpawn);
+        Debug.Log(spawnRoom.SpawnPoint);
+        exitRoom = listRooms.Find((room) => room.IsExit);
+        Debug.Log(exitRoom.ExitPoint);
 
         // Instantiate object which will be parent of all walls,
         GameObject wallParent = new GameObject("WallParent");
@@ -96,6 +104,16 @@ public class DungeonSpawner: MonoBehaviour
 
         // Instantiate walls
         CreateWalls(wallParent);
+
+        // Spawn Props
+        // List<RoomNode> listRooms = 
+        //     listOfNodes.FindAll(node => node is RoomNode)
+        //     .Select(node => (RoomNode) node).ToList();
+        foreach (var room in listRooms)
+        {
+            SpawnCeilingLight(room);
+            SpawnProps(room);
+        }
     }
 
     // Function to create meshes for a room
@@ -225,11 +243,79 @@ public class DungeonSpawner: MonoBehaviour
         Instantiate(wallPrefab, wallPosition, Quaternion.identity, wallParent.transform);
     }
 
+    private void SpawnCeilingLight(RoomNode room)
+    {
+        // Make a game object
+        GameObject lightGameObject = new GameObject("Room Light");
+
+        // Add the light component
+        Light lightComp = lightGameObject.AddComponent<Light>();
+
+        lightComp.color = Color.blue;
+        lightComp.intensity = 4;
+
+        // Set the position (or any transform property)
+        Vector2Int center =  StructureHelper.CalculateMiddlePoint(room.BottomLeftAreaCorner, room.TopRightAreaCorner);
+        lightGameObject.transform.position = new Vector3(center.x, 4, center.y);
+    }
+
+    private void SpawnProps(RoomNode room)
+    {
+        Vector2Int bottomLeft = room.BottomLeftAreaCorner;
+        Vector2Int bottomRight = room.BottomRightAreaCorner;
+        Vector2Int topLeft = room.TopLeftAreaCorner;
+        Vector2Int topRight = room.TopRightAreaCorner;
+
+        if (room.IsSpawn)
+        {
+            Instantiate(spawnObject, new Vector3(room.SpawnPoint.x, spawnObject.GetComponent<Renderer>().bounds.size.y / 2, room.SpawnPoint.y), Quaternion.identity, transform);
+        }
+        else if (room.Width >= this.roomWidthMin * this.bigRoomMultiplier && room.Length >= this.roomLengthMin * this.bigRoomMultiplier)
+        {
+            Vector2 center = StructureHelper.CalculateMiddlePoint(bottomLeft, topRight);
+            Vector2 bottomLeftPillar = Vector2.Lerp(center, bottomLeft, 0.3f);
+            Vector2 bottomRightPillar = Vector2.Lerp(center, bottomRight, 0.3f);
+            Vector2 topLeftPillar = Vector2.Lerp(center, topLeft, 0.3f);
+            Vector2 topRightPillar = Vector2.Lerp(center, topRight, 0.3f);
+            float yOffset = pillarObject.GetComponent<Renderer>().bounds.size.y / 2;
+
+            Instantiate(pillarObject, new Vector3(bottomLeftPillar.x, yOffset, bottomLeftPillar.y), Quaternion.identity, transform);
+            Instantiate(pillarObject, new Vector3(bottomRightPillar.x, yOffset, bottomRightPillar.y), Quaternion.identity, transform);
+            Instantiate(pillarObject, new Vector3(topLeftPillar.x, yOffset, topLeftPillar.y), Quaternion.identity, transform);
+            Instantiate(pillarObject, new Vector3(topRightPillar.x, yOffset, topRightPillar.y), Quaternion.identity, transform);
+        }
+        else
+        {
+            int corner = Random.Range(0,4);
+            var prop = propsList[Random.Range(0, propsList.Length)];
+            float xOffset = prop.GetComponent<Renderer>().bounds.size.x / 2 + 0.1f;
+            float yOffset =  prop.GetComponent<Renderer>().bounds.size.y / 2;
+            float zOffset = prop.GetComponent<Renderer>().bounds.size.z / 2 + 0.1f;
+            switch (corner)
+            {
+                case 0: // bottom left
+                    Instantiate(prop, new Vector3(bottomLeft.x + xOffset, yOffset, bottomLeft.y + zOffset), Quaternion.identity, transform);
+                    break;
+                case 1: // bottom right
+                    Instantiate(prop, new Vector3(topRight.x - xOffset, yOffset, bottomLeft.y + zOffset), Quaternion.identity, transform);
+                    break;
+                case 2: // top left
+                    Instantiate(prop, new Vector3(bottomLeft.x + xOffset, yOffset, topRight.y - zOffset), Quaternion.identity, transform);
+                    break;
+                case 3: // top right
+                    Instantiate(prop, new Vector3(topRight.x - xOffset, yOffset, topRight.y - zOffset), Quaternion.identity, transform);
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
     private void DestroyAllChildren()
     {
         while (transform.childCount != 0)
         {
-            foreach(Transform item  in transform)
+            foreach(Transform item in transform)
             {
                 DestroyImmediate(item.gameObject);
             }
