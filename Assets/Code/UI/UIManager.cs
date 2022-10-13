@@ -87,9 +87,12 @@ public class UIManager : MonoBehaviour
             if(fadeSpeed == 0f)
                 currentPanel.Hide();
         }
+
         if(fadeSpeed == 0f) {
+
             uIPanel.Show();
             currentPanel = uIPanel;
+
         } else {
             StartCoroutine(fader.FadeTransition(uIPanel));
         }

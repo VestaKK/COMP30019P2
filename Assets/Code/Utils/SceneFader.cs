@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System.Collections;
-
+using TMPro;
 public class SceneFader : MonoBehaviour {
 
 	#region FIELDS
@@ -50,13 +50,13 @@ public class SceneFader : MonoBehaviour {
 	}
 	#endregion
 
-
 	#region HELPERS
     public IEnumerator FadeAndHide() {
 		yield return Fade(FadeDirection.In);
         if(UIManager.instance.currentPanel != null)
             UIManager.instance.currentPanel.Hide();
     }
+
     public IEnumerator FadeAndShow(UIPanel next) {
         UIManager.instance.Show(next, 0f);
 		yield return Fade(FadeDirection.Out);

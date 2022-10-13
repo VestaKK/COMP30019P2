@@ -1,16 +1,14 @@
-using System.Collections;
-using System.Collections.Generic;
-
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
+using TMPro;
 
 public class Splash : UIPanel {
-    public Image _splashImage;
+    public TMP_Text _splashText;
     [SerializeField] float _splashDisplayTimeSeconds;
     public float fadeTime;
     private float _futureTime;
     private float _totalTime;
+
     public override void Initialise()
     {   
     }

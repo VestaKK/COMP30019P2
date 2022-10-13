@@ -98,6 +98,14 @@ public class DungeonSpawner: MonoBehaviour
             bottomRightVertex
         };
 
+        Vector3[] normals = new Vector3[]
+        {
+            new Vector3(0, 1, 0),
+            new Vector3(0, 1, 0),
+            new Vector3(0, 1, 0),
+            new Vector3(0, 1, 0)
+        };
+
         Vector2[] uvs = new Vector2[vertices.Length];
         for (int i=0; i < uvs.Length; i++)
         {
@@ -106,12 +114,15 @@ public class DungeonSpawner: MonoBehaviour
 
         int[] triangles = new int[]
         {
-            0, 1, 2,
-            2, 1, 3
+            2, 1, 3,
+            0, 1, 2
         };
+
         Mesh mesh = new Mesh();
         mesh.vertices = vertices;
         mesh.uv = uvs;
+        mesh.normals = normals;
+        mesh.RecalculateTangents();
         mesh.triangles = triangles;
 
         GameObject dungeonFloor = new GameObject(
