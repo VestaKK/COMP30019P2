@@ -1046,7 +1046,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fadeOutUIImage: {fileID: 589881596}
-  fadeSpeed: 0.8
+  splash: {fileID: 1487507536}
+  fading: 0
 --- !u!1 &757971094
 GameObject:
   m_ObjectHideFlags: 0
@@ -1521,7 +1522,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _splashImage: {fileID: 1487507534}
-  _splashDisplayTimeSeconds: 2
+  _splashDisplayTimeSeconds: 3.5
   fadeSpeed: 3
 --- !u!1 &1578727509
 GameObject:

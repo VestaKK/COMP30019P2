@@ -6,9 +6,9 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class Splash : UIPanel {
-    [SerializeField] Image _splashImage;
+    public Image _splashImage;
     [SerializeField] float _splashDisplayTimeSeconds;
-    [SerializeField] float fadeSpeed;
+    public float fadeSpeed;
     private float _futureTime;
     private float _totalTime;
     public override void Initialise()

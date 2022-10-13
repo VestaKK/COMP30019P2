@@ -7,7 +7,7 @@ public class SceneFader : MonoBehaviour {
 
 	#region FIELDS
 	public Image fadeOutUIImage;
-	public float fadeSpeed = 0.8f; 
+    [SerializeField] Splash splash;
     public bool fading = false;
 
 	public enum FadeDirection
@@ -76,7 +76,7 @@ public class SceneFader : MonoBehaviour {
 	private void SetColorImage(ref float alpha, FadeDirection fadeDirection)
 	{
 		fadeOutUIImage.color = new Color (fadeOutUIImage.color.r,fadeOutUIImage.color.g, fadeOutUIImage.color.b, alpha);
-		alpha += Time.deltaTime * (1.0f / fadeSpeed) * ((fadeDirection == FadeDirection.Out)? -1 : 1) ;
+		alpha += Time.deltaTime * (1.0f / splash.fadeSpeed) * ((fadeDirection == FadeDirection.Out)? -1 : 1) ;
 	}
 	#endregion
 }
