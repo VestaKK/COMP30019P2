@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerInventory : MonoBehaviour
 {
-    // TODO: These can be redefined as necessary
+    [SerializeField] private Image _uiSlot;
     private Slot _mainWeaponSlot;
     private Slot _offHandSlot;
 
