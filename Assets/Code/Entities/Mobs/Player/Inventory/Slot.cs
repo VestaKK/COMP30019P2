@@ -20,7 +20,9 @@ public class Slot<I> where I : Item
 
         _containedItem = item;
 
-        if(oldItme != null)
-            return oldItme;
+        if (oldItem != null)
+            return oldItem;
+        else
+            return null;
     }
 }

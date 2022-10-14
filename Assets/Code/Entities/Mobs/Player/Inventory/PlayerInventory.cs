@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerInventory : MonoBehaviour
 {
@@ -9,7 +10,7 @@ public class PlayerInventory : MonoBehaviour
     private Slot<Weapon> _offHandSlot; 
 
     void Awake() {
-        _mainWeaponSlot = new Slot(this);
-        _offHandSlot = new Slot(this);
+        _mainWeaponSlot = new Slot<Weapon>(this);
+        _offHandSlot = new Slot<Weapon>(this);
     }
 }
