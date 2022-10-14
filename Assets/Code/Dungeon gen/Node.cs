@@ -18,6 +18,8 @@ public abstract class Node
     public Vector2Int BottomRightAreaCorner { get; set; }
     public Vector2Int TopLeftAreaCorner { get; set; }
     public Vector2Int TopRightAreaCorner { get; set; }
+    
+    public List<Wall> Walls { get; set; }
 
     public Node Parent { get; set; }
     
@@ -32,6 +34,8 @@ public abstract class Node
         {
             parentNode.AddChild(this);
         }
+
+        Walls = new List<Wall>();
     }
 
     public void AddChild(Node node)
@@ -42,5 +46,30 @@ public abstract class Node
     public void RemoveChild(Node node)
     {
         childrenNodeList.Remove(node);
+    }
+
+    public void GenerateWalls()
+    {
+        this.Walls = new List<Wall>();
+        for (int row = this.BottomLeftAreaCorner.x; row < this.BottomRightAreaCorner.x; row++)
+        {
+            Vector2Int wallPosition = new Vector2Int(row, this.BottomLeftAreaCorner.y);
+            this.Walls.Add(new Wall(Orientation.Horizontal, wallPosition));
+        }
+        for (int row = this.TopLeftAreaCorner.x; row < this.TopRightAreaCorner.x; row++)
+        {
+            Vector2Int wallPosition = new Vector2Int(row, this.TopLeftAreaCorner.y);
+            this.Walls.Add(new Wall(Orientation.Horizontal, wallPosition));
+        }
+        for (int col = this.BottomLeftAreaCorner.y; col < this.TopLeftAreaCorner.y; col++)
+        {
+            Vector2Int wallPosition = new Vector2Int(this.BottomLeftAreaCorner.x, col);
+            this.Walls.Add(new Wall(Orientation.Vertical, wallPosition));
+        }
+        for (int col = this.BottomRightAreaCorner.y; col < this.TopRightAreaCorner.y; col++)
+        {
+            Vector2Int wallPosition = new Vector2Int(this.BottomRightAreaCorner.x, col);
+            this.Walls.Add(new Wall(Orientation.Vertical, wallPosition));
+        }
     }
 }

@@ -45,7 +45,10 @@ public class RoomGenerator
             space.BottomRightAreaCorner = new Vector2Int(newTopRight.x, newBottomLeft.y);
             space.TopLeftAreaCorner = new Vector2Int(newBottomLeft.x, newTopRight.y);
             
-            listToReturn.Add((RoomNode) space);
+            RoomNode room = (RoomNode) space;
+            room.GenerateWalls();
+            
+            listToReturn.Add(room);
         }
 
         return listToReturn;

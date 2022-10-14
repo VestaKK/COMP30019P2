@@ -40,16 +40,7 @@ public class DungeonSpawner: MonoBehaviour
     [SerializeField] private float bigRoomMultiplier;
     [SerializeField] private GameObject pillarObject;
 
-    // Possible positions for a wall/door
-    // Currently no implementation for doors
-    List<Vector3Int> possibleDoorVerticalPosition;
-    List<Vector3Int> possibleDoorHorizontalPosition;
-    List<Vector3Int> possibleWallVerticalPosition;
-    List<Vector3Int> possibleWallHorizontalPosition;
-
     public List<Node> listOfNodes;
-    public RoomNode spawnRoom; // Spawn point room
-    public RoomNode exitRoom; // Exit point room
 
     void Start()
     {
@@ -60,7 +51,7 @@ public class DungeonSpawner: MonoBehaviour
     public void SpawnDungeon() 
     {
         // Destroy previous instance of dungeon
-        DestroyAllChildren();
+        // DestroyAllChildren();
 
         // Generate dungeon rooms
         DungeonGenerator generator = new DungeonGenerator(dungeonWidth, dungeonLength);
@@ -79,45 +70,102 @@ public class DungeonSpawner: MonoBehaviour
             distanceFromWall
         );
 
-        // DEBUG purposes
+        // Populate room with props
         List<RoomNode> listRooms = 
             listOfNodes.FindAll(node => node is RoomNode)
             .Select(node => (RoomNode) node).ToList();
-        spawnRoom = listRooms.Find((room) => room.IsSpawn);
-        Debug.Log(spawnRoom.SpawnPoint);
-        exitRoom = listRooms.Find((room) => room.IsExit);
-        Debug.Log(exitRoom.ExitPoint);
-
-        // Instantiate object which will be parent of all walls,
-        GameObject wallParent = new GameObject("WallParent");
-        wallParent.transform.parent = transform;
-        possibleDoorVerticalPosition = new List<Vector3Int>();
-        possibleDoorHorizontalPosition = new List<Vector3Int>();
-        possibleWallVerticalPosition = new List<Vector3Int>();
-        possibleWallHorizontalPosition = new List<Vector3Int>();
-
-        // Create mesh for rooms
-        for (int i = 0; i < listOfNodes.Count; i++)
+        foreach (RoomNode room in listRooms)
         {
-            CreateMesh(listOfNodes[i].BottomLeftAreaCorner, listOfNodes[i].TopRightAreaCorner);
+            PopulateWithProps(room);
         }
 
-        // Instantiate walls
-        CreateWalls(wallParent);
-
-        // Spawn Props
+        // DEBUG purposes
         // List<RoomNode> listRooms = 
         //     listOfNodes.FindAll(node => node is RoomNode)
         //     .Select(node => (RoomNode) node).ToList();
-        foreach (var room in listRooms)
+        // spawnRoom = listRooms.Find((room) => room.IsSpawn);
+        // Debug.Log(spawnRoom.SpawnPoint);
+        // Debug.Log(spawnRoom.ConnectedNodes.Count);
+        // exitRoom = listRooms.Find((room) => room.IsExit);
+        // Debug.Log(exitRoom.ExitPoint);
+
+        // Create Dungeon parent object
+        GameObject dungeonObject = new GameObject("Dungeon");
+        DungeonController dungeonController = dungeonObject.AddComponent<DungeonController>();
+        dungeonController.rooms = listRooms;
+        dungeonController.spawnRoom = listRooms.Find((room) => room.IsSpawn);
+        dungeonController.exitRoom = listRooms.Find((room) => room.IsExit);
+        List<CorridorNode> listCorridors = 
+            listOfNodes.FindAll(node => node is CorridorNode)
+            .Select(node => (CorridorNode) node).ToList();
+        dungeonController.corridors = listCorridors;
+
+        for (int i=0; i < listRooms.Count; i++)
         {
-            SpawnCeilingLight(room);
-            SpawnProps(room);
+            InstantiateRoom(listRooms[i], i, dungeonObject);
+        }
+        for (int i=0; i < listCorridors.Count; i++)
+        {
+            InstantiateCorridor(listCorridors[i], i, dungeonObject);
         }
     }
 
-    // Function to create meshes for a room
-    private void CreateMesh(Vector2Int bottomLeft, Vector2Int topRight)
+    private void InstantiateRoom(RoomNode room, int roomIndex, GameObject dungeonObject)
+    {
+        GameObject roomObject = new GameObject("Room " + roomIndex);
+        CreateFloor(room.BottomLeftAreaCorner, room.TopRightAreaCorner, roomObject);
+
+        GameObject wallParent = new GameObject("WallParent");
+        foreach (Wall wall in room.Walls)
+        {
+            Vector3 wallPosition = new Vector3(wall.coordinates.x, 0, wall.coordinates.y);
+            Instantiate(
+                wall.orientation == Orientation.Horizontal ? wallHorizontal : wallVertical, 
+                wallPosition, 
+                Quaternion.identity,
+                wallParent.transform);
+        }
+        wallParent.transform.parent = roomObject.transform;
+        
+        SpawnCeilingLight(room, roomObject);
+        // SpawnProps(room, roomObject);
+
+        foreach (Prop prop in room.Props)
+        {
+            Instantiate(
+                prop.propObject,
+                prop.coordinates,
+                Quaternion.identity,
+                roomObject.transform
+            );
+        }
+
+        roomObject.transform.parent = dungeonObject.transform;
+    }
+
+    public void InstantiateCorridor(CorridorNode corridor, int corridorIndex, GameObject dungeonObject)
+    {
+        GameObject corridorObject = new GameObject("Corridor " + corridorIndex);
+        CreateFloor(corridor.BottomLeftAreaCorner, corridor.TopRightAreaCorner, corridorObject);
+        corridorObject.transform.parent = dungeonObject.transform;
+
+        GameObject wallParent = new GameObject("WallParent");
+        foreach (Wall wall in corridor.Walls)
+        {
+            Vector3 wallPosition = new Vector3(wall.coordinates.x, 0, wall.coordinates.y);
+            Instantiate(
+                wall.orientation == Orientation.Horizontal ? wallHorizontal : wallVertical, 
+                wallPosition, 
+                Quaternion.identity,
+                wallParent.transform);
+        }
+        wallParent.transform.parent = corridorObject.transform;
+
+        corridorObject.transform.parent = dungeonObject.transform;
+    }
+
+    // Function to create floor meshes for a room/corridor
+    private void CreateFloor(Vector2Int bottomLeft, Vector2Int topRight, GameObject parent)
     {
         Vector3 bottomLeftVertex = new Vector3(bottomLeft.x, 0, bottomLeft.y);
         Vector3 bottomRightVertex = new Vector3(topRight.x, 0, bottomLeft.y);
@@ -160,90 +208,17 @@ public class DungeonSpawner: MonoBehaviour
         mesh.triangles = triangles;
 
         GameObject dungeonFloor = new GameObject(
-            "Mesh" + bottomLeft, 
+            "Floor", 
             typeof(MeshFilter), 
             typeof(MeshRenderer));
         dungeonFloor.transform.position = Vector3.zero;
         dungeonFloor.transform.localScale = Vector3.one;
         dungeonFloor.GetComponent<MeshFilter>().mesh = mesh;
         dungeonFloor.GetComponent<MeshRenderer>().material = floorMaterial;
-        dungeonFloor.transform.parent = this.transform;
-
-        // Add positions where walls belong to list
-        for (int row = (int) bottomLeftVertex.x; row < (int) bottomRightVertex.x; row++)
-        {
-            Vector3 wallPosition = new Vector3(row, 0, bottomLeftVertex.z);
-            AddWallPositionToList(
-                wallPosition, 
-                possibleWallHorizontalPosition, 
-                possibleDoorHorizontalPosition);
-        }
-
-        for (int row = (int) topLeftVertex.x; row < topRightVertex.x; row++)
-        {
-            Vector3 wallPosition = new Vector3(row, 0, topRightVertex.z);
-            AddWallPositionToList(
-                wallPosition, 
-                possibleWallHorizontalPosition, 
-                possibleDoorHorizontalPosition);
-        }
-
-        for (int col = (int) bottomLeftVertex.z; col < topLeftVertex.z; col++)
-        {
-            Vector3 wallPosition = new Vector3(bottomLeftVertex.x, 0, col);
-            AddWallPositionToList(
-                wallPosition, 
-                possibleWallVerticalPosition, 
-                possibleDoorVerticalPosition);
-        }
-        for (int col = (int) bottomRightVertex.z; col < topRightVertex.z; col++)
-        {
-            Vector3 wallPosition = new Vector3(bottomRightVertex.x, 0, col);
-            AddWallPositionToList(
-                wallPosition, 
-                possibleWallVerticalPosition, 
-                possibleDoorVerticalPosition);
-        }
+        dungeonFloor.transform.parent = parent.transform;
     }
 
-    // Given a wall of a room, add/remove wall and door accordingly
-    private void AddWallPositionToList(
-        Vector3 wallPosition, 
-        List<Vector3Int> wallList, 
-        List<Vector3Int> doorList)
-    {
-        Vector3Int point = Vector3Int.CeilToInt(wallPosition);
-        if (wallList.Contains(point)) // If wall overlaps with one from a room already iterated through
-        {
-            // Delete said wall and replace with door
-            doorList.Add(point);
-            wallList.Remove(point);
-        }
-        else
-        {
-            // Add as wall
-            wallList.Add(point);
-        }
-    }
-
-    private void CreateWalls(GameObject wallParent)
-    {
-        foreach (var wallPosition in possibleWallHorizontalPosition)
-        {
-            CreateWall(wallParent, wallPosition, wallHorizontal);
-        }
-        foreach (var wallPosition in possibleWallVerticalPosition)
-        {
-            CreateWall(wallParent, wallPosition, wallVertical);
-        }
-    }
-
-    private void CreateWall(GameObject wallParent, Vector3Int wallPosition, GameObject wallPrefab)
-    {
-        Instantiate(wallPrefab, wallPosition, Quaternion.identity, wallParent.transform);
-    }
-
-    private void SpawnCeilingLight(RoomNode room)
+    private void SpawnCeilingLight(RoomNode room, GameObject parent)
     {
         // Make a game object
         GameObject lightGameObject = new GameObject("Room Light");
@@ -255,11 +230,13 @@ public class DungeonSpawner: MonoBehaviour
         lightComp.intensity = 4;
 
         // Set the position (or any transform property)
-        Vector2Int center =  StructureHelper.CalculateMiddlePoint(room.BottomLeftAreaCorner, room.TopRightAreaCorner);
+        Vector2Int center =  
+            StructureHelper.CalculateMiddlePoint(room.BottomLeftAreaCorner, room.TopRightAreaCorner);
         lightGameObject.transform.position = new Vector3(center.x, 4, center.y);
+        lightGameObject.transform.parent = parent.transform;
     }
 
-    private void SpawnProps(RoomNode room)
+    private void PopulateWithProps(RoomNode room)
     {
         Vector2Int bottomLeft = room.BottomLeftAreaCorner;
         Vector2Int bottomRight = room.BottomRightAreaCorner;
@@ -268,9 +245,18 @@ public class DungeonSpawner: MonoBehaviour
 
         if (room.IsSpawn)
         {
-            Instantiate(spawnObject, new Vector3(room.SpawnPoint.x, spawnObject.GetComponent<Renderer>().bounds.size.y / 2, room.SpawnPoint.y), Quaternion.identity, transform);
+            // Instantiate(spawnObject, new Vector3(room.SpawnPoint.x, spawnObject.GetComponent<Renderer>().bounds.size.y / 2, room.SpawnPoint.y), Quaternion.identity, parent.transform);
+            room.Props.Add(
+                new Prop(
+                    spawnObject, 
+                    new Vector3(
+                        room.SpawnPoint.x, 
+                        spawnObject.GetComponent<Renderer>().bounds.size.y / 2, 
+                        room.SpawnPoint.y)));
         }
-        else if (room.Width >= this.roomWidthMin * this.bigRoomMultiplier && room.Length >= this.roomLengthMin * this.bigRoomMultiplier)
+        else if (
+            room.Width >= this.roomWidthMin * this.bigRoomMultiplier && 
+            room.Length >= this.roomLengthMin * this.bigRoomMultiplier)
         {
             Vector2 center = StructureHelper.CalculateMiddlePoint(bottomLeft, topRight);
             Vector2 bottomLeftPillar = Vector2.Lerp(center, bottomLeft, 0.3f);
@@ -279,10 +265,26 @@ public class DungeonSpawner: MonoBehaviour
             Vector2 topRightPillar = Vector2.Lerp(center, topRight, 0.3f);
             float yOffset = pillarObject.GetComponent<Renderer>().bounds.size.y / 2;
 
-            Instantiate(pillarObject, new Vector3(bottomLeftPillar.x, yOffset, bottomLeftPillar.y), Quaternion.identity, transform);
-            Instantiate(pillarObject, new Vector3(bottomRightPillar.x, yOffset, bottomRightPillar.y), Quaternion.identity, transform);
-            Instantiate(pillarObject, new Vector3(topLeftPillar.x, yOffset, topLeftPillar.y), Quaternion.identity, transform);
-            Instantiate(pillarObject, new Vector3(topRightPillar.x, yOffset, topRightPillar.y), Quaternion.identity, transform);
+            // Instantiate(pillarObject, new Vector3(bottomLeftPillar.x, yOffset, bottomLeftPillar.y), Quaternion.identity, parent.transform);
+            // Instantiate(pillarObject, new Vector3(bottomRightPillar.x, yOffset, bottomRightPillar.y), Quaternion.identity, parent.transform);
+            // Instantiate(pillarObject, new Vector3(topLeftPillar.x, yOffset, topLeftPillar.y), Quaternion.identity, parent.transform);
+            // Instantiate(pillarObject, new Vector3(topRightPillar.x, yOffset, topRightPillar.y), Quaternion.identity, parent.transform);
+            room.Props.Add(
+                new Prop(
+                    pillarObject, 
+                    new Vector3(bottomLeftPillar.x, yOffset, bottomLeftPillar.y)));
+            room.Props.Add(
+                new Prop(
+                    pillarObject, 
+                    new Vector3(bottomRightPillar.x, yOffset, bottomRightPillar.y)));
+            room.Props.Add(
+                new Prop(
+                    pillarObject, 
+                    new Vector3(topLeftPillar.x, yOffset, topLeftPillar.y)));
+            room.Props.Add(
+                new Prop(
+                    pillarObject, 
+                    new Vector3(topRightPillar.x, yOffset, topRightPillar.y)));
         }
         else
         {
@@ -294,16 +296,32 @@ public class DungeonSpawner: MonoBehaviour
             switch (corner)
             {
                 case 0: // bottom left
-                    Instantiate(prop, new Vector3(bottomLeft.x + xOffset, yOffset, bottomLeft.y + zOffset), Quaternion.identity, transform);
+                    // Instantiate(prop, new Vector3(bottomLeft.x + xOffset, yOffset, bottomLeft.y + zOffset), Quaternion.identity, parent.transform);
+                    room.Props.Add(
+                        new Prop(
+                            prop, 
+                            new Vector3(bottomLeft.x + xOffset, yOffset, bottomLeft.y + zOffset)));
                     break;
                 case 1: // bottom right
-                    Instantiate(prop, new Vector3(topRight.x - xOffset, yOffset, bottomLeft.y + zOffset), Quaternion.identity, transform);
+                    // Instantiate(prop, new Vector3(topRight.x - xOffset, yOffset, bottomLeft.y + zOffset), Quaternion.identity, parent.transform);
+                    room.Props.Add(
+                        new Prop(
+                            prop, 
+                            new Vector3(topRight.x - xOffset, yOffset, bottomLeft.y + zOffset)));
                     break;
                 case 2: // top left
-                    Instantiate(prop, new Vector3(bottomLeft.x + xOffset, yOffset, topRight.y - zOffset), Quaternion.identity, transform);
+                    // Instantiate(prop, new Vector3(bottomLeft.x + xOffset, yOffset, topRight.y - zOffset), Quaternion.identity, parent.transform);
+                    room.Props.Add(
+                        new Prop(
+                            prop, 
+                            new Vector3(bottomLeft.x + xOffset, yOffset, topRight.y - zOffset)));
                     break;
                 case 3: // top right
-                    Instantiate(prop, new Vector3(topRight.x - xOffset, yOffset, topRight.y - zOffset), Quaternion.identity, transform);
+                    // Instantiate(prop, new Vector3(topRight.x - xOffset, yOffset, topRight.y - zOffset), Quaternion.identity, parent.transform);
+                    room.Props.Add(
+                        new Prop(
+                            prop, 
+                            new Vector3(topRight.x - xOffset, yOffset, topRight.y - zOffset)));
                     break;
                 default:
                     break;

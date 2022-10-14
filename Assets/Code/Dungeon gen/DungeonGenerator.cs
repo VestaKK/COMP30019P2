@@ -72,6 +72,7 @@ public class DungeonGenerator
             StructureHelper.CalculateMiddlePoint(
                 spawnRoom.BottomLeftAreaCorner, 
                 spawnRoom.TopRightAreaCorner);
+        spawnRoom.GenerateWalls();
 
         // Randomly select exit room between four corners
         RoomNode exitRoom;
@@ -122,6 +123,7 @@ public class DungeonGenerator
             StructureHelper.CalculateMiddlePoint(
                 exitRoom.BottomLeftAreaCorner, 
                 exitRoom.TopRightAreaCorner);
+        exitRoom.GenerateWalls();
 
         // Generate corridors given the rooms we generated
         CorridorGenerator corridorGenerator = new CorridorGenerator();
