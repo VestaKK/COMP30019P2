@@ -126,10 +126,11 @@ public class DungeonSpawner: MonoBehaviour
             GameObject newProp = Instantiate(
                 prop.propObject,
                 prop.coordinates,
-                Quaternion.identity,
+                prop.propObject.transform.rotation,
                 roomObject.transform
             );
-            newProp.AddComponent<BoxCollider>();
+            // BoxCollider collider = newProp.AddComponent<BoxCollider>();
+            // newProp.transform.position += 
         }
 
         roomObject.transform.parent = dungeonObject.transform;
@@ -251,19 +252,22 @@ public class DungeonSpawner: MonoBehaviour
                     spawnObject, 
                     new Vector3(
                         room.SpawnPoint.x, 
-                        spawnObject.GetComponent<Renderer>().bounds.size.y / 2, 
+                        0,
                         room.SpawnPoint.y)));
+        }
+        else if (room.IsExit)
+        {
+
         }
         else if (
             room.Width >= this.roomWidthMin * this.bigRoomMultiplier && 
-            room.Length >= this.roomLengthMin * this.bigRoomMultiplier)
+            room.Length >= this.roomLengthMin * this.bigRoomMultiplier) // Big room
         {
             Vector2 center = StructureHelper.CalculateMiddlePoint(bottomLeft, topRight);
             Vector2 bottomLeftPillar = Vector2.Lerp(center, bottomLeft, 0.3f);
             Vector2 bottomRightPillar = Vector2.Lerp(center, bottomRight, 0.3f);
             Vector2 topLeftPillar = Vector2.Lerp(center, topLeft, 0.3f);
             Vector2 topRightPillar = Vector2.Lerp(center, topRight, 0.3f);
-            float yOffset = pillarObject.GetComponent<Renderer>().bounds.size.y / 2;
 
             // Instantiate(pillarObject, new Vector3(bottomLeftPillar.x, yOffset, bottomLeftPillar.y), Quaternion.identity, parent.transform);
             // Instantiate(pillarObject, new Vector3(bottomRightPillar.x, yOffset, bottomRightPillar.y), Quaternion.identity, parent.transform);
@@ -272,26 +276,25 @@ public class DungeonSpawner: MonoBehaviour
             room.Props.Add(
                 new Prop(
                     pillarObject, 
-                    new Vector3(bottomLeftPillar.x, yOffset, bottomLeftPillar.y)));
+                    new Vector3(bottomLeftPillar.x, 0, bottomLeftPillar.y)));
             room.Props.Add(
                 new Prop(
                     pillarObject, 
-                    new Vector3(bottomRightPillar.x, yOffset, bottomRightPillar.y)));
+                    new Vector3(bottomRightPillar.x, 0, bottomRightPillar.y)));
             room.Props.Add(
                 new Prop(
                     pillarObject, 
-                    new Vector3(topLeftPillar.x, yOffset, topLeftPillar.y)));
+                    new Vector3(topLeftPillar.x, 0, topLeftPillar.y)));
             room.Props.Add(
                 new Prop(
                     pillarObject, 
-                    new Vector3(topRightPillar.x, yOffset, topRightPillar.y)));
+                    new Vector3(topRightPillar.x, 0, topRightPillar.y)));
         }
         else
         {
             int corner = Random.Range(0,4);
             var prop = propsList[Random.Range(0, propsList.Length)];
             float xOffset = prop.GetComponent<Renderer>().bounds.size.x / 2 + 0.1f;
-            float yOffset =  prop.GetComponent<Renderer>().bounds.size.y / 2;
             float zOffset = prop.GetComponent<Renderer>().bounds.size.z / 2 + 0.1f;
             switch (corner)
             {
@@ -300,28 +303,28 @@ public class DungeonSpawner: MonoBehaviour
                     room.Props.Add(
                         new Prop(
                             prop, 
-                            new Vector3(bottomLeft.x + xOffset, yOffset, bottomLeft.y + zOffset)));
+                            new Vector3(bottomLeft.x + xOffset, 0, bottomLeft.y + zOffset)));
                     break;
                 case 1: // bottom right
                     // Instantiate(prop, new Vector3(topRight.x - xOffset, yOffset, bottomLeft.y + zOffset), Quaternion.identity, parent.transform);
                     room.Props.Add(
                         new Prop(
                             prop, 
-                            new Vector3(topRight.x - xOffset, yOffset, bottomLeft.y + zOffset)));
+                            new Vector3(topRight.x - xOffset, 0, bottomLeft.y + zOffset)));
                     break;
                 case 2: // top left
                     // Instantiate(prop, new Vector3(bottomLeft.x + xOffset, yOffset, topRight.y - zOffset), Quaternion.identity, parent.transform);
                     room.Props.Add(
                         new Prop(
                             prop, 
-                            new Vector3(bottomLeft.x + xOffset, yOffset, topRight.y - zOffset)));
+                            new Vector3(bottomLeft.x + xOffset, 0, topRight.y - zOffset)));
                     break;
                 case 3: // top right
                     // Instantiate(prop, new Vector3(topRight.x - xOffset, yOffset, topRight.y - zOffset), Quaternion.identity, parent.transform);
                     room.Props.Add(
                         new Prop(
                             prop, 
-                            new Vector3(topRight.x - xOffset, yOffset, topRight.y - zOffset)));
+                            new Vector3(topRight.x - xOffset, 0, topRight.y - zOffset)));
                     break;
                 default:
                     break;

@@ -174,7 +174,7 @@ MonoBehaviour:
   propsPerRoomMin: 3
   propsPerRoomMax: 8
   bigRoomMultiplier: 1
-  pillarObject: {fileID: 919132149155446097, guid: da58bc99d94ad5b4983b6b841a0a2344, type: 3}
+  pillarObject: {fileID: 919132149155446097, guid: 9c51544e310790e4e87196964745ac1f, type: 3}
 --- !u!4 &419025535
 Transform:
   m_ObjectHideFlags: 0
