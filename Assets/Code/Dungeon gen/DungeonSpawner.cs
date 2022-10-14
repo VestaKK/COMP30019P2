@@ -31,8 +31,8 @@ public class DungeonSpawner: MonoBehaviour
     // Floor material
     [SerializeField] private Material floorMaterial;
 
-    // Game object for vertical & horizontal walls
-    [SerializeField] GameObject wallVertical, wallHorizontal;
+    // Game object for walls
+    [SerializeField] GameObject wallObject;
 
     [SerializeField] private GameObject spawnObject;
     [SerializeField] private GameObject[] propsList;
@@ -100,11 +100,11 @@ public class DungeonSpawner: MonoBehaviour
             .Select(node => (CorridorNode) node).ToList();
         dungeonController.corridors = listCorridors;
 
-        for (int i=0; i < listRooms.Count; i++)
+        for (int i = 0; i < listRooms.Count; i++)
         {
             InstantiateRoom(listRooms[i], i, dungeonObject);
         }
-        for (int i=0; i < listCorridors.Count; i++)
+        for (int i = 0; i < listCorridors.Count; i++)
         {
             InstantiateCorridor(listCorridors[i], i, dungeonObject);
         }
@@ -116,28 +116,20 @@ public class DungeonSpawner: MonoBehaviour
         CreateFloor(room.BottomLeftAreaCorner, room.TopRightAreaCorner, roomObject);
 
         GameObject wallParent = new GameObject("WallParent");
-        foreach (Wall wall in room.Walls)
-        {
-            Vector3 wallPosition = new Vector3(wall.coordinates.x, 0, wall.coordinates.y);
-            Instantiate(
-                wall.orientation == Orientation.Horizontal ? wallHorizontal : wallVertical, 
-                wallPosition, 
-                Quaternion.identity,
-                wallParent.transform);
-        }
+        CreateWalls(room, wallParent);
         wallParent.transform.parent = roomObject.transform;
         
         SpawnCeilingLight(room, roomObject);
-        // SpawnProps(room, roomObject);
 
         foreach (Prop prop in room.Props)
         {
-            Instantiate(
+            GameObject newProp = Instantiate(
                 prop.propObject,
                 prop.coordinates,
                 Quaternion.identity,
                 roomObject.transform
             );
+            newProp.AddComponent<BoxCollider>();
         }
 
         roomObject.transform.parent = dungeonObject.transform;
@@ -147,18 +139,9 @@ public class DungeonSpawner: MonoBehaviour
     {
         GameObject corridorObject = new GameObject("Corridor " + corridorIndex);
         CreateFloor(corridor.BottomLeftAreaCorner, corridor.TopRightAreaCorner, corridorObject);
-        corridorObject.transform.parent = dungeonObject.transform;
 
         GameObject wallParent = new GameObject("WallParent");
-        foreach (Wall wall in corridor.Walls)
-        {
-            Vector3 wallPosition = new Vector3(wall.coordinates.x, 0, wall.coordinates.y);
-            Instantiate(
-                wall.orientation == Orientation.Horizontal ? wallHorizontal : wallVertical, 
-                wallPosition, 
-                Quaternion.identity,
-                wallParent.transform);
-        }
+        CreateWalls(corridor, wallParent);
         wallParent.transform.parent = corridorObject.transform;
 
         corridorObject.transform.parent = dungeonObject.transform;
@@ -216,6 +199,23 @@ public class DungeonSpawner: MonoBehaviour
         dungeonFloor.GetComponent<MeshFilter>().mesh = mesh;
         dungeonFloor.GetComponent<MeshRenderer>().material = floorMaterial;
         dungeonFloor.transform.parent = parent.transform;
+
+        BoxCollider collider = dungeonFloor.AddComponent<BoxCollider>();
+    }
+    
+    // Create walls for a room/corridor
+    private void CreateWalls(Node node, GameObject parent)
+    {
+        foreach (Wall wall in node.Walls)
+        {
+            Vector3 wallPosition = new Vector3(wall.coordinates.x, 0, wall.coordinates.y);
+            GameObject newWall = Instantiate(
+                wallObject, 
+                wallPosition, 
+                wall.orientation == Orientation.Horizontal ? Quaternion.Euler(0f, -90f, 0f) : Quaternion.Euler(0f, -180f, 0f),
+                parent.transform);
+            newWall.AddComponent<BoxCollider>();
+        }
     }
 
     private void SpawnCeilingLight(RoomNode room, GameObject parent)
