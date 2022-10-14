@@ -35,6 +35,10 @@ public class DungeonSpawner: MonoBehaviour
     [SerializeField] GameObject wallObject;
 
     [SerializeField] private GameObject spawnObject;
+    [SerializeField] private GameObject spawnFloorTile, spawnFloorTileEdge, spawnFloorTileCorner;
+    [SerializeField] private GameObject exitObject;
+    [SerializeField] private GameObject[] shelvesObjectsList;
+    [SerializeField] private GameObject torchObject;
     [SerializeField] private GameObject[] propsList;
     [SerializeField] private int propsPerRoomMin, propsPerRoomMax;
     [SerializeField] private float bigRoomMultiplier;
@@ -126,7 +130,7 @@ public class DungeonSpawner: MonoBehaviour
             GameObject newProp = Instantiate(
                 prop.propObject,
                 prop.coordinates,
-                prop.propObject.transform.rotation,
+                prop.rotation,
                 roomObject.transform
             );
             // BoxCollider collider = newProp.AddComponent<BoxCollider>();
@@ -212,7 +216,7 @@ public class DungeonSpawner: MonoBehaviour
             Vector3 wallPosition = new Vector3(wall.coordinates.x, 0, wall.coordinates.y);
             GameObject newWall = Instantiate(
                 wallObject, 
-                wallPosition, 
+                wallPosition + new Vector3(0f, -0.1f, 0f), 
                 wall.orientation == Orientation.Horizontal ? Quaternion.Euler(0f, -90f, 0f) : Quaternion.Euler(0f, -180f, 0f),
                 parent.transform);
             newWall.AddComponent<BoxCollider>();
@@ -227,12 +231,12 @@ public class DungeonSpawner: MonoBehaviour
         // Add the light component
         Light lightComp = lightGameObject.AddComponent<Light>();
 
-        lightComp.color = Color.blue;
+        lightComp.color = new Color(0.4528302f, 0.04205423f, 0f, 1f);
         lightComp.intensity = 4;
 
         // Set the position (or any transform property)
-        Vector2Int center =  
-            StructureHelper.CalculateMiddlePoint(room.BottomLeftAreaCorner, room.TopRightAreaCorner);
+        Vector2 center =  
+            StructureHelper.CalculateCenter(room.BottomLeftAreaCorner, room.TopRightAreaCorner);
         lightGameObject.transform.position = new Vector3(center.x, 4, center.y);
         lightGameObject.transform.parent = parent.transform;
     }
@@ -246,49 +250,28 @@ public class DungeonSpawner: MonoBehaviour
 
         if (room.IsSpawn)
         {
-            // Instantiate(spawnObject, new Vector3(room.SpawnPoint.x, spawnObject.GetComponent<Renderer>().bounds.size.y / 2, room.SpawnPoint.y), Quaternion.identity, parent.transform);
-            room.Props.Add(
-                new Prop(
-                    spawnObject, 
-                    new Vector3(
-                        room.SpawnPoint.x, 
-                        0,
-                        room.SpawnPoint.y)));
+            room.Type = RoomType.SpawnRoom;
+            PopulateSpawnRoom(room);
         }
         else if (room.IsExit)
         {
-
+            room.Type = RoomType.ExitRoom;
+            PopulateExitRoom(room);
         }
         else if (
             room.Width >= this.roomWidthMin * this.bigRoomMultiplier && 
             room.Length >= this.roomLengthMin * this.bigRoomMultiplier) // Big room
         {
-            Vector2 center = StructureHelper.CalculateMiddlePoint(bottomLeft, topRight);
-            Vector2 bottomLeftPillar = Vector2.Lerp(center, bottomLeft, 0.3f);
-            Vector2 bottomRightPillar = Vector2.Lerp(center, bottomRight, 0.3f);
-            Vector2 topLeftPillar = Vector2.Lerp(center, topLeft, 0.3f);
-            Vector2 topRightPillar = Vector2.Lerp(center, topRight, 0.3f);
+            room.Type = RoomType.BeegRoom;
+            PopulateBeegRoom(room);
+        }
+        else if (room.Width > 1.8 * room.Length)
+        { 
 
-            // Instantiate(pillarObject, new Vector3(bottomLeftPillar.x, yOffset, bottomLeftPillar.y), Quaternion.identity, parent.transform);
-            // Instantiate(pillarObject, new Vector3(bottomRightPillar.x, yOffset, bottomRightPillar.y), Quaternion.identity, parent.transform);
-            // Instantiate(pillarObject, new Vector3(topLeftPillar.x, yOffset, topLeftPillar.y), Quaternion.identity, parent.transform);
-            // Instantiate(pillarObject, new Vector3(topRightPillar.x, yOffset, topRightPillar.y), Quaternion.identity, parent.transform);
-            room.Props.Add(
-                new Prop(
-                    pillarObject, 
-                    new Vector3(bottomLeftPillar.x, 0, bottomLeftPillar.y)));
-            room.Props.Add(
-                new Prop(
-                    pillarObject, 
-                    new Vector3(bottomRightPillar.x, 0, bottomRightPillar.y)));
-            room.Props.Add(
-                new Prop(
-                    pillarObject, 
-                    new Vector3(topLeftPillar.x, 0, topLeftPillar.y)));
-            room.Props.Add(
-                new Prop(
-                    pillarObject, 
-                    new Vector3(topRightPillar.x, 0, topRightPillar.y)));
+        }
+        else if (room.Length > 1.8 * room.Width)
+        {
+
         }
         else
         {
@@ -330,6 +313,75 @@ public class DungeonSpawner: MonoBehaviour
                     break;
             }
         }
+    }
+
+    public void PopulateSpawnRoom(RoomNode room)
+    {
+        // room.Props.Add(
+        //     new Prop(
+        //         spawnObject, 
+        //         new Vector3(
+        //             room.SpawnPoint.x, 
+        //             0,
+        //             room.SpawnPoint.y)));
+        
+
+        room.Props.Add(new Prop(spawnFloorTile, new Vector3(room.SpawnPoint.x, 0, room.SpawnPoint.y)));
+
+        float floorTileLength = spawnFloorTile.GetComponent<Renderer>().bounds.size.x;
+
+        room.Props.Add(new Prop(spawnFloorTileEdge, new Vector3(room.SpawnPoint.x - floorTileLength, 0, room.SpawnPoint.y), Quaternion.Euler(0f,0f,180f)));
+        room.Props.Add(new Prop(spawnFloorTileEdge, new Vector3(room.SpawnPoint.x + floorTileLength, 0, room.SpawnPoint.y)));
+        room.Props.Add(new Prop(spawnFloorTileEdge, new Vector3(room.SpawnPoint.x, 0, room.SpawnPoint.y - floorTileLength), Quaternion.Euler(0f,0f,90f)));
+        room.Props.Add(new Prop(spawnFloorTileEdge, new Vector3(room.SpawnPoint.x, 0, room.SpawnPoint.y + floorTileLength), Quaternion.Euler(0f,0f,-90f)));
+
+        room.Props.Add(new Prop(spawnFloorTileCorner, new Vector3(room.SpawnPoint.x - floorTileLength, 0, room.SpawnPoint.y - floorTileLength), Quaternion.Euler(0f,0f,90f)));
+        room.Props.Add(new Prop(spawnFloorTileCorner, new Vector3(room.SpawnPoint.x - floorTileLength, 0, room.SpawnPoint.y + floorTileLength), Quaternion.Euler(0f,0f,180f)));
+        room.Props.Add(new Prop(spawnFloorTileCorner, new Vector3(room.SpawnPoint.x + floorTileLength, 0, room.SpawnPoint.y - floorTileLength)));
+        room.Props.Add(new Prop(spawnFloorTileCorner, new Vector3(room.SpawnPoint.x + floorTileLength, 0, room.SpawnPoint.y + floorTileLength), Quaternion.Euler(0f,0f,-90f)));
+    }
+
+    public void PopulateExitRoom(RoomNode room)
+    {
+        room.Props.Add(new Prop(exitObject, new Vector3(room.ExitPoint.x, 0, room.ExitPoint.y)));
+
+        float xOffset = torchObject.GetComponent<Renderer>().bounds.size.x / 2 + 0.1f;
+        float zOffset = torchObject.GetComponent<Renderer>().bounds.size.z / 2 + 0.1f;
+        room.Props.Add(new Prop(torchObject, new Vector3(room.BottomLeftAreaCorner.x + xOffset, 0, room.BottomLeftAreaCorner.y + zOffset)));
+        room.Props.Add(new Prop(torchObject, new Vector3(room.BottomRightAreaCorner.x - xOffset, 0, room.BottomRightAreaCorner.y + zOffset)));
+        room.Props.Add(new Prop(torchObject, new Vector3(room.TopLeftAreaCorner.x + xOffset, 0, room.TopLeftAreaCorner.y - zOffset)));
+        room.Props.Add(new Prop(torchObject, new Vector3(room.TopRightAreaCorner.x - xOffset, 0, room.TopRightAreaCorner.y - zOffset)));
+    }
+
+    public void PopulateBeegRoom(RoomNode room)
+    {
+        Vector2Int bottomLeft = room.BottomLeftAreaCorner;
+        Vector2Int bottomRight = room.BottomRightAreaCorner;
+        Vector2Int topLeft = room.TopLeftAreaCorner;
+        Vector2Int topRight = room.TopRightAreaCorner;
+
+        Vector2 center = StructureHelper.CalculateMiddlePoint(bottomLeft, topRight);
+        Vector2 bottomLeftPillar = Vector2.Lerp(center, bottomLeft, 0.3f);
+        Vector2 bottomRightPillar = Vector2.Lerp(center, bottomRight, 0.3f);
+        Vector2 topLeftPillar = Vector2.Lerp(center, topLeft, 0.3f);
+        Vector2 topRightPillar = Vector2.Lerp(center, topRight, 0.3f);
+
+        room.Props.Add(
+            new Prop(
+                pillarObject, 
+                new Vector3(bottomLeftPillar.x, 0, bottomLeftPillar.y)));
+        room.Props.Add(
+            new Prop(
+                pillarObject, 
+                new Vector3(bottomRightPillar.x, 0, bottomRightPillar.y)));
+        room.Props.Add(
+            new Prop(
+                pillarObject, 
+                new Vector3(topLeftPillar.x, 0, topLeftPillar.y)));
+        room.Props.Add(
+            new Prop(
+                pillarObject, 
+                new Vector3(topRightPillar.x, 0, topRightPillar.y)));
     }
 
     private void DestroyAllChildren()

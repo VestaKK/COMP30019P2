@@ -81,6 +81,13 @@ public static class StructureHelper
         return new Vector2Int((int) tmp.x, (int) tmp.y);
     }
 
+    // Find middle point between two points
+    public static Vector2 CalculateCenter(Vector2 v1, Vector2 v2)
+    {
+        Vector2 sum = v1 + v2;
+        return sum / 2;
+    }
+
 }
 
 public enum RelativePosition

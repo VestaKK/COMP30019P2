@@ -69,7 +69,7 @@ public class DungeonGenerator
         spawnRoom.TopRightAreaCorner += 
             new Vector2Int(-Mathf.CeilToInt(spawnWidthChange), -Mathf.CeilToInt(spawnLengthChange));
         spawnRoom.SpawnPoint = 
-            StructureHelper.CalculateMiddlePoint(
+            StructureHelper.CalculateCenter(
                 spawnRoom.BottomLeftAreaCorner, 
                 spawnRoom.TopRightAreaCorner);
         spawnRoom.GenerateWalls();
@@ -120,7 +120,7 @@ public class DungeonGenerator
         exitRoom.TopRightAreaCorner += 
             new Vector2Int(-Mathf.CeilToInt(exitWidthChange), -Mathf.CeilToInt(exitLengthChange));
         exitRoom.ExitPoint = 
-            StructureHelper.CalculateMiddlePoint(
+            StructureHelper.CalculateCenter(
                 exitRoom.BottomLeftAreaCorner, 
                 exitRoom.TopRightAreaCorner);
         exitRoom.GenerateWalls();

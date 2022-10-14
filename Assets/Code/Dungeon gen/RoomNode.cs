@@ -3,11 +3,13 @@ using System.Collections.Generic;
 public class RoomNode : Node
 {
     public bool IsSpawn { get; set; }
-    public Vector2Int SpawnPoint { get; set; }
+    public Vector2 SpawnPoint { get; set; }
     public bool IsExit { get; set; }
-    public Vector2Int ExitPoint { get; set; }
+    public Vector2 ExitPoint { get; set; }
     public List<(CorridorNode,RoomNode)> ConnectedNodes { get; set; }
     public List<Prop> Props { get; set; }
+    public RoomType Type { get; set; }
+
     public RoomNode(
         Vector2Int bottomLeftAreaCorner, 
         Vector2Int topRightAreaCorner, 
@@ -27,4 +29,18 @@ public class RoomNode : Node
 
     public int Width { get => (int) (TopRightAreaCorner.x - BottomLeftAreaCorner.x); }
     public int Length { get => (int) (TopRightAreaCorner.y - BottomLeftAreaCorner.y); }
+}
+
+public enum RoomType 
+{
+    Crossway,
+    Hallway,
+    BeegRoom,
+    StorageRoom,
+    LabRoom,
+    ComputerRoom,
+    Library,
+    ChallengeRoom,
+    SpawnRoom,
+    ExitRoom
 }
