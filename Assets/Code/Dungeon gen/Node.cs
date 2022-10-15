@@ -48,6 +48,8 @@ public abstract class Node
         childrenNodeList.Remove(node);
     }
 
+    public Vector2 Center { get => (TopRightAreaCorner + BottomLeftAreaCorner) / 2; }
+
     public void GenerateWalls()
     {
         this.Walls = new List<Wall>();

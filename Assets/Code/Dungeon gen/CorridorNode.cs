@@ -93,19 +93,7 @@ public class CorridorNode : Node
         Vector2 middlePointStructure2Tmp 
             = ((Vector2) structure2.TopRightAreaCorner + structure2.BottomLeftAreaCorner) / 2;
 
-        float angle = 
-        Mathf.Atan2(
-            middlePointStructure2Tmp.y - middlePointStructure1Tmp.y, 
-            middlePointStructure2Tmp.x - middlePointStructure1Tmp.x) * Mathf.Rad2Deg;
-
-        if ((angle < 45 && angle >= 0) || (angle > -45 && angle <= 0))
-            return RelativePosition.Right;
-        else if (angle > 45 && angle < 135)
-            return RelativePosition.Up;
-        else if (angle > -135 && angle < -45)
-            return RelativePosition.Down;
-        else 
-            return RelativePosition.Left;
+        return StructureHelper.GiveRelativePosition(middlePointStructure1Tmp, middlePointStructure2Tmp);
     }
 
     // Figure out how to generate a corridor between the two structures
@@ -346,9 +334,15 @@ public class CorridorNode : Node
         Wall dupe2 = room2.Walls.Find(
             wall => wall.orientation == orientation && wall.coordinates == wallPosition);
         if (dupe1 != null)
+        {
             room1.Walls.Remove(dupe1);
+            room1.Doors.Add(new Door(orientation, wallPosition));
+        }
         else if (dupe2 != null)
+        {
             room2.Walls.Remove(dupe2);
+            room2.Doors.Add(new Door(orientation, wallPosition));
+        }
         else 
             this.Walls.Add(new Wall(orientation, wallPosition));
     }

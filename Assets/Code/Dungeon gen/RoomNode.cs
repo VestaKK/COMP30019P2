@@ -7,6 +7,7 @@ public class RoomNode : Node
     public bool IsExit { get; set; }
     public Vector2 ExitPoint { get; set; }
     public List<(CorridorNode,RoomNode)> ConnectedNodes { get; set; }
+    public List<Door> Doors { get; set; }
     public List<Prop> Props { get; set; }
     public RoomType Type { get; set; }
 
@@ -25,6 +26,7 @@ public class RoomNode : Node
 
         ConnectedNodes = new List<(CorridorNode, RoomNode)>();
         Props = new List<Prop>();
+        Doors = new List<Door>();
     }
 
     public int Width { get => (int) (TopRightAreaCorner.x - BottomLeftAreaCorner.x); }

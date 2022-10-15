@@ -68,10 +68,7 @@ public class DungeonGenerator
             new Vector2Int(Mathf.CeilToInt(spawnWidthChange), -Mathf.FloorToInt(spawnLengthChange));
         spawnRoom.TopRightAreaCorner += 
             new Vector2Int(-Mathf.CeilToInt(spawnWidthChange), -Mathf.CeilToInt(spawnLengthChange));
-        spawnRoom.SpawnPoint = 
-            StructureHelper.CalculateCenter(
-                spawnRoom.BottomLeftAreaCorner, 
-                spawnRoom.TopRightAreaCorner);
+        spawnRoom.SpawnPoint = spawnRoom.Center;
         spawnRoom.GenerateWalls();
 
         // Randomly select exit room between four corners
@@ -119,10 +116,7 @@ public class DungeonGenerator
             new Vector2Int(Mathf.CeilToInt(exitWidthChange), -Mathf.FloorToInt(exitLengthChange));
         exitRoom.TopRightAreaCorner += 
             new Vector2Int(-Mathf.CeilToInt(exitWidthChange), -Mathf.CeilToInt(exitLengthChange));
-        exitRoom.ExitPoint = 
-            StructureHelper.CalculateCenter(
-                exitRoom.BottomLeftAreaCorner, 
-                exitRoom.TopRightAreaCorner);
+        exitRoom.ExitPoint = exitRoom.Center;
         exitRoom.GenerateWalls();
 
         // Generate corridors given the rooms we generated

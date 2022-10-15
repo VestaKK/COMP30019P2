@@ -164,7 +164,7 @@ MonoBehaviour:
   topCornerModifier: 0.8
   offset: 1
   maxIterations: 30
-  corridorWidth: 4
+  corridorWidth: 3
   distanceFromWall: 1
   floorMaterial: {fileID: 2100000, guid: 7d5c14ad130cc0e468f2ece0e3e451be, type: 2}
   wallObject: {fileID: 8344076570025833262, guid: 6ce734cbc48aa854c9ed67d7a02ad86f, type: 3}
@@ -173,7 +173,11 @@ MonoBehaviour:
   spawnFloorTileEdge: {fileID: 919132149155446097, guid: 383752231b9288247b8d2d9d7b28313f, type: 3}
   spawnFloorTileCorner: {fileID: 919132149155446097, guid: 6f974d664ed26b54bbb3d9c1450bdc39, type: 3}
   exitObject: {fileID: 919132149155446097, guid: fcd22fd0a044dfc4c976e42fd8f67899, type: 3}
-  shelvesObjectsList: []
+  shelvesObjectsList:
+  - {fileID: 919132149155446097, guid: c80eb0921d56fe345a10377a5914a3de, type: 3}
+  - {fileID: 919132149155446097, guid: 61499257ba9263f46bb5b764fe387b31, type: 3}
+  - {fileID: 919132149155446097, guid: c80eb0921d56fe345a10377a5914a3de, type: 3}
+  crateObject: {fileID: 919132149155446097, guid: 52749c5cdefe3eb4fb817c1efe262982, type: 3}
   torchObject: {fileID: 919132149155446097, guid: 057852a4ab981bc46b6e20ddbeeda781, type: 3}
   propsList:
   - {fileID: 919132149155446097, guid: 52749c5cdefe3eb4fb817c1efe262982, type: 3}
@@ -182,7 +186,7 @@ MonoBehaviour:
   - {fileID: 919132149155446097, guid: 61499257ba9263f46bb5b764fe387b31, type: 3}
   propsPerRoomMin: 3
   propsPerRoomMax: 8
-  bigRoomMultiplier: 1
+  bigRoomMultiplier: 1.2
   pillarObject: {fileID: 919132149155446097, guid: 65ff72ba34064a846b15ad6bd736738b, type: 3}
   player: {fileID: 4987394948552880471, guid: 546acacf7aa41564a974dd80678e0190, type: 3}
 --- !u!4 &419025535

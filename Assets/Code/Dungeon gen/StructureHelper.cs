@@ -81,11 +81,22 @@ public static class StructureHelper
         return new Vector2Int((int) tmp.x, (int) tmp.y);
     }
 
-    // Find middle point between two points
-    public static Vector2 CalculateCenter(Vector2 v1, Vector2 v2)
+    // Give relative position of v2 according to v1
+    public static RelativePosition GiveRelativePosition(Vector2 v1, Vector2 v2)
     {
-        Vector2 sum = v1 + v2;
-        return sum / 2;
+        float angle = 
+            Mathf.Atan2(
+                v2.y - v1.y, 
+                v2.x - v1.x) * Mathf.Rad2Deg;
+
+        if ((angle < 45 && angle >= 0) || (angle > -45 && angle <= 0))
+            return RelativePosition.Right;
+        else if (angle > 45 && angle < 135)
+            return RelativePosition.Up;
+        else if (angle > -135 && angle < -45)
+            return RelativePosition.Down;
+        else 
+            return RelativePosition.Left;
     }
 
 }
