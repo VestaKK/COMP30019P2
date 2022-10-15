@@ -34,18 +34,18 @@ public class DungeonSpawner: MonoBehaviour
     // Game object for walls
     [SerializeField] GameObject wallObject;
 
-    [SerializeField] private GameObject spawnObject;
+    [SerializeField] private float bigRoomMultiplier;
     [SerializeField] private GameObject spawnFloorTile, spawnFloorTileEdge, spawnFloorTileCorner;
     [SerializeField] private GameObject exitObject;
+    [SerializeField] private GameObject pillarObject;
     [SerializeField] private GameObject[] shelvesObjectsList;
     [SerializeField] private GameObject crateObject;
     [SerializeField] private GameObject computerObject;
+    [SerializeField] private GameObject[] labItemObjectList;
     [SerializeField] private GameObject torchObject;
     [SerializeField] private GameObject statueObject;
     [SerializeField] private GameObject[] propsList;
-    [SerializeField] private int propsPerRoomMin, propsPerRoomMax;
-    [SerializeField] private float bigRoomMultiplier;
-    [SerializeField] private GameObject pillarObject;
+
     [SerializeField] private GameObject player;
 
     public List<Node> listOfNodes;
@@ -299,8 +299,7 @@ public class DungeonSpawner: MonoBehaviour
             room.Width >= 1.7 * room.Length &&
             room.ConnectedNodes.Exists(
                 pair => 
-                    StructureHelper.GiveRelativePosition(center, pair.Item1.Center) == RelativePosition.Left || 
-                    StructureHelper.GiveRelativePosition(center, pair.Item1.Center) == RelativePosition.Right))
+                    (int) StructureHelper.GiveRelativePosition(center, pair.Item1.Center) >= 2)) // left/right position
         {
             room.Type = RoomType.Hallway;
             PopulateHallway(room, Orientation.Horizontal);
@@ -308,8 +307,7 @@ public class DungeonSpawner: MonoBehaviour
         else if (room.Length >= 1.7 * room.Width &&
             room.ConnectedNodes.Exists(
                 pair => 
-                    StructureHelper.GiveRelativePosition(center, pair.Item1.Center) == RelativePosition.Up || 
-                    StructureHelper.GiveRelativePosition(center, pair.Item1.Center) == RelativePosition.Down))
+                    (int) StructureHelper.GiveRelativePosition(center, pair.Item1.Center) <= 1)) // up/down position
         {
             room.Type = RoomType.Hallway;
             PopulateHallway(room, Orientation.Vertical);
@@ -329,10 +327,14 @@ public class DungeonSpawner: MonoBehaviour
         }
         else
         {
+            room.Type = RoomType.LabRoom;
+            PopulateLabRoom(room);
+
+            // TODO: add more room types so we could replace the below
             int corner = Random.Range(0, 4);
             var prop = propsList[Random.Range(0, propsList.Length)];
-            float xOffset = prop.GetComponent<Renderer>().bounds.size.x / 2 + 0.1f;
-            float zOffset = prop.GetComponent<Renderer>().bounds.size.z / 2 + 0.1f;
+            float xOffset = GetObjectBounds(prop).x / 2 + 0.1f;
+            float zOffset = GetObjectBounds(prop).z / 2 + 0.1f;
 
             if (CheckClearFromDoor(room, bottomLeft, prop))
                 room.Props.Add(
@@ -402,7 +404,7 @@ public class DungeonSpawner: MonoBehaviour
         RelativePosition entranceRelativeToRoom = 
             StructureHelper.GiveRelativePosition(room.Center, corridor.Center);
         
-        int roulette = Random.Range(0, 1);
+        int roulette = Random.Range(0, 2);
 
         // Rows of shelves
         if (roulette == 0)
@@ -461,7 +463,7 @@ public class DungeonSpawner: MonoBehaviour
         room.Props.Add(
             new Prop(spawnFloorTile, new Vector3(room.SpawnPoint.x, 0, room.SpawnPoint.y)));
 
-        float floorTileLength = spawnFloorTile.GetComponent<Renderer>().bounds.size.x;
+        float floorTileLength = GetObjectBounds(spawnFloorTile).x;
 
         room.Props.Add(
             new Prop(
@@ -519,8 +521,8 @@ public class DungeonSpawner: MonoBehaviour
     {
         room.Props.Add(new Prop(exitObject, new Vector3(room.ExitPoint.x, 0, room.ExitPoint.y)));
 
-        float xOffset = torchObject.GetComponent<Renderer>().bounds.size.x / 2 + 0.1f;
-        float zOffset = torchObject.GetComponent<Renderer>().bounds.size.z / 2 + 0.1f;
+        float xOffset = GetObjectBounds(torchObject).x / 2 + 0.1f;
+        float zOffset = GetObjectBounds(torchObject).z / 2 + 0.1f;
         room.Props.Add(
             new Prop(
                 torchObject, 
@@ -590,11 +592,11 @@ public class DungeonSpawner: MonoBehaviour
         float widthSpace = room.Width / 4f;
         float lengthSpace = room.Length / 4f;
         float computerPillarSeparationX = 
-            computerObject.GetComponent<Renderer>().bounds.size.x / 2f +
-            pillarObject.GetComponent<Renderer>().bounds.size.x / 2f;
+            GetObjectBounds(computerObject).x / 2f +
+            GetObjectBounds(pillarObject).x / 2f;
         float computerPillarSeparationZ = 
-            computerObject.GetComponent<Renderer>().bounds.size.z / 2f +
-            pillarObject.GetComponent<Renderer>().bounds.size.z / 2f;
+            GetObjectBounds(computerObject).z / 2f +
+            GetObjectBounds(pillarObject).z / 2f;
 
         room.Props.Add(new Prop(
             computerObject,
@@ -627,7 +629,7 @@ public class DungeonSpawner: MonoBehaviour
         room.Props.Add(new Prop(
             computerObject,
             new Vector3(center.x + widthSpace, 0, center.y),
-            Quaternion.Euler(0f,0f,90f)
+            Quaternion.Euler(0f,0f,-90f)
         ));
         room.Props.Add(new Prop(
             spawnFloorTile,
@@ -641,7 +643,7 @@ public class DungeonSpawner: MonoBehaviour
         room.Props.Add(new Prop(
             computerObject,
             new Vector3(center.x - widthSpace, 0, center.y),
-            Quaternion.Euler(0f,0f,-90f)
+            Quaternion.Euler(0f,0f,90f)
         ));
         room.Props.Add(new Prop(
             spawnFloorTile,
@@ -653,12 +655,92 @@ public class DungeonSpawner: MonoBehaviour
         ));
     }
 
+    private void PopulateLabRoom(RoomNode room)
+    {
+        Vector2 center = room.Center;
+
+        GameObject labItem = labItemObjectList[Random.Range(0, labItemObjectList.Length)];
+        RelativePosition computerPosition = (RelativePosition) Random.Range(0, 4);
+        float computerLabItemSpace = 
+            GetObjectBounds(computerObject).z / 2 +
+            GetObjectBounds(labItem).z / 2 + 0.5f;
+
+        if ((int) computerPosition >= 2) // left/right
+        {
+            room.Props.Add(new Prop(
+                labItem, 
+                new Vector3(center.x, 0, center.y),
+                Quaternion.Euler(0f, 0f, 90f)));
+
+            room.Props.Add(new Prop(
+                computerObject,
+                new Vector3(
+                    center.x + (
+                        computerPosition == RelativePosition.Left 
+                        ? -computerLabItemSpace 
+                        : computerLabItemSpace), 
+                    0, 
+                    center.y),
+                computerPosition == RelativePosition.Left 
+                ? Quaternion.Euler(0f, 0f, -90f) 
+                : Quaternion.Euler(0f, 0f, 90f)
+            ));
+            
+            room.Props.Add(new Prop(
+                spawnFloorTile,
+                new Vector3(
+                    center.x + (
+                        computerPosition == RelativePosition.Left 
+                        ? -computerLabItemSpace 
+                        : computerLabItemSpace), 
+                    0, 
+                    center.y)));
+        }
+        else // up/down
+        {
+            room.Props.Add(new Prop(
+                labItem, 
+                new Vector3(center.x, 0, center.y)));
+
+            room.Props.Add(new Prop(
+                computerObject,
+                new Vector3(
+                    center.x, 
+                    0, 
+                    center.y + (
+                        computerPosition == RelativePosition.Down 
+                        ? -computerLabItemSpace 
+                        : computerLabItemSpace)),
+                computerPosition == RelativePosition.Down 
+                ? Quaternion.Euler(0f, 0f, 180f) 
+                : Quaternion.Euler(0f, 0f, 0f)
+            ));
+
+            room.Props.Add(new Prop(
+                spawnFloorTile,
+                new Vector3(
+                    center.x, 
+                    0, 
+                    center.y + (
+                        computerPosition == RelativePosition.Down 
+                        ? -computerLabItemSpace 
+                        : computerLabItemSpace))));
+        }
+
+    }
+
+    // Get GameObject's bound size 
+    private Vector3 GetObjectBounds(GameObject obj)
+    {
+        return obj.GetComponent<Renderer>().bounds.size;
+    }
+
     // Check if a coordinate in a room is free from any doorways such that
     // a prop there will not obstruct it
     private bool CheckClearFromDoor(RoomNode room, Vector2 coord, GameObject prop)
     {
-        float propX = prop.GetComponent<Renderer>().bounds.size.x / 2 + 1;
-        float propY = prop.GetComponent<Renderer>().bounds.size.z / 2 + 1;
+        float propX = GetObjectBounds(prop).x / 2 + 1;
+        float propY = GetObjectBounds(prop).z / 2 + 1;
         float range = Math.Max(propX, propY);
 
         return room.Doors.Find(door => Vector2.Distance(coord, door.coordinates) < range) == null;

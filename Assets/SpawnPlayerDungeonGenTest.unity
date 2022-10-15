@@ -168,17 +168,22 @@ MonoBehaviour:
   distanceFromWall: 1
   floorMaterial: {fileID: 2100000, guid: 7d5c14ad130cc0e468f2ece0e3e451be, type: 2}
   wallObject: {fileID: 8344076570025833262, guid: 6ce734cbc48aa854c9ed67d7a02ad86f, type: 3}
-  spawnObject: {fileID: 919132149155446097, guid: da58bc99d94ad5b4983b6b841a0a2344, type: 3}
+  bigRoomMultiplier: 1.1
   spawnFloorTile: {fileID: 919132149155446097, guid: 3b14ea48188ba964c87b42d39a20efb0, type: 3}
   spawnFloorTileEdge: {fileID: 919132149155446097, guid: 383752231b9288247b8d2d9d7b28313f, type: 3}
   spawnFloorTileCorner: {fileID: 919132149155446097, guid: 6f974d664ed26b54bbb3d9c1450bdc39, type: 3}
   exitObject: {fileID: 919132149155446097, guid: fcd22fd0a044dfc4c976e42fd8f67899, type: 3}
+  pillarObject: {fileID: 919132149155446097, guid: 9c51544e310790e4e87196964745ac1f, type: 3}
   shelvesObjectsList:
   - {fileID: 919132149155446097, guid: c80eb0921d56fe345a10377a5914a3de, type: 3}
   - {fileID: 919132149155446097, guid: 61499257ba9263f46bb5b764fe387b31, type: 3}
   - {fileID: 919132149155446097, guid: c80eb0921d56fe345a10377a5914a3de, type: 3}
   crateObject: {fileID: 919132149155446097, guid: 52749c5cdefe3eb4fb817c1efe262982, type: 3}
   computerObject: {fileID: 919132149155446097, guid: f85c8e4734ce4bf40a490f3bb5c5513b, type: 3}
+  labItemObjectList:
+  - {fileID: 919132149155446097, guid: 1c91cdd4ece456b438d06cd1aa10ce6b, type: 3}
+  - {fileID: 919132149155446097, guid: 8c61521e588e2834da5324830ecea748, type: 3}
+  - {fileID: 919132149155446097, guid: 1c91cdd4ece456b438d06cd1aa10ce6b, type: 3}
   torchObject: {fileID: 919132149155446097, guid: 057852a4ab981bc46b6e20ddbeeda781, type: 3}
   statueObject: {fileID: 919132149155446097, guid: b931f9e9b0fd9334f8684f30eb4a8fd2, type: 3}
   propsList:
@@ -186,10 +191,6 @@ MonoBehaviour:
   - {fileID: 919132149155446097, guid: b40e16d6d2d63aa489bff0a370a0ecd1, type: 3}
   - {fileID: 919132149155446097, guid: ec2be7e4c2f0cbb43b9c99209f9d4509, type: 3}
   - {fileID: 919132149155446097, guid: 61499257ba9263f46bb5b764fe387b31, type: 3}
-  propsPerRoomMin: 3
-  propsPerRoomMax: 8
-  bigRoomMultiplier: 1.1
-  pillarObject: {fileID: 919132149155446097, guid: 9c51544e310790e4e87196964745ac1f, type: 3}
   player: {fileID: 4987394948552880471, guid: 546acacf7aa41564a974dd80678e0190, type: 3}
 --- !u!4 &419025535
 Transform:
