@@ -22,7 +22,7 @@ Shader "PUNKSOULS/CelOutline"
             _RimThreshold("Rim Threshold", Range(0, 1)) = 0.1
 
         _OutlineColor("Outline color", Color) = (1,0,0,0.5)
-        _OutlineWidth("Outlines width", Range(0.0, 2.0)) = 0.15
+        _OutlineWidth("Outline width", Range(0.0, 2.0)) = 0.15
 
         _Angle("Switch shader on angle", Range(0.0, 180.0)) = 89
     }
@@ -33,6 +33,8 @@ Shader "PUNKSOULS/CelOutline"
             // Outline Pass
             Pass
             {
+                Name "Outline"
+
                 Tags
                 {
                     "IgnoreProjector" = "True"

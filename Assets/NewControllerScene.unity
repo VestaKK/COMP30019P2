@@ -536,6 +536,31 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 378509594}
   m_CullTransparentMesh: 1
+--- !u!1 &420046135 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: b3d166bf81273884bbc282682eef62b3, type: 3}
+  m_PrefabInstance: {fileID: 227882535}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &420046136
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 420046135}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89ed3ed45a86f574aaf121d26919511b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _enemy: {fileID: 0}
+  SMR: []
+  MR: []
+--- !u!1 &481802906 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: b41d11524bbaad2478e7d065d90ce947, type: 3}
+  m_PrefabInstance: {fileID: 1372317504}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &483370503
 GameObject:
   m_ObjectHideFlags: 0
@@ -2015,6 +2040,21 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: b41d11524bbaad2478e7d065d90ce947, type: 3}
   m_PrefabInstance: {fileID: 1372317504}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1373203197
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 481802906}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89ed3ed45a86f574aaf121d26919511b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _enemy: {fileID: 0}
+  SMR: []
+  MR: []
 --- !u!1 &1403357958
 GameObject:
   m_ObjectHideFlags: 0
@@ -2632,13 +2672,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d024cd325376804a89d3b8ec51771b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  blackOutSquare: {fileID: 0}
   startPanel: {fileID: 1491811933}
   panels:
   - {fileID: 484281533}
   - {fileID: 1491811933}
   currentPanel: {fileID: 0}
-  fadedOut: 0
+  fader: {fileID: 0}
 --- !u!4 &1945433544
 Transform:
   m_ObjectHideFlags: 0

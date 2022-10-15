@@ -226,19 +226,35 @@ public class DungeonSpawner: MonoBehaviour
     private void SpawnCeilingLight(RoomNode room, GameObject parent)
     {
         // Make a game object
-        GameObject lightGameObject = new GameObject("Room Light");
+        GameObject lightGameObject1 = new GameObject("Room Light");
 
         // Add the light component
-        Light lightComp = lightGameObject.AddComponent<Light>();
+        Light lightComp1 = lightGameObject1.AddComponent<Light>();
 
-        lightComp.color = new Color(0.4528302f, 0.04205423f, 0f, 1f);
-        lightComp.intensity = 4;
+        lightComp1.color = new Color(0.8f, 0.8f, 0.8f, 1f);
+        lightComp1.intensity = 4;
 
         // Set the position (or any transform property)
         Vector2 center =  
             StructureHelper.CalculateCenter(room.BottomLeftAreaCorner, room.TopRightAreaCorner);
-        lightGameObject.transform.position = new Vector3(center.x, 4, center.y);
-        lightGameObject.transform.parent = parent.transform;
+        lightGameObject1.transform.position = new Vector3(center.x + room.Width / 4.0f, 4, center.y + room.Length / 4.0f);
+        lightGameObject1.transform.parent = parent.transform;
+
+
+
+        // Make a game object
+        GameObject lightGameObject2 = new GameObject("Room Light");
+
+        // Add the light component
+        Light lightComp2 = lightGameObject2.AddComponent<Light>();
+
+        lightComp2.color = new Color(0.8f, 0.8f, 0.8f, 1f);
+        lightComp2.intensity = 4;
+
+        // Set the position (or any transform property)
+            StructureHelper.CalculateCenter(room.BottomLeftAreaCorner, room.TopRightAreaCorner);
+        lightGameObject2.transform.position = new Vector3(center.x - room.Width / 4.0f, 4, center.y - room.Length / 4.0f);
+        lightGameObject2.transform.parent = parent.transform;
     }
 
     private void PopulateWithProps(RoomNode room)
@@ -266,8 +282,8 @@ public class DungeonSpawner: MonoBehaviour
             PopulateBeegRoom(room);
         }
         else if (room.Width > 1.8 * room.Length)
-        { 
-
+        {
+            room.Type = RoomType.Hallway;
         }
         else if (room.Length > 1.8 * room.Width)
         {
@@ -313,6 +329,11 @@ public class DungeonSpawner: MonoBehaviour
                     break;
             }
         }
+    }
+
+    private void PopulateHallway(RoomNode room)
+    {
+        throw new NotImplementedException();
     }
 
     public void PopulateSpawnRoom(RoomNode room)

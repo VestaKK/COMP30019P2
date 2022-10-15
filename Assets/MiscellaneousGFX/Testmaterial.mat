@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Glass
+  m_Name: Testmaterial
   m_Shader: {fileID: 4800000, guid: 23333e8fa97441840b5b33f6e03d8f7d, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -75,24 +75,24 @@ Material:
     - _DstBlend: 0
     - _Gloss: 1
     - _GlossMapScale: 1
-    - _Glossiness: 0
+    - _Glossiness: 0.5
     - _GlossyReflections: 1
     - _Metallic: 0
     - _Mode: 0
     - _NormalIntensity: 1
     - _OcclusionStrength: 1
     - _Parallax: 0.02
-    - _RimThreshold: 0.1
-    - _RimWidth: 0.716
+    - _RimThreshold: 0.162
+    - _RimWidth: 0.557
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
-    - _AmbientLight: {r: 0.09989874, g: 0.09989874, b: 0.09989874, a: 0}
-    - _Color: {r: 0.13085455, g: 0.0990566, b: 1, a: 1}
+    - _AmbientLight: {r: 0, g: 0, b: 0, a: 0}
+    - _Color: {r: 0, g: 0.055066347, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _RimColor: {r: 0.18867922, g: 0.18867922, b: 0.18867922, a: 1}
-    - _SpecularColor: {r: 1, g: 1, b: 1, a: 1}
+    - _RimColor: {r: 0.1981132, g: 0.1981132, b: 0.1981132, a: 1}
+    - _SpecularColor: {r: 1, g: 0, b: 0, a: 1}
   m_BuildTextureStacks: []
