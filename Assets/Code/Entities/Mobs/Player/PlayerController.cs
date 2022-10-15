@@ -19,6 +19,7 @@ public class PlayerController : MobController
         base.Awake();
         _stateManager = new StateManager(this, StateManager.State.Idle);
         Entity = this.GetComponent<Player>();
+        _camera = Camera.main;
     }
 
     // Update is called once per frame

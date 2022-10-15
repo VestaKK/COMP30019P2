@@ -10,9 +10,6 @@ Shader "PUNKSOULS/CelOutline"
         _NormalIntensity("Normal Intensity", Range(0,1)) = 1
 
         [HDR]
-            _AmbientLight("Ambient Color", Color) = (0,0,0,0)
-
-        [HDR]
             _SpecularColor("Specular Color", Color) = (1,1,1,1)
             _Gloss("Glossiness", Range(0, 1)) = 1
 

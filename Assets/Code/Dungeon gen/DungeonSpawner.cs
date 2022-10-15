@@ -43,6 +43,7 @@ public class DungeonSpawner: MonoBehaviour
     [SerializeField] private int propsPerRoomMin, propsPerRoomMax;
     [SerializeField] private float bigRoomMultiplier;
     [SerializeField] private GameObject pillarObject;
+    [SerializeField] private GameObject player;
 
     public List<Node> listOfNodes;
 
@@ -112,6 +113,11 @@ public class DungeonSpawner: MonoBehaviour
         {
             InstantiateCorridor(listCorridors[i], i, dungeonObject);
         }
+
+        if (player != null) 
+        { 
+            Instantiate(player, new Vector3(dungeonController.spawnRoom.SpawnPoint.x, 0, dungeonController.spawnRoom.SpawnPoint.y), Quaternion.identity);
+        }
     }
 
     private void InstantiateRoom(RoomNode room, int roomIndex, GameObject dungeonObject)
@@ -133,8 +139,8 @@ public class DungeonSpawner: MonoBehaviour
                 prop.rotation,
                 roomObject.transform
             );
-            // BoxCollider collider = newProp.AddComponent<BoxCollider>();
-            // newProp.transform.position += 
+
+            newProp.AddComponent<BoxCollider>();
         }
 
         roomObject.transform.parent = dungeonObject.transform;
@@ -275,7 +281,7 @@ public class DungeonSpawner: MonoBehaviour
             PopulateExitRoom(room);
         }
         else if (
-            room.Width >= this.roomWidthMin * this.bigRoomMultiplier && 
+            room.Width >= this.roomWidthMin * this.bigRoomMultiplier &&
             room.Length >= this.roomLengthMin * this.bigRoomMultiplier) // Big room
         {
             room.Type = RoomType.BeegRoom;
@@ -284,56 +290,50 @@ public class DungeonSpawner: MonoBehaviour
         else if (room.Width > 1.8 * room.Length)
         {
             room.Type = RoomType.Hallway;
+            PopulateHallway(room);
         }
         else if (room.Length > 1.8 * room.Width)
         {
 
         }
+        else if (room.ConnectedNodes.Count == 1 && 
+            room.Width <= this.roomWidthMin * this.bigRoomMultiplier &&
+            room.Length <= this.roomLengthMin * this.bigRoomMultiplier) 
+        {
+            
+        }
         else
         {
-            int corner = Random.Range(0,4);
+            int corner = Random.Range(0, 4);
             var prop = propsList[Random.Range(0, propsList.Length)];
             float xOffset = prop.GetComponent<Renderer>().bounds.size.x / 2 + 0.1f;
             float zOffset = prop.GetComponent<Renderer>().bounds.size.z / 2 + 0.1f;
-            switch (corner)
-            {
-                case 0: // bottom left
-                    // Instantiate(prop, new Vector3(bottomLeft.x + xOffset, yOffset, bottomLeft.y + zOffset), Quaternion.identity, parent.transform);
-                    room.Props.Add(
+
+            room.Props.Add(
                         new Prop(
-                            prop, 
+                            prop,
                             new Vector3(bottomLeft.x + xOffset, 0, bottomLeft.y + zOffset)));
-                    break;
-                case 1: // bottom right
-                    // Instantiate(prop, new Vector3(topRight.x - xOffset, yOffset, bottomLeft.y + zOffset), Quaternion.identity, parent.transform);
-                    room.Props.Add(
+
+            room.Props.Add(
                         new Prop(
-                            prop, 
+                            prop,
                             new Vector3(topRight.x - xOffset, 0, bottomLeft.y + zOffset)));
-                    break;
-                case 2: // top left
-                    // Instantiate(prop, new Vector3(bottomLeft.x + xOffset, yOffset, topRight.y - zOffset), Quaternion.identity, parent.transform);
-                    room.Props.Add(
+
+            room.Props.Add(
                         new Prop(
-                            prop, 
+                            prop,
                             new Vector3(bottomLeft.x + xOffset, 0, topRight.y - zOffset)));
-                    break;
-                case 3: // top right
-                    // Instantiate(prop, new Vector3(topRight.x - xOffset, yOffset, topRight.y - zOffset), Quaternion.identity, parent.transform);
-                    room.Props.Add(
+
+            room.Props.Add(
                         new Prop(
-                            prop, 
+                            prop,
                             new Vector3(topRight.x - xOffset, 0, topRight.y - zOffset)));
-                    break;
-                default:
-                    break;
-            }
         }
     }
 
     private void PopulateHallway(RoomNode room)
     {
-        throw new NotImplementedException();
+
     }
 
     public void PopulateSpawnRoom(RoomNode room)
@@ -345,7 +345,6 @@ public class DungeonSpawner: MonoBehaviour
         //             room.SpawnPoint.x, 
         //             0,
         //             room.SpawnPoint.y)));
-        
 
         room.Props.Add(new Prop(spawnFloorTile, new Vector3(room.SpawnPoint.x, 0, room.SpawnPoint.y)));
 
