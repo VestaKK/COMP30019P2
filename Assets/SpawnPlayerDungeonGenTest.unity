@@ -178,7 +178,9 @@ MonoBehaviour:
   - {fileID: 919132149155446097, guid: 61499257ba9263f46bb5b764fe387b31, type: 3}
   - {fileID: 919132149155446097, guid: c80eb0921d56fe345a10377a5914a3de, type: 3}
   crateObject: {fileID: 919132149155446097, guid: 52749c5cdefe3eb4fb817c1efe262982, type: 3}
+  computerObject: {fileID: 919132149155446097, guid: f85c8e4734ce4bf40a490f3bb5c5513b, type: 3}
   torchObject: {fileID: 919132149155446097, guid: 057852a4ab981bc46b6e20ddbeeda781, type: 3}
+  statueObject: {fileID: 919132149155446097, guid: b931f9e9b0fd9334f8684f30eb4a8fd2, type: 3}
   propsList:
   - {fileID: 919132149155446097, guid: 52749c5cdefe3eb4fb817c1efe262982, type: 3}
   - {fileID: 919132149155446097, guid: b40e16d6d2d63aa489bff0a370a0ecd1, type: 3}
@@ -186,8 +188,8 @@ MonoBehaviour:
   - {fileID: 919132149155446097, guid: 61499257ba9263f46bb5b764fe387b31, type: 3}
   propsPerRoomMin: 3
   propsPerRoomMax: 8
-  bigRoomMultiplier: 1.2
-  pillarObject: {fileID: 919132149155446097, guid: 65ff72ba34064a846b15ad6bd736738b, type: 3}
+  bigRoomMultiplier: 1.1
+  pillarObject: {fileID: 919132149155446097, guid: 9c51544e310790e4e87196964745ac1f, type: 3}
   player: {fileID: 4987394948552880471, guid: 546acacf7aa41564a974dd80678e0190, type: 3}
 --- !u!4 &419025535
 Transform:
