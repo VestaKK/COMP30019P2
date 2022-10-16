@@ -20,6 +20,8 @@ public class Slot<I> where I : Item
 
         _containedItem = item;
 
+        Debug.Log(item.id);
+
         if (oldItem != null)
             return oldItem;
         else

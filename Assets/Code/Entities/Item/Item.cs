@@ -2,7 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Item : Entity
+[CreateAssetMenu(fileName = "Item", menuName = "Item")]
+public class Item : ScriptableObject
 {
-    
+    public int id;
+    public string itemName;
+    public Sprite icon;
 }
