@@ -26,7 +26,7 @@ public abstract class Node
     /**
         Bounds from top left of each node
     */
-    public Rect bounds;
+    private Rect _spawnBounds;
     
     // Depth index in tree
     public int TreeLayerIndex { get; set; }
@@ -85,8 +85,11 @@ public abstract class Node
         Vector2Int topLeft = this.TopLeftAreaCorner;
         Vector2Int botRight = this.BottomRightAreaCorner;
 
-        int width = Mathf.Abs(topLeft.x - botRight.x);
-        int height = Mathf.Abs(topLeft.y - botRight.y);
-        bounds = new Rect(topLeft.x, topLeft.y, width, height);
+        // -1 to account for walls
+        int width = Mathf.Abs(topLeft.x - botRight.x) - 8;
+        int height = Mathf.Abs(topLeft.y - botRight.y) - 8;
+        _spawnBounds = new Rect(topLeft.x, topLeft.y, width, height);
     }
+
+    public Rect SpawnBounds { get => this._spawnBounds; }
 }

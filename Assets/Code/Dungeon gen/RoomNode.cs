@@ -41,11 +41,29 @@ public class RoomNode : Node
     public void SpawnEnemies<T>(Spawner<T> spawner) where T : Enemy {
         int spawns = 0;
         int targetSpawns = spawner.GetSpawnCount();
+        Vector3 base_spawn = new Vector3(MiddlePoint.x, 0, MiddlePoint.y);
         while(spawns++ < targetSpawns) {
-            Enemy enemy = spawner.SpawnEntity(_dungeonTransform, new Vector3(MiddlePoint.x, 10, MiddlePoint.y), Quaternion.identity);
-            Debug.Log("Spawning: " + enemy);
-            Debug.Log("Spawning: " + enemy.Position);
+            Vector3 spawnPoint = GetSafeSpawn(base_spawn, spawner.PrefabController.center, spawner.PrefabController.radius);
+            Debug.Log("Spawning object with center: " + spawner.PrefabController.center);
+            Debug.Log("Radius: " + spawner.PrefabController.radius);
+            Enemy enemy = spawner.SpawnEntity(_dungeonTransform, spawnPoint, Quaternion.identity);
         }
+    }
+
+    private Vector3 GetSafeSpawn(Vector3 base_spawn, Vector3 objCenter, float radius) {
+        Vector3 randSpawn = GetRandSpawn(base_spawn, objCenter);
+        Collider[] collided = Physics.OverlapSphere(randSpawn, radius);
+        while(collided.Length != 0) {
+            randSpawn = GetRandSpawn(base_spawn, objCenter);
+            collided = Physics.OverlapSphere(randSpawn, radius);
+        }
+        return randSpawn;
+    }
+
+    private Vector3 GetRandSpawn(Vector3 base_spawn, Vector3 objCenter) {
+        float randX = Random.Range(-SpawnBounds.width / 2, SpawnBounds.width / 2);
+        float randZ = Random.Range(-SpawnBounds.height / 2, SpawnBounds.height / 2);
+        return new Vector3(base_spawn.x + randX, objCenter.y + 5, base_spawn.z + randZ);
     }
 
     public int Width { get => (int) (TopRightAreaCorner.x - BottomLeftAreaCorner.x); }

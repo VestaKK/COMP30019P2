@@ -11,6 +11,12 @@ public abstract class Spawner<EntityType> : MonoBehaviour
         [SerializeField] private int maxSpawnsPerRoom;
         [SerializeField] protected Camera _camera;
 
+        private CharacterController _prefabCc;
+
+        void Awake() {
+            _prefabCc = _prefab.GetComponent<CharacterController>();
+        }
+
         public abstract Enemy SpawnEntity(Transform parentTransform, Vector3 offset, Quaternion rotation);
         public abstract EntityType SpawnEntity(); 
 
@@ -18,4 +24,7 @@ public abstract class Spawner<EntityType> : MonoBehaviour
             return Random.Range(minSpawnsPerRoom, maxSpawnsPerRoom);
         }
         public EntityType Prefab { get => _prefab; }
+        public CharacterController PrefabController { get => _prefabCc; }
+
+
 }
