@@ -44,8 +44,6 @@ public class RoomNode : Node
         Vector3 base_spawn = new Vector3(MiddlePoint.x, 0, MiddlePoint.y);
         while(spawns++ < targetSpawns) {
             Vector3 spawnPoint = GetSafeSpawn(base_spawn, spawner.PrefabController.center, spawner.PrefabController.radius);
-            Debug.Log("Spawning object with center: " + spawner.PrefabController.center);
-            Debug.Log("Radius: " + spawner.PrefabController.radius);
             Enemy enemy = spawner.SpawnEntity(_dungeonTransform, spawnPoint, Quaternion.identity);
         }
     }
@@ -54,9 +52,12 @@ public class RoomNode : Node
         Vector3 randSpawn = GetRandSpawn(base_spawn, objCenter);
         Collider[] collided = Physics.OverlapSphere(randSpawn, radius);
         while(collided.Length != 0) {
+            Debug.Log("Bad spawn. Recalc");
             randSpawn = GetRandSpawn(base_spawn, objCenter);
             collided = Physics.OverlapSphere(randSpawn, radius);
         }
+
+        Debug.Log("Safe spawn found");
         return randSpawn;
     }
 

@@ -115,6 +115,8 @@ public class DungeonSpawner: MonoBehaviour
 
         // Enemy spawns     
         dungeonController.rooms.ForEach((room) => {
+            if(room.IsSpawn)
+                return;
             room.SpawnEnemies(enemySpawner);
         });
 
