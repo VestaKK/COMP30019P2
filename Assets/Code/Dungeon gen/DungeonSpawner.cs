@@ -48,6 +48,8 @@ public class DungeonSpawner: MonoBehaviour
 
     [SerializeField] private GameObject player;
 
+    [SerializeField] private EnemySpawner enemySpawner;
+
     public List<Node> listOfNodes;
 
     void Start()
@@ -61,8 +63,12 @@ public class DungeonSpawner: MonoBehaviour
         // Destroy previous instance of dungeon
         // DestroyAllChildren();
 
+        // Create Dungeon parent object
+        GameObject dungeonObject = new GameObject("Dungeon");
+        DungeonController dungeonController = dungeonObject.AddComponent<DungeonController>();
+
         // Generate dungeon rooms
-        DungeonGenerator generator = new DungeonGenerator(dungeonWidth, dungeonLength);
+        DungeonGenerator generator = new DungeonGenerator(dungeonObject.transform, dungeonWidth, dungeonLength);
         listOfNodes = generator.CalculateRoomsAndCorridors(
             maxIterations, 
             roomWidthMin, 
@@ -87,12 +93,12 @@ public class DungeonSpawner: MonoBehaviour
             PopulateWithProps(room);
         }
 
-        // Create Dungeon parent object
-        GameObject dungeonObject = new GameObject("Dungeon");
-        DungeonController dungeonController = dungeonObject.AddComponent<DungeonController>();
+
+        // Attach rooms to dungeon controller
         dungeonController.rooms = listRooms;
         dungeonController.spawnRoom = listRooms.Find((room) => room.IsSpawn);
         dungeonController.exitRoom = listRooms.Find((room) => room.IsExit);
+
         List<CorridorNode> listCorridors = 
             listOfNodes.FindAll(node => node is CorridorNode)
             .Select(node => (CorridorNode) node).ToList();
@@ -107,6 +113,14 @@ public class DungeonSpawner: MonoBehaviour
             InstantiateCorridor(listCorridors[i], i, dungeonObject);
         }
 
+        // Enemy spawns     
+        dungeonController.rooms.ForEach((room) => {
+            if(room.IsSpawn)
+                return;
+            room.SpawnEnemies(enemySpawner);
+        });
+
+        // Player spawn
         if (player != null) 
         { 
             Instantiate(player, new Vector3(dungeonController.spawnRoom.SpawnPoint.x, 0, dungeonController.spawnRoom.SpawnPoint.y), Quaternion.identity);
