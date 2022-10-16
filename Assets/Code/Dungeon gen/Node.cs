@@ -22,6 +22,11 @@ public abstract class Node
     public List<Wall> Walls { get; set; }
 
     public Node Parent { get; set; }
+
+    /**
+        Bounds from top left of each node
+    */
+    public Rect bounds;
     
     // Depth index in tree
     public int TreeLayerIndex { get; set; }
@@ -34,7 +39,6 @@ public abstract class Node
         {
             parentNode.AddChild(this);
         }
-
         Walls = new List<Wall>();
     }
 
@@ -73,5 +77,16 @@ public abstract class Node
             Vector2Int wallPosition = new Vector2Int(this.BottomRightAreaCorner.x, col);
             this.Walls.Add(new Wall(Orientation.Vertical, wallPosition));
         }
+
+        DefineBounds();
+    }
+
+    private void DefineBounds() {
+        Vector2Int topLeft = this.TopLeftAreaCorner;
+        Vector2Int botRight = this.BottomRightAreaCorner;
+
+        int width = Mathf.Abs(topLeft.x - botRight.x);
+        int height = Mathf.Abs(topLeft.y - botRight.y);
+        bounds = new Rect(topLeft.x, topLeft.y, width, height);
     }
 }

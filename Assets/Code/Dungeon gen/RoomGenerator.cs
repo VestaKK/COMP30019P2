@@ -7,12 +7,14 @@ public class RoomGenerator
     private int maxIterations;
     private int roomWidthMin;
     private int roomLengthMin;
+    private Transform _dungeonTransform;
 
-    public RoomGenerator(int maxIterations, int roomWidthMin, int roomLengthMin)
+    public RoomGenerator(Transform dungeonTransform, int maxIterations, int roomWidthMin, int roomLengthMin)
     {
         this.maxIterations = maxIterations;
         this.roomWidthMin = roomWidthMin;
         this.roomLengthMin = roomLengthMin;
+        this._dungeonTransform = dungeonTransform;
     }
 
     // Given a space, generate a room under the parameter constraints (bottomCorner Modifier, topCornerModifier & offset)
@@ -47,7 +49,10 @@ public class RoomGenerator
             
             RoomNode room = (RoomNode) space;
             room.GenerateWalls();
-            
+            room.MiddlePoint = StructureHelper.CalculateMiddlePoint(
+                        room.BottomLeftAreaCorner, 
+                        room.TopRightAreaCorner);
+            room.DungeonTransform = _dungeonTransform;
             listToReturn.Add(room);
         }
 
