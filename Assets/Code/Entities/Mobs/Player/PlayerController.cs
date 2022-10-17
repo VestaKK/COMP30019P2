@@ -8,7 +8,6 @@ public class PlayerController : MobController
     // Player's melee controller
     [SerializeField] MeleeController playerMelee;
     [SerializeField] protected Camera _camera;
-
     [SerializeField] bool _isRolling = false;
 
     [SerializeField] float maxLockOnRadius;
@@ -85,6 +84,7 @@ public class PlayerController : MobController
 
         // Lock on to something if possible
         // List<Entity> mobs = CurrentRoom.Entities.FindAll((entity) => entity is Mob);
+
         Mob[] mobs = FindObjectsOfType(typeof(Mob)) as Mob[];
         if(mobs.Length > 0) {
             Mob closestToMouse = null;
@@ -105,15 +105,25 @@ public class PlayerController : MobController
                     closestDist = dist;
                 }
             }
-            if(EntityIsNearby(closestToMouse))
+
+            // Matt -- Only did this to get the program working
+            // Just wanted to check some changes to the shader
+            if (this.CurrentRoom != null)
+                LockOn(closestToMouse);
+            
+            // Matt -- This made more sense since we aren't locking
+            // onto general entities but mobs only
+            else if (MobIsNearby(closestToMouse))
                 LockOn(closestToMouse);
         } else // Unlock target
             LockOn(null);     
     }
 
-    private bool EntityIsNearby(Entity o) {
-        if(!this.CurrentRoom.Equals(closestToMouse.CurrentRoom))
+    // Original was EntityisNearby(Entity o)
+    private bool MobIsNearby(Mob o) {
+        if (!this.CurrentRoom.Equals(o.CurrentRoom))
             return false;
+        return true;
     }
 
     public override Vector3 CalculateMoveDirection()

@@ -192,7 +192,7 @@ MonoBehaviour:
   - {fileID: 919132149155446097, guid: 057852a4ab981bc46b6e20ddbeeda781, type: 3}
   - {fileID: 919132149155446097, guid: ae79b90965284d34f85614ce51214504, type: 3}
   - {fileID: 919132149155446097, guid: d521b6abc1a0baa4180979c88c862586, type: 3}
-  player: {fileID: 4987394948552880471, guid: 546acacf7aa41564a974dd80678e0190, type: 3}
+  player: {fileID: 6166529074385607406, guid: 546acacf7aa41564a974dd80678e0190, type: 3}
   enemySpawner: {fileID: 419025536}
 --- !u!4 &419025535
 Transform:

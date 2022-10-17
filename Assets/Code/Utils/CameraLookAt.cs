@@ -22,8 +22,9 @@ public class CameraLookAt : MonoBehaviour
     {
         if (playerController == null)
         {
-            playerController = GameObject.FindWithTag("Player").GetComponent<CharacterController>();
-            if (playerController == null) return;
+            GameObject playerGameObject = GameObject.FindWithTag("Player");
+            if (playerGameObject == null) return;
+            playerController = playerGameObject.GetComponent<CharacterController>();
             transform.position = playerController.transform.position + cameraZoom * offsetDirection;
             transform.LookAt(playerController.transform);
         }
