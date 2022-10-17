@@ -108,11 +108,8 @@ public class PlayerController : MobController
 
             // Matt -- Only did this to get the program working
             // Just wanted to check some changes to the shader
-            if (this.CurrentRoom != null)
+            if (this.CurrentRoom == null)
                 LockOn(closestToMouse);
-            
-            // Matt -- This made more sense since we aren't locking
-            // onto general entities but mobs only
             else if (MobIsNearby(closestToMouse))
                 LockOn(closestToMouse);
         } else // Unlock target
