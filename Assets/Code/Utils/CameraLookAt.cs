@@ -20,23 +20,26 @@ public class CameraLookAt : MonoBehaviour
 
     private void LateUpdate()
     {
-        if (playerController == null) 
+        if (playerController == null)
         {
             playerController = GameObject.FindWithTag("Player").GetComponent<CharacterController>();
+            if (playerController == null) return;
             transform.position = playerController.transform.position + cameraZoom * offsetDirection;
             transform.LookAt(playerController.transform);
         }
-
-        // Adjust Zoom
-        Vector2 scrollDelta = Input.mouseScrollDelta;
-        if (scrollDelta.y < 0 && cameraZoom > 6 || scrollDelta.y > 0 && cameraZoom < 15)
+        else 
         {
-            cameraZoom += scrollDelta.y;
-        }
+            // Adjust Zoom
+            Vector2 scrollDelta = Input.mouseScrollDelta;
+            if (scrollDelta.y < 0 && cameraZoom > 6 || scrollDelta.y > 0 && cameraZoom < 15)
+            {
+                cameraZoom += scrollDelta.y;
+            }
 
-        // Follow Player 
-        Vector3 targetPosition = playerController.transform.position + cameraZoom * offsetDirection;
-        Vector3 lerpPosition = Vector3.Lerp(transform.position, targetPosition, 0.01f);
-        transform.position = lerpPosition;
+            // Follow Player 
+            Vector3 targetPosition = playerController.transform.position + cameraZoom * offsetDirection;
+            Vector3 lerpPosition = Vector3.Lerp(transform.position, targetPosition, 0.01f);
+            transform.position = lerpPosition;
+        }
     }
 }

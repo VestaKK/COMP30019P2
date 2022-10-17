@@ -15,6 +15,7 @@ public abstract class Spawner<EntityType> : MonoBehaviour
 
         void Awake() {
             _prefabCc = _prefab.GetComponent<CharacterController>();
+            _camera = Camera.main;
         }
 
         public abstract Enemy SpawnEntity(Transform parentTransform, Vector3 offset, Quaternion rotation);

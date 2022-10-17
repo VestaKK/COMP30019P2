@@ -3,7 +3,17 @@ guid: 9cd9383ba20e11e4e9895846aa6cffc5
 ModelImporter:
   serializedVersion: 22103
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: M_cybersword
+    second: {fileID: 2100000, guid: 473d0904d52e7e0499598d0e786931b1, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.004
+    second: {fileID: 2100000, guid: fdbeb1fad18192442ab0e242cae8e038, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
