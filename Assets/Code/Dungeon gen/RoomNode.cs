@@ -43,28 +43,28 @@ public class RoomNode : Node
         int targetSpawns = spawner.GetSpawnCount();
         Vector3 base_spawn = new Vector3(MiddlePoint.x, 0, MiddlePoint.y);
         while(spawns++ < targetSpawns) {
-            Vector3 spawnPoint = GetSafeSpawn(base_spawn, spawner.PrefabController.center, spawner.PrefabController.radius);
+            Vector3 spawnPoint = GetSafeSpawn(base_spawn, spawner.PrefabController);
             Enemy enemy = spawner.SpawnEntity(_dungeonTransform, spawnPoint, Quaternion.identity);
         }
     }
 
-    private Vector3 GetSafeSpawn(Vector3 base_spawn, Vector3 objCenter, float radius) {
-        Vector3 randSpawn = GetRandSpawn(base_spawn, objCenter);
-        Collider[] collided = Physics.OverlapSphere(randSpawn, radius);
+    private Vector3 GetSafeSpawn(Vector3 base_spawn, CharacterController prefab) {
+        Vector3 randSpawn = GetRandSpawn(base_spawn, prefab);
+        Collider[] collided = Physics.OverlapSphere(randSpawn, prefab.radius);
         while(collided.Length != 0) {
             Debug.Log("Bad spawn. Recalc");
-            randSpawn = GetRandSpawn(base_spawn, objCenter);
-            collided = Physics.OverlapSphere(randSpawn, radius);
+            randSpawn = GetRandSpawn(base_spawn, prefab);
+            collided = Physics.OverlapSphere(randSpawn, prefab.radius);
         }
 
         Debug.Log("Safe spawn found");
         return randSpawn;
     }
 
-    private Vector3 GetRandSpawn(Vector3 base_spawn, Vector3 objCenter) {
+    private Vector3 GetRandSpawn(Vector3 base_spawn, CharacterController prefab) {
         float randX = Random.Range(-SpawnBounds.width / 2, SpawnBounds.width / 2);
         float randZ = Random.Range(-SpawnBounds.height / 2, SpawnBounds.height / 2);
-        return new Vector3(base_spawn.x + randX, objCenter.y + 5, base_spawn.z + randZ);
+        return new Vector3(base_spawn.x + randX, prefab.center.y + prefab.radius + 0.25f, base_spawn.z + randZ); // raise it off the floor
     }
 
     public int Width { get => (int) (TopRightAreaCorner.x - BottomLeftAreaCorner.x); }
