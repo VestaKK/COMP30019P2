@@ -32,6 +32,8 @@ public abstract class EntityController : MonoBehaviour
 
     private bool UpdateRoom()
     {
+        if (_currentDungeon == null) return false;
+
         RoomNode oldRoom = _currentRoom;
         RoomNode newRoom = _currentDungeon.GetCurrentRoom(this);
         if(newRoom == null) {

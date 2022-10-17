@@ -110,14 +110,13 @@ public class PlayerController : MobController
             // Just wanted to check some changes to the shader
             if (this.CurrentRoom == null)
                 LockOn(closestToMouse);
-            else if (MobIsNearby(closestToMouse))
+            else if (EntityIsNearby(closestToMouse))
                 LockOn(closestToMouse);
         } else // Unlock target
             LockOn(null);     
     }
 
-    // Original was EntityisNearby(Entity o)
-    private bool MobIsNearby(Mob o) {
+    private bool EntityIsNearby(Entity o) {
         if (!this.CurrentRoom.Equals(o.CurrentRoom))
             return false;
         return true;
