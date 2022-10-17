@@ -10,7 +10,7 @@ public abstract class Entity : MonoBehaviour
 
     public float DistanceToSq(Entity other) {
         float dX = other.Position.x - this.Position.x;
-        float dY = other.Position.y - this.Position.y;
+        float dY = other.Position.z - this.Position.z;
         dX *= dX;
         dY *= dY;
 

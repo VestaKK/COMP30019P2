@@ -15,6 +15,9 @@ Shader "PUNKSOULS/PostProcessing"
 
         Pass
         {
+            Tags { "RenderType" = "Opaque" }
+            LOD 100
+
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag

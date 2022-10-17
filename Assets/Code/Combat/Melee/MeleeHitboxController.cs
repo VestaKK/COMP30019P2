@@ -14,6 +14,10 @@ public class MeleeHitboxController : HitboxController
     {
         // Since other is a Hurtbox typically this will work
         // However we should still put a check in here to see if the collider belongs to a Hurtbox
+
+        // Dirty Fix
+        if (other.transform.parent.tag == "Player") return;
+
         IDamageable damageable = other.gameObject.GetComponentInParent(typeof(IDamageable)) as IDamageable;
         if (damageable != null) 
         {
