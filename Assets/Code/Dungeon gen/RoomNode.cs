@@ -47,15 +47,15 @@ public class RoomNode : Node
         Vector3 base_spawn = new Vector3(MiddlePoint.x, 0, MiddlePoint.y);
         Debug.Log("Spawning enemies for " + this);
 
-        while(spawns++ < targetSpawns) {
+        // while(spawns++ < targetSpawns) {
             Vector3 spawnPoint = GetSafeSpawn(base_spawn, spawner.PrefabController);
             Enemy e = spawner.SpawnEntity(DungeonController.transform, spawnPoint, Quaternion.identity);
             e.CurrentDungeon = DungeonController;
 
             // maintain room relationship
             e.CurrentRoom = this;
-            // Entities.Add(e);
-        }
+            Entities.Add(e);
+        // }
         Debug.Log("Finished Spawning");
         return Entities;
     }

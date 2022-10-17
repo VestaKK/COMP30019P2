@@ -116,7 +116,7 @@ public class DungeonSpawner: MonoBehaviour
         // Enemy spawns
         // good to have a list of enemies. Dunno what to do with them yet though
         dungeonController.rooms.ForEach((room) => {
-            if(room.IsSpawn)
+            if(!room.IsSpawn)
                 return;
             room.SpawnEnemies(enemySpawner);
         });
