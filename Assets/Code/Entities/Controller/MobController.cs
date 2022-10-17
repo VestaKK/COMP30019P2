@@ -19,9 +19,17 @@ public abstract class MobController : EntityController
 
     public void LockOn(Mob other) {
         if(other == null) {
+            if (_lockOnTarget != null)
+                _lockOnTarget.gameObject.GetComponent<Mob>().LockedOff.Invoke();
             _lockOnTarget = null;
             return;
         }
+        
+        other.LockedOn.Invoke();
+
+        if (_lockOnTarget != null)
+            _lockOnTarget.gameObject.GetComponent<Mob>().LockedOff.Invoke();
+
         _lockOnTarget = other.transform;
     }
 
