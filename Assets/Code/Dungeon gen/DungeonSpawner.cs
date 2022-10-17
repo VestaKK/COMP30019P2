@@ -46,7 +46,7 @@ public class DungeonSpawner: MonoBehaviour
     [SerializeField] private GameObject statueObject;
     [SerializeField] private GameObject[] propsList;
 
-    [SerializeField] private GameObject player;
+    [SerializeField] private Player player;
 
     [SerializeField] private EnemySpawner enemySpawner;
 
@@ -124,7 +124,8 @@ public class DungeonSpawner: MonoBehaviour
         // Player spawn
         if (player != null) 
         { 
-            Instantiate(player, new Vector3(dungeonController.spawnRoom.SpawnPoint.x, 0, dungeonController.spawnRoom.SpawnPoint.y), Quaternion.identity);
+            Player p = Instantiate(player, new Vector3(dungeonController.spawnRoom.SpawnPoint.x, 0, dungeonController.spawnRoom.SpawnPoint.y), Quaternion.identity);
+            p.CurrentDungeon = dungeonController;
         }
     }
 

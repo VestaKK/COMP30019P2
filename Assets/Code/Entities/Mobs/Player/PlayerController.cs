@@ -84,8 +84,9 @@ public class PlayerController : MobController
         }
 
         // Lock on to something if possible
-        List<Entity> mobs = _currentRoom.Entities.FindAll((entity) => entity is Mob);
-        if(mobs.Count > 0) {
+        // List<Entity> mobs = CurrentRoom.Entities.FindAll((entity) => entity is Mob);
+        Mob[] mobs = FindObjectsOfType(typeof(Mob)) as Mob[];
+        if(mobs.Length > 0) {
             Mob closestToMouse = null;
             float closestDist = 0f;
             foreach(Mob mob in mobs) {
@@ -104,10 +105,14 @@ public class PlayerController : MobController
                     closestDist = dist;
                 }
             }
-            
+            if(EntityIsNearby(closestToMouse))
                 LockOn(closestToMouse);
         } else // Unlock target
             LockOn(null);     
+    }
+
+    private bool EntityIsNearby(Entity o) {
+        return this.CurrentRoom.Equals(closestToMouse.CurrentRoom);
     }
 
     public override Vector3 CalculateMoveDirection()

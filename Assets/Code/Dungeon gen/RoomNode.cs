@@ -13,7 +13,7 @@ public class RoomNode : Node
     public List<Door> Doors { get; set; }
     public List<Prop> Props { get; set; }
 
-    public List<Entity> Entities { get; set; }
+    // public List<Entity> Entities { get; set; }
 
     public RoomType Type { get; set; }
 
@@ -41,23 +41,23 @@ public class RoomNode : Node
         Doors = new List<Door>();
     }
 
-    public List<Entity> SpawnEnemies<T>(Spawner<T> spawner) where T : Enemy {
+    public void SpawnEnemies<T>(Spawner<T> spawner) where T : Enemy {
         int spawns = 0;
         int targetSpawns = spawner.GetSpawnCount();
         Vector3 base_spawn = new Vector3(MiddlePoint.x, 0, MiddlePoint.y);
         Debug.Log("Spawning enemies for " + this);
 
-        // while(spawns++ < targetSpawns) {
+        while(spawns++ < targetSpawns) {
             Vector3 spawnPoint = GetSafeSpawn(base_spawn, spawner.PrefabController);
             Enemy e = spawner.SpawnEntity(DungeonController.transform, spawnPoint, Quaternion.identity);
             e.CurrentDungeon = DungeonController;
 
             // maintain room relationship
             e.CurrentRoom = this;
-            Entities.Add(e);
-        // }
+            // Entities.Add(e);
+        }
         Debug.Log("Finished Spawning");
-        return Entities;
+        // return Entities;
     }
 
     public bool EntityInBounds(Entity e) {
