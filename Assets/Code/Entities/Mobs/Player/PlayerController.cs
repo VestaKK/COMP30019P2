@@ -112,7 +112,8 @@ public class PlayerController : MobController
     }
 
     private bool EntityIsNearby(Entity o) {
-        return this.CurrentRoom.Equals(closestToMouse.CurrentRoom);
+        if(!this.CurrentRoom.Equals(closestToMouse.CurrentRoom))
+            return false;
     }
 
     public override Vector3 CalculateMoveDirection()
