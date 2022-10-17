@@ -208,6 +208,7 @@ MonoBehaviour:
   playerMelee: {fileID: 7474100410409950844}
   _camera: {fileID: 0}
   _isRolling: 0
+  maxLockOnRadius: 10
 --- !u!114 &6166529074385607406
 MonoBehaviour:
   m_ObjectHideFlags: 0

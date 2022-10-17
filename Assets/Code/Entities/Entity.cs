@@ -28,4 +28,7 @@ public abstract class Entity : MonoBehaviour
 
     public Transform ObjectTransform { get => this.gameObject.transform; }
     public Vector3 Position { get => ObjectTransform.position; }
+
+    public DungeonController CurrentDungeon { get => EntityController.CurrentDungeon; set => EntityController.CurrentDungeon = value; }
+    public RoomNode CurrentRoom { get => EntityController.CurrentRoom; set => EntityController.CurrentRoom = value; }
 }

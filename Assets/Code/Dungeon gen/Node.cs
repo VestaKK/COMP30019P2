@@ -82,13 +82,12 @@ public abstract class Node
     }
 
     private void DefineBounds() {
-        Vector2Int topLeft = this.TopLeftAreaCorner;
-        Vector2Int botRight = this.BottomRightAreaCorner;
+        Vector2Int topRight = this.TopRightAreaCorner;
+        Vector2Int botLeft = this.BottomLeftAreaCorner;
 
-        // -1 to account for walls
-        int width = Mathf.Abs(topLeft.x - botRight.x) - 8;
-        int height = Mathf.Abs(topLeft.y - botRight.y) - 8;
-        _spawnBounds = new Rect(topLeft.x, topLeft.y, width, height);
+        int width = topRight.x - botLeft.x;
+        int height = botLeft.y - topRight.y;
+        _spawnBounds = new Rect(this.TopLeftAreaCorner.x, this.TopLeftAreaCorner.y, width, height);
     }
 
     public Rect SpawnBounds { get => this._spawnBounds; }

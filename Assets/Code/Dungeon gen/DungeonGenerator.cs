@@ -11,13 +11,13 @@ public class DungeonGenerator
     private int dungeonWidth;
     private int dungeonLength;
 
-    private Transform _transform;
+    private DungeonController dungeonController;
 
-    public DungeonGenerator(Transform dungeonTransform, int dungeonWidth, int dungeonLength)
+    public DungeonGenerator(DungeonController dungeonController, int dungeonWidth, int dungeonLength)
     {
         this.dungeonWidth = dungeonWidth;
         this.dungeonLength = dungeonLength;
-        this._transform = dungeonTransform;
+        this.dungeonController = dungeonController;
     }
 
     public List<Node> CalculateRoomsAndCorridors(
@@ -40,7 +40,7 @@ public class DungeonGenerator
         List<Node> roomSpaces = StructureHelper.TraverseGraphToExtractLowestLeaves(bsp.RootNode);
 
         // Generate rooms from the room spaces
-        RoomGenerator roomGenerator = new RoomGenerator(_transform, maxIterations, roomWidthMin, roomLengthMin);
+        RoomGenerator roomGenerator = new RoomGenerator(dungeonController, maxIterations, roomWidthMin, roomLengthMin);
         List<RoomNode> roomList = 
             roomGenerator.GenerateRoomsInGivenSpaces(
                 roomSpaces, 

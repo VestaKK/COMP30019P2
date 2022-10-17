@@ -11,6 +11,8 @@ public class PlayerController : MobController
 
     [SerializeField] bool _isRolling = false;
 
+    [SerializeField] float maxLockOnRadius;
+
     StateManager _stateManager;
     PlayerState _currentState;
 
@@ -71,23 +73,19 @@ public class PlayerController : MobController
     */
     public void HandleLockOn() {
         if(IsLockedOn()) {
-            Debug.Log("Unlocking");
             LockOn(null);
             return;
         }
-        Debug.Log("Locking on");
 
         Vector3 mousePos;
         if(!GetMouseWorldCoords(out mousePos)) {
             // TODO: DECIDE ON THIS LockOn(null);
-            Debug.Log("Could not find Mouse position");
             return;
         }
 
         // Lock on to something if possible
-        Mob[] mobs = FindObjectsOfType(typeof(Mob)) as Mob[];
-        Debug.Log("Found " + mobs.Length + " mobs");
-        if(mobs.Length > 0) {
+        List<Entity> mobs = _currentRoom.Entities.FindAll((entity) => entity is Mob);
+        if(mobs.Count > 0) {
             Mob closestToMouse = null;
             float closestDist = 0f;
             foreach(Mob mob in mobs) {
@@ -106,7 +104,8 @@ public class PlayerController : MobController
                     closestDist = dist;
                 }
             }
-            LockOn(closestToMouse);
+            
+                LockOn(closestToMouse);
         } else // Unlock target
             LockOn(null);     
     }

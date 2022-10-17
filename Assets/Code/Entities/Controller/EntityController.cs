@@ -9,6 +9,9 @@ public abstract class EntityController : MonoBehaviour
     [SerializeField] protected CharacterController _controller;
     [SerializeField] protected Animator _animator;
 
+    public DungeonController _currentDungeon;
+    public RoomNode _currentRoom;
+
     public abstract Vector3 CalculateMoveDirection();
 
     private Entity _entity;
@@ -19,6 +22,26 @@ public abstract class EntityController : MonoBehaviour
 
     protected void Update() {
         Motion.UpdateVelocity();
+        if(IsMoving()) {
+            bool roomUpdate = UpdateRoom();
+        }
+    }
+
+    private bool UpdateRoom() {
+        RoomNode oldRoom = _currentRoom;
+        _currentRoom = _currentDungeon.GetCurrentRoom(this);
+        if(!_currentRoom.Equals(oldRoom)) {
+            return false;
+        }
+
+        if(oldRoom != null) { // check for valid transition
+            oldRoom.Entities.Remove(this.Entity);
+        }
+        if(_currentRoom != null) {
+            _currentRoom.Entities.Add(this.Entity);
+        }
+
+        return true;
     }
 
     void Start() {
@@ -69,5 +92,8 @@ public abstract class EntityController : MonoBehaviour
 
 
     public Entity Entity { get => this._entity; set => this._entity = value; }
+    
+    public DungeonController CurrentDungeon { get => this._currentDungeon; set => this._currentDungeon = value; }
+    public RoomNode CurrentRoom { get => this._currentRoom; set => this._currentRoom = value; }
 
 }

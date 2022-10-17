@@ -68,7 +68,7 @@ public class DungeonSpawner: MonoBehaviour
         DungeonController dungeonController = dungeonObject.AddComponent<DungeonController>();
 
         // Generate dungeon rooms
-        DungeonGenerator generator = new DungeonGenerator(dungeonObject.transform, dungeonWidth, dungeonLength);
+        DungeonGenerator generator = new DungeonGenerator(dungeonController, dungeonWidth, dungeonLength);
         listOfNodes = generator.CalculateRoomsAndCorridors(
             maxIterations, 
             roomWidthMin, 
@@ -113,7 +113,8 @@ public class DungeonSpawner: MonoBehaviour
             InstantiateCorridor(listCorridors[i], i, dungeonObject);
         }
 
-        // Enemy spawns     
+        // Enemy spawns
+        // good to have a list of enemies. Dunno what to do with them yet though
         dungeonController.rooms.ForEach((room) => {
             if(room.IsSpawn)
                 return;
