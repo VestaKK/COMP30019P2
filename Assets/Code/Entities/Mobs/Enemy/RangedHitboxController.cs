@@ -16,6 +16,10 @@ public class RangedHitboxController : HitboxController
         transform.position += transform.forward * speed * Time.deltaTime;
     }
 
+    public void OnCollisionEnter(Collision collision)
+    {
+        Destroy(this.gameObject);
+    }
 
     public void OnTriggerEnter(Collider other)
     {
@@ -23,7 +27,6 @@ public class RangedHitboxController : HitboxController
         // However we should still put a check in here to see if the collider belongs to a Hurtbox
 
         // Dirty Fix
-        Debug.Log("Hmmm");
         if (other.transform.parent.tag == "Enemy") return;
 
         IDamageable damageable = other.gameObject.GetComponentInParent(typeof(IDamageable)) as IDamageable;
