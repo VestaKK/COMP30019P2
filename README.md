@@ -80,7 +80,7 @@ For more details you can find a guide [here](https://docs.github.com/en/github/w
 * [Code Snipets](#code-snippets)
 
 ### Game Summary
-_Exciting title_ is a first-person shooter (FPS) set in...
+_Cyber-Souls_ is a roguelike dungeon-crawler set in... 
 
 ### Technologies
 Project is created with:
