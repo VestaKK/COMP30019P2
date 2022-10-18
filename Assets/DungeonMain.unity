@@ -442,6 +442,10 @@ MonoBehaviour:
   floorMaterial: {fileID: 2100000, guid: 7d5c14ad130cc0e468f2ece0e3e451be, type: 2}
   ceilingMaterial: {fileID: 2100000, guid: 5a9bf8c6dab5bad4eb6dafefd3fd8a04, type: 2}
   extraCeilingWidth: 30
+  ceilingLightColors:
+  - {r: 0.6886792, g: 0.27612138, b: 0.27612138, a: 0}
+  - {r: 0.23202206, g: 0.6226415, b: 0.26753289, a: 0}
+  - {r: 0.40939838, g: 0.7344041, b: 0.754717, a: 0}
   wallObject: {fileID: 8344076570025833262, guid: 6ce734cbc48aa854c9ed67d7a02ad86f, type: 3}
   bigRoomMultiplier: 1.1
   spawnFloorTile: {fileID: 919132149155446097, guid: 3b14ea48188ba964c87b42d39a20efb0, type: 3}
@@ -459,7 +463,7 @@ MonoBehaviour:
   - {fileID: 919132149155446097, guid: 1c91cdd4ece456b438d06cd1aa10ce6b, type: 3}
   - {fileID: 919132149155446097, guid: 8c61521e588e2834da5324830ecea748, type: 3}
   - {fileID: 919132149155446097, guid: 1c91cdd4ece456b438d06cd1aa10ce6b, type: 3}
-  torchObject: {fileID: 919132149155446097, guid: 057852a4ab981bc46b6e20ddbeeda781, type: 3}
+  torchObject: {fileID: 3154640448174531074, guid: b65bc92451b9cbc498b8213930e8815a, type: 3}
   statueObject: {fileID: 919132149155446097, guid: b931f9e9b0fd9334f8684f30eb4a8fd2, type: 3}
   propsList:
   - {fileID: 919132149155446097, guid: 52749c5cdefe3eb4fb817c1efe262982, type: 3}
@@ -2125,7 +2129,7 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 0.61488366, g: 0.6061766, b: 0.9245283, a: 1}
+  m_Color: {r: 0.6, g: 0.6, b: 0.9, a: 1}
   m_Intensity: 0.8
   m_Range: 10
   m_SpotAngle: 30

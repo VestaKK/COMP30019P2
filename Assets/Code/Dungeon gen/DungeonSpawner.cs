@@ -36,6 +36,9 @@ public class DungeonSpawner: MonoBehaviour
     // extra circumference to dungeon to add ceiling to
     [SerializeField] private int extraCeilingWidth = 30;
 
+    // Light colors for room ceiling lights
+    [SerializeField] private Color[] ceilingLightColors;
+
     // Game object for walls
     [SerializeField] public GameObject wallObject;
 
@@ -295,10 +298,12 @@ public class DungeonSpawner: MonoBehaviour
         // Make a game object
         GameObject lightGameObject1 = new GameObject("Room Light 1");
 
+        Color color = ceilingLightColors[Random.Range(0, ceilingLightColors.Length)];
+
         // Add the light component
         Light lightComp1 = lightGameObject1.AddComponent<Light>();
 
-        lightComp1.color = new Color(0.8f, 0.8f, 0.8f, 1f);
+        lightComp1.color = color;
         lightComp1.intensity = 4;
 
         Vector2 center = room.Center;
@@ -316,7 +321,7 @@ public class DungeonSpawner: MonoBehaviour
             // Add the light component
             Light lightComp2 = lightGameObject2.AddComponent<Light>();
 
-            lightComp2.color = new Color(0.8f, 0.8f, 0.8f, 1f);
+            lightComp2.color = color;
             lightComp2.intensity = 4;
 
             // Space light evenly according to room length/width
