@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class Player : Mob
 {
+    [SerializeField] private PlayerInventory _inventory;
 
-    public Player() : base() {}
+    private PlayerInventory inventory;
 
     public override void TakeDamage(AttackInfo info) {
         Health -= info.Damage;

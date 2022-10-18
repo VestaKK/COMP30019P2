@@ -138,5 +138,21 @@ public class UIManager : MonoBehaviour
                 }
             }   
         }
+
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            UIPanel inventoryUI = Get<InventoryUI>();
+            if (inventoryUI != null)
+            {
+                if (!inventoryUI.gameObject.activeSelf)
+                {
+                    Show(inventoryUI, true);
+                }
+                else
+                {
+                    Show<PlayerHUD>(false);
+                }
+            }
+        }
     }
 }

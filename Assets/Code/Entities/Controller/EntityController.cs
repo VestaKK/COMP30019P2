@@ -81,9 +81,8 @@ public abstract class EntityController : MonoBehaviour
     public void EntityMove()
     {
         // Speed should only multiply Velocity x and z. Let Gravity do its thing
-        // Velocity = new Vector3(Entity.Speed * Velocity.x, Velocity.y, Entity.Speed * Velocity.z);
-        // Controller.Move(Velocity * Time.deltaTime);
-        agent.SetDestination(player.Position);
+        Velocity = new Vector3(Entity.Speed * Velocity.x, Velocity.y, Entity.Speed * Velocity.z);
+        Controller.Move(Velocity * Time.deltaTime);
     }
 
     public bool IsMoving()

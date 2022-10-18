@@ -40,4 +40,6 @@ public abstract class Entity : MonoBehaviour
             EntityController.CurrentRoom = value;
         }
     }
+
+    public float Radius { get => this.EntityController.Controller.radius; }
 }
