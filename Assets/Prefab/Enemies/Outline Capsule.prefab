@@ -328,6 +328,7 @@ MonoBehaviour:
   agent: {fileID: 8987647246713590478}
   _lockOnTarget: {fileID: 0}
   _healthBar: {fileID: 1264699916455806509}
+  DetectionDistanceSq: 150
 --- !u!114 &1569621614336331849
 MonoBehaviour:
   m_ObjectHideFlags: 0
