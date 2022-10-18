@@ -39,7 +39,7 @@ public class CameraLookAt : MonoBehaviour
 
             // Follow Player 
             Vector3 targetPosition = playerController.transform.position + cameraZoom * offsetDirection;
-            Vector3 lerpPosition = Vector3.Lerp(transform.position, targetPosition, 0.01f);
+            Vector3 lerpPosition = Vector3.Lerp(transform.position, targetPosition, 0.03f);
             transform.position = lerpPosition;
         }
     }

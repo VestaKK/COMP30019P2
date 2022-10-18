@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Player : Mob
 {
+    public delegate void DamageEvent();
+    public event DamageEvent OnTakeDamage;
+
     private void Awake()
     {
         base.Awake();
@@ -16,6 +19,7 @@ public class Player : Mob
 
     public override void TakeDamage(AttackInfo info) {
         Health -= info.Damage;
+        OnTakeDamage.Invoke();
         HealthBar.SetProgress(Health / MaxHealth);
         if (Health <= 0)
         {
