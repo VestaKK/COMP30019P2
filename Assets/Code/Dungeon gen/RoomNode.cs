@@ -52,7 +52,7 @@ public class RoomNode : Node
             int rand = Random.Range(0, spawner.Prefabs.Count - 1);
             T prefab = spawner.Prefabs[rand];
 
-            Vector3 spawnPoint = GetSafeSpawn(base_spawn, spawner.PrefabControllers[rand]);
+            Vector3 spawnPoint = GetSafeSpawn(base_spawn, spawner.GetController(prefab));
             Enemy e = spawner.SpawnEntity(DungeonController.transform, spawnPoint, Quaternion.identity, prefab);
             e.CurrentDungeon = DungeonController;
 

@@ -18,6 +18,10 @@ public abstract class Entity : MonoBehaviour
         return dX + dY;
     }
 
+    public bool IsInSameRoom(Entity other) {
+        return (_controller.CurrentRoom.Equals(other._controller.CurrentRoom));
+    }
+
     public float DistanceTo(Entity other)
     {
         return Mathf.Sqrt(DistanceToSq(other));

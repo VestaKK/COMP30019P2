@@ -23,4 +23,6 @@ public class Enemy : Mob
         Destroy(this.gameObject);
         // die
     }
+
+    public Player Player { get => CurrentDungeon.Player; set => this.CurrentDungeon.Player = value; }
 }

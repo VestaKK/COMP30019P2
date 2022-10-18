@@ -3,10 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.AI;
 using Random = UnityEngine.Random; 
 
 public class DungeonSpawner: MonoBehaviour
 {
+    [SerializeField] public NavMeshSurface NavMesh;
+
      // Width & Length of entire dungeon floor
     [SerializeField] private int dungeonWidth, dungeonLength;
     // Min room width & length
@@ -32,19 +35,19 @@ public class DungeonSpawner: MonoBehaviour
     [SerializeField] private Material floorMaterial;
 
     // Game object for walls
-    [SerializeField] GameObject wallObject;
+    [SerializeField] public GameObject wallObject;
 
     [SerializeField] private float bigRoomMultiplier;
-    [SerializeField] private GameObject spawnFloorTile, spawnFloorTileEdge, spawnFloorTileCorner;
-    [SerializeField] private GameObject exitObject;
-    [SerializeField] private GameObject pillarObject;
-    [SerializeField] private GameObject[] shelvesObjectsList;
-    [SerializeField] private GameObject crateObject;
-    [SerializeField] private GameObject computerObject;
-    [SerializeField] private GameObject[] labItemObjectList;
-    [SerializeField] private GameObject torchObject;
-    [SerializeField] private GameObject statueObject;
-    [SerializeField] private GameObject[] propsList;
+    [SerializeField] public GameObject spawnFloorTile, spawnFloorTileEdge, spawnFloorTileCorner;
+    [SerializeField] public GameObject exitObject;
+    [SerializeField] public GameObject pillarObject;
+    [SerializeField] public GameObject[] shelvesObjectsList;
+    [SerializeField] public GameObject crateObject;
+    [SerializeField] public GameObject computerObject;
+    [SerializeField] public GameObject[] labItemObjectList;
+    [SerializeField] public GameObject torchObject;
+    [SerializeField] public GameObject statueObject;
+    [SerializeField] public GameObject[] propsList;
 
     [SerializeField] private Player player;
 
@@ -112,11 +115,13 @@ public class DungeonSpawner: MonoBehaviour
         {
             InstantiateCorridor(listCorridors[i], i, dungeonObject);
         }
+        
+        NavMesh.BuildNavMesh();
 
         // Enemy spawns
         // good to have a list of enemies. Dunno what to do with them yet though
         dungeonController.rooms.ForEach((room) => {
-            if(!room.IsSpawn)
+            if(room.IsSpawn)
                 return;
             room.SpawnEnemies(enemySpawner);
         });
@@ -126,6 +131,7 @@ public class DungeonSpawner: MonoBehaviour
         { 
             Player p = Instantiate(player, new Vector3(dungeonController.spawnRoom.SpawnPoint.x, 0, dungeonController.spawnRoom.SpawnPoint.y), Quaternion.identity);
             p.CurrentDungeon = dungeonController;
+            dungeonController.Player = p;
         }
     }
 

@@ -18,9 +18,18 @@ public class EnemyController : MobController
     }
 
     public void EntityMove() {
-        if(Enemy.DistanceTo(player) > player.Radius * 2.5) {
-            agent.SetDestination(player.Position);
+        Debug.Log(Enemy.Player.Position);
+        if(ShouldChase()) {
+                agent.SetDestination(Enemy.Player.Position);
         } else agent.SetDestination(Enemy.Position);
+    }
+
+    private bool ShouldChase() { 
+        if(Enemy.IsInSameRoom(Enemy.Player)) {
+            return Enemy.DistanceTo(Enemy.Player) > Enemy.Player.Radius * 2.5;
+        }
+
+        return false;
     }
 
     public override Vector3 CalculateMoveDirection()

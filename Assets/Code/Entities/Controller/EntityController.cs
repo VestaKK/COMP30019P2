@@ -9,8 +9,6 @@ public abstract class EntityController : MonoBehaviour
     [SerializeField] protected CharacterController _controller;
     [SerializeField] protected Animator _animator;
 
-    [SerializeField] protected Player player;
-
     public DungeonController _currentDungeon;
 
     [SerializeField] protected UnityEngine.AI.NavMeshAgent agent;
