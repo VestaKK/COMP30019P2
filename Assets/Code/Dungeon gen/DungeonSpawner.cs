@@ -31,8 +31,10 @@ public class DungeonSpawner: MonoBehaviour
     // Distance from room wall to corridor
     [SerializeField] private int distanceFromWall;
 
-    // Floor material
-    [SerializeField] private Material floorMaterial;
+    // Floor & Ceiling material
+    [SerializeField] private Material floorMaterial, ceilingMaterial;
+    // extra circumference to dungeon to add ceiling to
+    [SerializeField] private int extraCeilingWidth = 30;
 
     // Game object for walls
     [SerializeField] public GameObject wallObject;
@@ -117,6 +119,24 @@ public class DungeonSpawner: MonoBehaviour
         
         NavMesh.BuildNavMesh();
 
+        // Spawn ceilings
+        GameObject ceilingParent = new GameObject("CeilingParent");
+        ceilingParent.transform.parent = dungeonObject.transform;
+        bool[,] ceilingPositions = new bool[dungeonWidth + 2 * extraCeilingWidth, dungeonLength + 2 * extraCeilingWidth];
+        for (int w = 0; w < ceilingPositions.GetLength(0); w++)
+            for (int l = 0; l < ceilingPositions.GetLength(1); l++)
+                ceilingPositions[w,l] = true;
+        
+        listOfNodes.ForEach((node) => {
+            for (int w = node.BottomLeftAreaCorner.x; w < node.TopRightAreaCorner.x; w++)
+                for (int l = node.BottomLeftAreaCorner.y; l < node.TopRightAreaCorner.y; l++)
+                    ceilingPositions[w + extraCeilingWidth, l + extraCeilingWidth] = false;
+        });
+        for (int w = 0; w < ceilingPositions.GetLength(0); w++)
+            for (int l = 0; l < ceilingPositions.GetLength(1); l++)
+                if (ceilingPositions[w,l])
+                    CreateCeiling(w - extraCeilingWidth, l - extraCeilingWidth, ceilingParent);
+
         // Enemy spawns
         // good to have a list of enemies. Dunno what to do with them yet though
         dungeonController.rooms.ForEach((room) => {
@@ -188,6 +208,12 @@ public class DungeonSpawner: MonoBehaviour
             bottomRightVertex
         };
 
+        CreatePlane(vertices, parent, this.floorMaterial, "Floor");
+    }
+
+    // Create plane for floor/ceiling
+    private void CreatePlane(Vector3[] vertices, GameObject parent, Material material, string objectName)
+    {
         Vector3[] normals = new Vector3[]
         {
             new Vector3(0, 1, 0),
@@ -215,17 +241,18 @@ public class DungeonSpawner: MonoBehaviour
         mesh.RecalculateTangents();
         mesh.triangles = triangles;
 
-        GameObject dungeonFloor = new GameObject(
-            "Floor", 
+        GameObject plane = new GameObject(
+            objectName, 
             typeof(MeshFilter), 
             typeof(MeshRenderer));
-        dungeonFloor.transform.position = Vector3.zero;
-        dungeonFloor.transform.localScale = Vector3.one;
-        dungeonFloor.GetComponent<MeshFilter>().mesh = mesh;
-        dungeonFloor.GetComponent<MeshRenderer>().material = floorMaterial;
-        dungeonFloor.transform.parent = parent.transform;
+        plane.transform.position = Vector3.zero;
+        plane.transform.localScale = Vector3.one;
+        plane.GetComponent<MeshFilter>().mesh = mesh;
+        plane.GetComponent<MeshRenderer>().material = material;
+        plane.transform.parent = parent.transform;
 
-        BoxCollider collider = dungeonFloor.AddComponent<BoxCollider>();
+        if (objectName != "Ceiling")
+            plane.AddComponent<BoxCollider>();
     }
     
     // Create walls for a room/corridor
@@ -241,6 +268,26 @@ public class DungeonSpawner: MonoBehaviour
                 parent.transform);
             newWall.AddComponent<BoxCollider>();
         }
+    }
+
+    // Create ceiling at a location
+    private void CreateCeiling(int x, int y, GameObject parent)
+    {
+        float wallHeight = GetObjectBounds(wallObject).y - 0.1f;
+        Vector3 bottomLeftVertex = new Vector3(x, wallHeight, y);
+        Vector3 bottomRightVertex = new Vector3(x+1, wallHeight, y);
+        Vector3 topLeftVertex = new Vector3(x, wallHeight, y+1);
+        Vector3 topRightVertex = new Vector3(x+1, wallHeight, y+1);
+        
+        Vector3[] vertices = new Vector3[]
+        {
+            topLeftVertex,
+            topRightVertex,
+            bottomLeftVertex,
+            bottomRightVertex
+        };
+
+        CreatePlane(vertices, parent, this.ceilingMaterial, "Ceiling");
     }
 
     private void SpawnCeilingLight(RoomNode room, GameObject parent)

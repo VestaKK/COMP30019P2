@@ -301,6 +301,8 @@ MonoBehaviour:
   corridorWidth: 4
   distanceFromWall: 1
   floorMaterial: {fileID: 2100000, guid: 7d5c14ad130cc0e468f2ece0e3e451be, type: 2}
+  ceilingMaterial: {fileID: 2100000, guid: 5a9bf8c6dab5bad4eb6dafefd3fd8a04, type: 2}
+  extraCeilingWidth: 30
   wallObject: {fileID: 8344076570025833262, guid: 6ce734cbc48aa854c9ed67d7a02ad86f, type: 3}
   bigRoomMultiplier: 1.1
   spawnFloorTile: {fileID: 919132149155446097, guid: 3b14ea48188ba964c87b42d39a20efb0, type: 3}
