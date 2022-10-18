@@ -80,7 +80,8 @@ For more details you can find a guide [here](https://docs.github.com/en/github/w
 * [Code Snipets](#code-snippets)
 
 ### Game Summary
-_Cyber-Souls_ is a roguelike dungeon-crawler set in... 
+_Cyber-Souls_ is a roguelike dungeon-crawler set in space. Control a space dude as you try to defeat all
+the enemies guarding a derelict ship to get to the awesome space treasure
 
 ### Technologies
 Project is created with:
