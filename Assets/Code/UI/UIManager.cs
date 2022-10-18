@@ -87,9 +87,12 @@ public class UIManager : MonoBehaviour
             if(fadeSpeed == 0f)
                 currentPanel.Hide();
         }
+
         if(fadeSpeed == 0f) {
+
             uIPanel.Show();
             currentPanel = uIPanel;
+
         } else {
             StartCoroutine(fader.FadeTransition(uIPanel));
         }
@@ -134,6 +137,22 @@ public class UIManager : MonoBehaviour
                     ShowLast();
                 }
             }   
+        }
+
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            UIPanel inventoryUI = Get<InventoryUI>();
+            if (inventoryUI != null)
+            {
+                if (!inventoryUI.gameObject.activeSelf)
+                {
+                    Show(inventoryUI, true);
+                }
+                else
+                {
+                    Show<PlayerHUD>(false);
+                }
+            }
         }
     }
 }

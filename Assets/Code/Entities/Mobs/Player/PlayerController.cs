@@ -8,8 +8,9 @@ public class PlayerController : MobController
     // Player's melee controller
     [SerializeField] MeleeController playerMelee;
     [SerializeField] protected Camera _camera;
-
     [SerializeField] bool _isRolling = false;
+    [SerializeField] float DetectionDistanceSq;
+    [SerializeField] float maxLockOnRadius;
 
     StateManager _stateManager;
     PlayerState _currentState;
@@ -19,6 +20,7 @@ public class PlayerController : MobController
         base.Awake();
         _stateManager = new StateManager(this, StateManager.State.Idle);
         Entity = this.GetComponent<Player>();
+        _camera = Camera.main;
     }
 
     // Update is called once per frame
@@ -70,23 +72,21 @@ public class PlayerController : MobController
     */
     public void HandleLockOn() {
         if(IsLockedOn()) {
-            Debug.Log("Unlocking");
             LockOn(null);
             return;
         }
-        Debug.Log("Locking on");
 
         Vector3 mousePos;
         if(!GetMouseWorldCoords(out mousePos)) {
             // TODO: DECIDE ON THIS LockOn(null);
-            Debug.Log("Could not find Mouse position");
             return;
         }
 
         // Lock on to something if possible
+        // List<Entity> mobs = CurrentRoom.Entities.FindAll((entity) => entity is Mob);
+
         Mob[] mobs = FindObjectsOfType(typeof(Mob)) as Mob[];
-        Debug.Log("Found " + mobs.Length + " mobs");
-        if(mobs.Length > 0) {
+        if(mobs.Length > 1) {
             Mob closestToMouse = null;
             float closestDist = 0f;
             foreach(Mob mob in mobs) {
@@ -105,9 +105,22 @@ public class PlayerController : MobController
                     closestDist = dist;
                 }
             }
-            LockOn(closestToMouse);
+
+            // Matt -- Only did this to get the program working
+            // Just wanted to check some changes to the shader
+            if (this.CurrentRoom == null)
+                LockOn(closestToMouse);
+            else if (EntityIsNearby(closestToMouse))
+                LockOn(closestToMouse);
         } else // Unlock target
             LockOn(null);     
+    }
+
+    private bool EntityIsNearby(Entity o) {
+        if (this.Entity.DistanceToSq(o) < DetectionDistanceSq || 
+            this.Entity.CurrentRoom == o.CurrentRoom)
+            return true;
+        return false;
     }
 
     public override Vector3 CalculateMoveDirection()

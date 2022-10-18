@@ -19,9 +19,17 @@ public abstract class MobController : EntityController
 
     public void LockOn(Mob other) {
         if(other == null) {
+            if (_lockOnTarget != null)
+                _lockOnTarget.gameObject.GetComponent<Mob>().LockedOff.Invoke();
             _lockOnTarget = null;
             return;
         }
+        
+        other.LockedOn.Invoke();
+
+        if (_lockOnTarget != null)
+            _lockOnTarget.gameObject.GetComponent<Mob>().LockedOff.Invoke();
+
         _lockOnTarget = other.transform;
     }
 
@@ -59,7 +67,7 @@ public abstract class MobController : EntityController
     public Transform LockOnTarget { get { return this._lockOnTarget; } }
     public float Health { get => this.Mob.Health; set => this.Mob.Health = value; }
     public float MaxHealth {get => this.Mob.MaxHealth; }
-    public ProgressBar HealthBar { get => this._healthBar; }
+    public ProgressBar HealthBar { get => this._healthBar; set => this._healthBar = value; }
 
     public bool IsLockedOn() { return LockOnTarget != null; }
 }

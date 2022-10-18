@@ -33,6 +33,11 @@ For now this is the base plan before we progress on to things like:
 2. Procedural Dungeon generation
 3. Player Progression
 
+Milestone 2:
+1. Item/Relics & Inventory
+2. Improve Dungeon Generation
+3. More Enemies
+
 <!-- [[EndTeamworkPlan]] PLEASE LEAVE THIS LINE UNTOUCHED -->
 
 ## Final report

@@ -1,11 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public abstract class Mob : Entity, IDamageable
 {
     [SerializeField] private float _health;
     [SerializeField] private float _maxHealth;
+
+    public UnityEvent LockedOn;
+    public UnityEvent LockedOff;
 
     private AttackInfo _attackType;
 
@@ -43,5 +47,5 @@ public abstract class Mob : Entity, IDamageable
     public MobController MobController { get => this.EntityController as MobController; }
 
     public float MaxHealth { get => this._maxHealth; }
-    public ProgressBar HealthBar { get => this.MobController.HealthBar; }
+    public ProgressBar HealthBar { get => this.MobController.HealthBar; set => this.MobController.HealthBar = value; }
 }

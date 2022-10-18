@@ -81,9 +81,27 @@ public static class StructureHelper
         return new Vector2Int((int) tmp.x, (int) tmp.y);
     }
 
+    // Give relative position of v2 according to v1
+    public static RelativePosition GiveRelativePosition(Vector2 v1, Vector2 v2)
+    {
+        float angle = 
+            Mathf.Atan2(
+                v2.y - v1.y, 
+                v2.x - v1.x) * Mathf.Rad2Deg;
+
+        if ((angle < 45 && angle >= 0) || (angle > -45 && angle <= 0))
+            return RelativePosition.Right;
+        else if (angle > 45 && angle < 135)
+            return RelativePosition.Up;
+        else if (angle > -135 && angle < -45)
+            return RelativePosition.Down;
+        else 
+            return RelativePosition.Left;
+    }
+
 }
 
 public enum RelativePosition
 {
-    Up, Down, Left, Right
+    Up = 0, Down = 1, Left = 2, Right = 3
 }

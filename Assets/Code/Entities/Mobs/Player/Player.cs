@@ -4,32 +4,33 @@ using UnityEngine;
 
 public class Player : Mob
 {
-    public static Player instance;
+    public delegate void DamageEvent();
+    public event DamageEvent OnTakeDamage;
+    public Material _postProcessingMaterial;
 
-    public Player() : base() {}
-
-    // Singleton Stuff
     private void Awake()
     {
-        if (instance == null)
-        {
-            instance = this;
-        }
-        else if (instance != null)
-        {
-            Destroy(this);
-        }
         base.Awake();
+        HealthBar = UIManager.instance.GetComponentInChildren<ProgressBar>();
+        _postProcessingMaterial = Camera.main.GetComponent<PostProcessing>().postProcessingMat;
+        _postProcessingMaterial.SetFloat("_Amount", (1 - Health / MaxHealth) * 0.02f);
     }
+
+    [SerializeField] private PlayerInventory _inventory;
+
+    private PlayerInventory inventory;
 
     public override void TakeDamage(AttackInfo info) {
         Health -= info.Damage;
-        HealthBar.SetProgress(Health / MaxHealth);
+
+        OnTakeDamage.Invoke();
+
+        _postProcessingMaterial.SetFloat("_Amount", (1 - Health/MaxHealth) * 0.02f);
+
         if (Health <= 0)
         {
             OnDeath();
         }
-
     }
 
     public override void OnDeath()

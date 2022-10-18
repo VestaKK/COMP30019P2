@@ -6,15 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Test Scene.unity
-    guid: 888d19b5028466f4bb7bdaa818b5c10c
-  - enabled: 1
     path: Assets/MainMenuScene.unity
     guid: 99ca0bb08817b474ea625222875cfc30
-  - enabled: 0
-    path: Assets/UITestScene.unity
-    guid: 52fd4732ecaecef478734347364bea1b
   - enabled: 1
-    path: Assets/NewControllerScene.unity
-    guid: 2dc07fe5348ffcb408081c161649c921
+    path: Assets/DungeonMain.unity
+    guid: 7f7c4fd4b7ab07b4fb2abacdf24d23dd
   m_configObjects: {}

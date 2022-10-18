@@ -15,6 +15,11 @@ public class CorridorNode : Node
     // Corridor distance from any wall
     private int distanceFromWall;
 
+    // The two rooms this corridor is connected to
+    private RoomNode room1, room2;
+    public RoomNode Room1 { get => room1; }
+    public RoomNode Room2 { get => room2; }
+
     public CorridorNode(
         Node structure1, 
         Node structure2,
@@ -25,6 +30,7 @@ public class CorridorNode : Node
         this.structure2 = structure2;
         this.corridorWidth = corridorWidth;
         this.distanceFromWall = distanceFromWall;
+
         GenerateCorridor();
     }
 
@@ -35,20 +41,46 @@ public class CorridorNode : Node
         var relativePositionOfStructure2 = CheckPositionStructure2AgainstStructure1();
         switch (relativePositionOfStructure2)
         {
-        case RelativePosition.Up:
-            ProcessRoomInRelationUpOrDown(this.structure1, this.structure2);
-            break;
-        case RelativePosition.Down:
-            ProcessRoomInRelationUpOrDown(this.structure2, this.structure1);
-            break;
-        case RelativePosition.Right:
-            ProcessRoomInRelationRightOrLeft(this.structure1, this.structure2);
-            break;
-        case RelativePosition.Left:
-            ProcessRoomInRelationRightOrLeft(this.structure2, this.structure1);
-            break;
-        default:
-            break;
+            case RelativePosition.Up:
+                ProcessRoomInRelationUpOrDown(this.structure1, this.structure2);
+                break;
+            case RelativePosition.Down:
+                ProcessRoomInRelationUpOrDown(this.structure2, this.structure1);
+                break;
+            case RelativePosition.Right:
+                ProcessRoomInRelationRightOrLeft(this.structure1, this.structure2);
+                break;
+            case RelativePosition.Left:
+                ProcessRoomInRelationRightOrLeft(this.structure2, this.structure1);
+                break;
+            default:
+                break;
+        }
+
+        // Connect rooms and corridors
+        this.room1.ConnectedNodes.Add((this, this.room2));
+        this.room2.ConnectedNodes.Add((this, this.room1));
+
+        // Add walls
+        for (int row = this.BottomLeftAreaCorner.x; row < this.BottomRightAreaCorner.x; row++)
+        {
+            Vector2Int wallPosition = new Vector2Int(row, this.BottomLeftAreaCorner.y);
+            AddWall(Orientation.Horizontal, wallPosition);
+        }
+        for (int row = this.TopLeftAreaCorner.x; row < this.TopRightAreaCorner.x; row++)
+        {
+            Vector2Int wallPosition = new Vector2Int(row, this.TopLeftAreaCorner.y);
+            AddWall(Orientation.Horizontal, wallPosition);
+        }
+        for (int col = this.BottomLeftAreaCorner.y; col < this.TopLeftAreaCorner.y; col++)
+        {
+            Vector2Int wallPosition = new Vector2Int(this.BottomLeftAreaCorner.x, col);
+            AddWall(Orientation.Vertical, wallPosition);
+        }
+        for (int col = this.BottomRightAreaCorner.y; col < this.TopRightAreaCorner.y; col++)
+        {
+            Vector2Int wallPosition = new Vector2Int(this.BottomRightAreaCorner.x, col);
+            AddWall(Orientation.Vertical, wallPosition);
         }
     }
 
@@ -61,19 +93,7 @@ public class CorridorNode : Node
         Vector2 middlePointStructure2Tmp 
             = ((Vector2) structure2.TopRightAreaCorner + structure2.BottomLeftAreaCorner) / 2;
 
-        float angle = 
-        Mathf.Atan2(
-            middlePointStructure2Tmp.y - middlePointStructure1Tmp.y, 
-            middlePointStructure2Tmp.x - middlePointStructure1Tmp.x) * Mathf.Rad2Deg;
-
-        if ((angle < 45 && angle >= 0) || (angle > -45 && angle <= 0))
-            return RelativePosition.Right;
-        else if (angle > 45 && angle < 135)
-            return RelativePosition.Up;
-        else if (angle > -135 && angle < -45)
-            return RelativePosition.Down;
-        else 
-            return RelativePosition.Left;
+        return StructureHelper.GiveRelativePosition(middlePointStructure1Tmp, middlePointStructure2Tmp);
     }
 
     // Figure out how to generate a corridor between the two structures
@@ -81,7 +101,7 @@ public class CorridorNode : Node
     private void ProcessRoomInRelationUpOrDown(Node structure1, Node structure2)
     {
         Node bottomStructure = null;
-        List<Node> structureBottmChildren = 
+        List<Node> structureBottomChildren = 
             StructureHelper.TraverseGraphToExtractLowestLeaves(structure1);
 
         Node topStructure = null;
@@ -89,11 +109,11 @@ public class CorridorNode : Node
             StructureHelper.TraverseGraphToExtractLowestLeaves(structure2);
 
         var sortedBottomStructure = 
-            structureBottmChildren.OrderByDescending(child => child.TopRightAreaCorner.y).ToList();
+            structureBottomChildren.OrderByDescending(child => child.TopRightAreaCorner.y).ToList();
 
         if (sortedBottomStructure.Count == 1) // if structure1 is a leaf node
         {
-            bottomStructure = structureBottmChildren[0];
+            bottomStructure = structureBottomChildren[0];
         }
         else
         {
@@ -143,9 +163,17 @@ public class CorridorNode : Node
                 topStructure.BottomRightAreaCorner);
         }
 
-        BottomLeftAreaCorner = new Vector2Int(x, bottomStructure.TopLeftAreaCorner.y);
-        TopRightAreaCorner = 
+        this.BottomLeftAreaCorner = 
+            new Vector2Int(x, bottomStructure.TopLeftAreaCorner.y);
+        this.TopRightAreaCorner = 
             new Vector2Int(x + this.corridorWidth, topStructure.BottomLeftAreaCorner.y);
+        this.BottomRightAreaCorner = 
+            new Vector2Int(this.TopRightAreaCorner.x, this.BottomLeftAreaCorner.y);
+        this.TopLeftAreaCorner =
+            new Vector2Int(this.BottomLeftAreaCorner.x, this.TopRightAreaCorner.y);
+
+        this.room1 = (RoomNode) bottomStructure;
+        this.room2 = (RoomNode) topStructure;
     }
 
     // get a x coordinate for a corridor that will be valid between two rooms, -1 if cannot be found
@@ -249,10 +277,18 @@ public class CorridorNode : Node
                 rightStructure.BottomLeftAreaCorner);
         }
 
-        this.BottomLeftAreaCorner = new Vector2Int(leftStructure.BottomRightAreaCorner.x, y);
+        this.BottomLeftAreaCorner = 
+            new Vector2Int(leftStructure.BottomRightAreaCorner.x, y);
         this.TopRightAreaCorner = new Vector2Int(
             rightStructure.TopLeftAreaCorner.x, 
             y + this.corridorWidth);
+        this.BottomRightAreaCorner = 
+            new Vector2Int(this.TopRightAreaCorner.x, this.BottomLeftAreaCorner.y);
+        this.TopLeftAreaCorner = 
+            new Vector2Int(this.BottomLeftAreaCorner.x, this.TopRightAreaCorner.y);
+
+        this.room1 = (RoomNode) leftStructure;
+        this.room2 = (RoomNode) rightStructure;
     }
 
     // get a y coordinate for a corridor that will be valid between two rooms, -1 if cannot be found
@@ -287,5 +323,27 @@ public class CorridorNode : Node
                 rightNodeUp - new Vector2Int(0, distanceFromWall + this.corridorWidth)).y;
 
         else return -1; // no valid connection between nodes
+    }
+
+    // Either add wall to corridor or remove a wall from neighbouring room
+    // to open an entrance
+    private void AddWall(Orientation orientation, Vector2Int wallPosition)
+    {
+        Wall dupe1 = room1.Walls.Find(
+            wall => wall.orientation == orientation && wall.coordinates == wallPosition);
+        Wall dupe2 = room2.Walls.Find(
+            wall => wall.orientation == orientation && wall.coordinates == wallPosition);
+        if (dupe1 != null)
+        {
+            room1.Walls.Remove(dupe1);
+            room1.Doors.Add(new Door(orientation, wallPosition));
+        }
+        else if (dupe2 != null)
+        {
+            room2.Walls.Remove(dupe2);
+            room2.Doors.Add(new Door(orientation, wallPosition));
+        }
+        else 
+            this.Walls.Add(new Wall(orientation, wallPosition));
     }
 }
