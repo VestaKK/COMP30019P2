@@ -73,7 +73,7 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3956341048677191741}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   m_Radius: 0.5
   m_Height: 1.8
@@ -203,11 +203,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _controller: {fileID: 4929065025695896139}
   _animator: {fileID: 4515332771862854591}
+  _currentDungeon: {fileID: 0}
+  agent: {fileID: 0}
   _lockOnTarget: {fileID: 0}
   _healthBar: {fileID: 0}
   playerMelee: {fileID: 7474100410409950844}
   _camera: {fileID: 0}
   _isRolling: 0
+  DetectionDistanceSq: 200
   maxLockOnRadius: 10
 --- !u!114 &6166529074385607406
 MonoBehaviour:
@@ -225,6 +228,13 @@ MonoBehaviour:
   _speed: 5
   _health: 0
   _maxHealth: 100
+  LockedOn:
+    m_PersistentCalls:
+      m_Calls: []
+  LockedOff:
+    m_PersistentCalls:
+      m_Calls: []
+  _inventory: {fileID: 0}
 --- !u!1001 &1995692666865106325
 PrefabInstance:
   m_ObjectHideFlags: 0

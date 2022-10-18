@@ -9,7 +9,7 @@ public class PlayerController : MobController
     [SerializeField] MeleeController playerMelee;
     [SerializeField] protected Camera _camera;
     [SerializeField] bool _isRolling = false;
-
+    [SerializeField] float DetectionDistanceSq;
     [SerializeField] float maxLockOnRadius;
 
     StateManager _stateManager;
@@ -86,7 +86,7 @@ public class PlayerController : MobController
         // List<Entity> mobs = CurrentRoom.Entities.FindAll((entity) => entity is Mob);
 
         Mob[] mobs = FindObjectsOfType(typeof(Mob)) as Mob[];
-        if(mobs.Length > 0) {
+        if(mobs.Length > 1) {
             Mob closestToMouse = null;
             float closestDist = 0f;
             foreach(Mob mob in mobs) {
@@ -117,9 +117,10 @@ public class PlayerController : MobController
     }
 
     private bool EntityIsNearby(Entity o) {
-        if (!this.CurrentRoom.Equals(o.CurrentRoom))
-            return false;
-        return true;
+        if (this.Entity.DistanceToSq(o) < DetectionDistanceSq || 
+            this.Entity.CurrentRoom == o.CurrentRoom)
+            return true;
+        return false;
     }
 
     public override Vector3 CalculateMoveDirection()

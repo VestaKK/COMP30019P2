@@ -12,9 +12,8 @@ GameObject:
   - component: {fileID: 182027180341991204}
   - component: {fileID: 4875683136018957116}
   - component: {fileID: 8679107999937340320}
-  - component: {fileID: -2843861995915163449}
-  - component: {fileID: 1063325554807793295}
-  m_Layer: 0
+  - component: {fileID: 7658802050884800525}
+  m_Layer: 6
   m_Name: Cannonball
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -30,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 1789605129782670409}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.34, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8155898608762234420}
@@ -100,23 +99,7 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!54 &-2843861995915163449
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1789605129782670409}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
---- !u!114 &1063325554807793295
+--- !u!114 &7658802050884800525
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -125,9 +108,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1789605129782670409}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25424181f2dff2c47967c9d2714d3c88, type: 3}
+  m_Script: {fileID: 11500000, guid: c22848188459d4e4a87d8004984b5251, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  speed: 25
 --- !u!1 &8907729313703619825
 GameObject:
   m_ObjectHideFlags: 0
@@ -139,7 +123,7 @@ GameObject:
   - component: {fileID: 8155898608762234420}
   - component: {fileID: 2924309717047056694}
   - component: {fileID: 2622983514652505762}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Particle System Trail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -155,7 +139,7 @@ Transform:
   m_GameObject: {fileID: 8907729313703619825}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6522009278407451887}

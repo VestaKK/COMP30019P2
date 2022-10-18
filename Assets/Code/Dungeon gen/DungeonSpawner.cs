@@ -50,7 +50,6 @@ public class DungeonSpawner: MonoBehaviour
     [SerializeField] public GameObject[] propsList;
 
     [SerializeField] private Player player;
-
     [SerializeField] private EnemySpawner enemySpawner;
 
     public List<Node> listOfNodes;

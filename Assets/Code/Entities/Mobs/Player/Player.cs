@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class Player : Mob
 {
+    private void Awake()
+    {
+        base.Awake();
+        HealthBar = UIManager.instance.GetComponentInChildren<ProgressBar>();
+    }
+
     [SerializeField] private PlayerInventory _inventory;
 
     private PlayerInventory inventory;
@@ -15,7 +21,6 @@ public class Player : Mob
         {
             OnDeath();
         }
-
     }
 
     public override void OnDeath()
