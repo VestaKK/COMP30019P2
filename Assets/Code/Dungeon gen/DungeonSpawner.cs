@@ -273,7 +273,7 @@ public class DungeonSpawner: MonoBehaviour
     // Create ceiling at a location
     private void CreateCeiling(int x, int y, GameObject parent)
     {
-        float wallHeight = GetObjectBounds(wallObject).y - 0.1f;
+        float wallHeight = GetObjectBounds(wallObject).y - 0.09f;
         Vector3 bottomLeftVertex = new Vector3(x, wallHeight, y);
         Vector3 bottomRightVertex = new Vector3(x+1, wallHeight, y);
         Vector3 topLeftVertex = new Vector3(x, wallHeight, y+1);
