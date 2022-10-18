@@ -69,7 +69,7 @@ public class ProgressBar : MonoBehaviour
         float time = 0;
         float initialProgress = _progressImage.fillAmount;
 
-        while (time < 1)
+        while (time < 0.5)
         {
             _progressImage.fillAmount = Mathf.Lerp(initialProgress, Progress, time);
             time += Time.deltaTime * Speed;

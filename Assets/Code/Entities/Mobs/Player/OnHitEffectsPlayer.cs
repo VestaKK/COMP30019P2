@@ -14,7 +14,7 @@ public class OnHitEffectsPlayer : MonoBehaviour
     }
 
     private void HitParticles()
-    {
+    { 
         Instantiate(particles, transform.position + _player.EntityController.Controller.center, transform.rotation);
     }
 

@@ -6,11 +6,14 @@ public class Player : Mob
 {
     public delegate void DamageEvent();
     public event DamageEvent OnTakeDamage;
+    public Material _postProcessingMaterial;
 
     private void Awake()
     {
         base.Awake();
         HealthBar = UIManager.instance.GetComponentInChildren<ProgressBar>();
+        _postProcessingMaterial = Camera.main.GetComponent<PostProcessing>().postProcessingMat;
+        _postProcessingMaterial.SetFloat("_Amount", (1 - Health / MaxHealth) * 0.02f);
     }
 
     [SerializeField] private PlayerInventory _inventory;
@@ -19,8 +22,11 @@ public class Player : Mob
 
     public override void TakeDamage(AttackInfo info) {
         Health -= info.Damage;
+
         OnTakeDamage.Invoke();
-        HealthBar.SetProgress(Health / MaxHealth);
+
+        _postProcessingMaterial.SetFloat("_Amount", (1 - Health/MaxHealth) * 0.02f);
+
         if (Health <= 0)
         {
             OnDeath();
