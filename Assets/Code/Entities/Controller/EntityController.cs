@@ -9,7 +9,11 @@ public abstract class EntityController : MonoBehaviour
     [SerializeField] protected CharacterController _controller;
     [SerializeField] protected Animator _animator;
 
+    [SerializeField] protected Player player;
+
     public DungeonController _currentDungeon;
+
+    [SerializeField] protected UnityEngine.AI.NavMeshAgent agent;
     private RoomNode _currentRoom;
 
     public abstract Vector3 CalculateMoveDirection();
@@ -77,8 +81,9 @@ public abstract class EntityController : MonoBehaviour
     public void EntityMove()
     {
         // Speed should only multiply Velocity x and z. Let Gravity do its thing
-        Velocity = new Vector3(Entity.Speed * Velocity.x, Velocity.y, Entity.Speed * Velocity.z);
-        Controller.Move(Velocity * Time.deltaTime);
+        // Velocity = new Vector3(Entity.Speed * Velocity.x, Velocity.y, Entity.Speed * Velocity.z);
+        // Controller.Move(Velocity * Time.deltaTime);
+        agent.SetDestination(player.Position);
     }
 
     public bool IsMoving()

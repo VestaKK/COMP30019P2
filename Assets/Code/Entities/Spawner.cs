@@ -5,27 +5,31 @@ using UnityEngine;
 
 public abstract class Spawner<EntityType> : MonoBehaviour
     where EntityType : Entity {
-        [SerializeField] private EntityType _prefab;
+        [SerializeField] private List<EntityType> _prefabs;
 
         [SerializeField] private int minSpawnsPerRoom;
         [SerializeField] private int maxSpawnsPerRoom;
         [SerializeField] protected Camera _camera;
 
-        private CharacterController _prefabCc;
+        private List<CharacterController> _prefabCcs;
 
         void Awake() {
-            _prefabCc = _prefab.GetComponent<CharacterController>();
+            int i;
+            for(i = 0; i < _prefabs.Count; i++) {
+            _prefabCcs[i] = _prefabs[i].GetComponent<CharacterController>();
+            }
             _camera = Camera.main;
         }
 
-        public abstract Enemy SpawnEntity(Transform parentTransform, Vector3 offset, Quaternion rotation);
+        public abstract EntityType SpawnEntity(Transform parentTransform, Vector3 offset, Quaternion rotation);
+        public abstract EntityType SpawnEntity(Transform parentTransform, Vector3 offset, Quaternion rotation, EntityType prefab);
         public abstract EntityType SpawnEntity(); 
 
         public int GetSpawnCount() {
             return Random.Range(minSpawnsPerRoom, maxSpawnsPerRoom);
         }
-        public EntityType Prefab { get => _prefab; }
-        public CharacterController PrefabController { get => _prefabCc; }
+        public List<EntityType> Prefabs { get => _prefabs; }
+        public List<CharacterController> PrefabControllers { get => _prefabCcs; }
 
 
 }

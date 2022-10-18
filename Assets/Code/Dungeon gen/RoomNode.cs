@@ -49,8 +49,11 @@ public class RoomNode : Node
         Debug.Log("Spawning enemies for " + this);
 
         while(spawns++ < targetSpawns) {
-            Vector3 spawnPoint = GetSafeSpawn(base_spawn, spawner.PrefabController);
-            Enemy e = spawner.SpawnEntity(DungeonController.transform, spawnPoint, Quaternion.identity);
+            int rand = Random.Range(0, spawner.Prefabs.Count - 1);
+            T prefab = spawner.Prefabs[rand];
+
+            Vector3 spawnPoint = GetSafeSpawn(base_spawn, spawner.PrefabControllers[rand]);
+            Enemy e = spawner.SpawnEntity(DungeonController.transform, spawnPoint, Quaternion.identity, prefab);
             e.CurrentDungeon = DungeonController;
 
             // maintain room relationship
