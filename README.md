@@ -38,6 +38,31 @@ Milestone 2:
 2. Improve Dungeon Generation
 3. More Enemies
 
+Update (18/10/22) Milestone 2:
+The team has since contributed to various parts of the project. A breakdown of the teamwork in each of the areas is as follows:
+Event Handling:
+  - Bryn
+  - Matthew Pham
+Procedural Gen:
+  - Takumi
+  - Bryn
+Shaders and Graphics Processing:
+  - Matthew Pham
+Gameplay:
+  - Matthew Pham
+  - Takumi
+  - Bryn
+Weapons:
+  - Matthew Lin
+UI:
+  - Matthew Pham
+Particle System:
+  - Matthew Lin
+All-Round QA and feature implementation:
+  - Takumi
+  - Matthew Pham
+  - Bryn
+
 <!-- [[EndTeamworkPlan]] PLEASE LEAVE THIS LINE UNTOUCHED -->
 
 ## Final report
