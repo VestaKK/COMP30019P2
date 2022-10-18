@@ -96,7 +96,7 @@ fixed4 frag(v2f i) : SV_Target
     float AntiAliasingStep = fwidth(NdotL);
 
     // Ambient Light
-    float4 AmbientLight = _AmbientLight;
+    float4 AmbientLight = unity_AmbientGround;
 
     // Diffuse Light
     float lightIntensity = smoothstep(0, AntiAliasingStep, NdotL);

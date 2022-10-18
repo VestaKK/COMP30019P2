@@ -1,11 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public abstract class Mob : Entity, IDamageable
 {
     [SerializeField] private float _health;
     [SerializeField] private float _maxHealth;
+
+    public UnityEvent LockedOn;
+    public UnityEvent LockedOff;
 
     private AttackInfo _attackType;
 

@@ -30,14 +30,14 @@ public class BinarySpacePartitioner
         int iterations = 0;
         while (iterations < maxIterations && graph.Count > 0)
         {
-        iterations++;
-        RoomNode currentNode = graph.Dequeue();
+            iterations++;
+            RoomNode currentNode = graph.Dequeue();
 
-        // if current node can be split, split into two
-        if (currentNode.Width >= roomWidthMin * 2 || currentNode.Length >= roomLengthMin * 2)
-        {
-            SplitSpace(currentNode, listToReturn, roomWidthMin, roomLengthMin, graph);
-        }
+            // if current node can be split, split into two
+            if (currentNode.Width >= roomWidthMin * 2 || currentNode.Length >= roomLengthMin * 2)
+            {
+                SplitSpace(currentNode, listToReturn, roomWidthMin, roomLengthMin, graph);
+            }
         }
 
         return listToReturn;

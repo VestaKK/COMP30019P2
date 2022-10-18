@@ -24,7 +24,8 @@ Material:
     serializedVersion: 3
     m_TexEnvs: []
     m_Ints: []
-    m_Floats: []
+    m_Floats:
+    - _BUILTIN_QueueControl: 0
     m_Colors:
     - _Color: {r: 10.432953, g: 2.0210433, b: 1.2563242, a: 1}
     - _Color_1: {r: 0.127, g: 0.0079075545, b: 0.009099869, a: 0}

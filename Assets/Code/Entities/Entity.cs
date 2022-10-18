@@ -8,16 +8,18 @@ public abstract class Entity : MonoBehaviour
 
     [SerializeField] float _speed;
 
-    public float DistanceToSq(Entity other) {
+    public float DistanceToSq(Entity other)
+    {
         float dX = other.Position.x - this.Position.x;
-        float dY = other.Position.y - this.Position.y;
+        float dY = other.Position.z - this.Position.z;
         dX *= dX;
         dY *= dY;
 
         return dX + dY;
     }
 
-    public float DistanceTo(Entity other) {
+    public float DistanceTo(Entity other)
+    {
         return Mathf.Sqrt(DistanceToSq(other));
     }
 
@@ -28,4 +30,14 @@ public abstract class Entity : MonoBehaviour
 
     public Transform ObjectTransform { get => this.gameObject.transform; }
     public Vector3 Position { get => ObjectTransform.position; }
+
+    public DungeonController CurrentDungeon { get => EntityController.CurrentDungeon; set => EntityController.CurrentDungeon = value; }
+    public RoomNode CurrentRoom
+    {
+        get => EntityController.CurrentRoom;
+        set
+        {
+            EntityController.CurrentRoom = value;
+        }
+    }
 }
