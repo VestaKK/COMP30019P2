@@ -3,9 +3,7 @@ using UnityEngine;
 using System.Collections.Generic;
 public class RoomNode : Node
 {
-    public bool IsSpawn { get; set; }
     public Vector2 SpawnPoint { get; set; }
-    public bool IsExit { get; set; }
     public Vector2 ExitPoint { get; set; }
 
     public Vector2 MiddlePoint { get; set; }
@@ -95,14 +93,14 @@ public class RoomNode : Node
 
 public enum RoomType 
 {
-    Crossway,
+    Crossway, // TODO, maybe deprecate
     Hallway,
     BeegRoom,
     StorageRoom,
     LabRoom,
     ComputerRoom,
     Library,
-    ChallengeRoom,
+    ChallengeRoom, // TODO
     SpawnRoom,
     ExitRoom
 }
