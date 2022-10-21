@@ -927,13 +927,13 @@ public class DungeonSpawner: MonoBehaviour
     private bool CheckClearFromDoor(RoomNode room, Vector2 coord, GameObject prop)
     {
         Vector3 propBounds = GetObjectBounds(prop);
-        float range = 
-            (float) (Math.Sqrt(Math.Pow(propBounds.x / 2, 2) + Math.Pow(propBounds.z / 2, 2))) + 1f;
+        float rangeSq = 
+            (float) (Math.Pow(propBounds.x / 2, 2) + Math.Pow(propBounds.z / 2, 2)) + 1f;
 
         return room.Doors.All(door => 
             door.orientation == Orientation.Horizontal 
-                ? Vector2.Distance(coord, door.coordinates + new Vector2(0.5f,0f)) > range 
-                : Vector2.Distance(coord, door.coordinates + new Vector2(0f,0.5f)) > range);
+                ? (coord - door.coordinates - new Vector2(0.5f,0f)).sqrMagnitude > rangeSq 
+                : (coord - door.coordinates - new Vector2(0f,0.5f)).sqrMagnitude > rangeSq);
     }
 
     private void DestroyAllChildren()
