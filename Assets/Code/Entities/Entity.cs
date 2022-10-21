@@ -2,50 +2,48 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Entity : MonoBehaviour, IDamageable
+public abstract class Entity : MonoBehaviour
 {
     [SerializeField] protected EntityController _controller;
 
     [SerializeField] float _speed;
-    [SerializeField] private float _health;
-    [SerializeField] private float _maxHealth;
 
-    private AttackInfo _attackType;
+    public float DistanceToSq(Entity other)
+    {
+        float dX = other.Position.x - this.Position.x;
+        float dY = other.Position.z - this.Position.z;
+        dX *= dX;
+        dY *= dY;
 
-    public abstract void TakeDamage(AttackInfo info);
-    public abstract void OnDeath();
-
-    protected void Awake() {
-        this._health = _maxHealth;
+        return dX + dY;
     }
 
-    public void SetupHealthbar(Canvas canvas, Camera camera) {
-        HealthBar.transform.SetParent(canvas.transform);
-        // if(HealthBar.TryGetComponent<FaceCamera>(out FaceCamera faceCamera)) {
-        //     faceCamera.Camera = camera;
-        // }
+    public bool IsInSameRoom(Entity other) {
+        return (_controller.CurrentRoom.Equals(other._controller.CurrentRoom));
     }
 
-    public void TakeDamage(int dmg) {
-        TakeDamage(new AttackInfo(dmg, Vector3.zero,0,Vector3.zero));
+    public float DistanceTo(Entity other)
+    {
+        return Mathf.Sqrt(DistanceToSq(other));
     }
 
     // Getters and Setters
-    public float Health {
-        get { return this._health; }
-        set { this._health = value; }
-    }
-    public float MaxHealth { get => this._maxHealth; }
 
     public float Speed { get => this._speed; }
+    public EntityController EntityController { get => this._controller; }
 
-    public AttackInfo AttackInfo { 
-        get => this._attackType; 
-        set => this._attackType = value;    
+    public Transform ObjectTransform { get => this.gameObject.transform; }
+    public Vector3 Position { get => ObjectTransform.position; }
+
+    public DungeonController CurrentDungeon { get => EntityController.CurrentDungeon; set => EntityController.CurrentDungeon = value; }
+    public RoomNode CurrentRoom
+    {
+        get => EntityController.CurrentRoom;
+        set
+        {
+            EntityController.CurrentRoom = value;
+        }
     }
 
-    public EntityController Controller { get => this._controller; }
-
-    public ProgressBar HealthBar { get => this.Controller.HealthBar; }
-
+    public float Radius { get => this.EntityController.Controller.radius; }
 }

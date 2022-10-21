@@ -14,8 +14,8 @@ TagManager:
   - UI
   - Hitbox
   - Hurtbox
-  - 
-  - 
+  - NavmeshIgnore
+  - RangedHitbox
   - 
   - 
   - 

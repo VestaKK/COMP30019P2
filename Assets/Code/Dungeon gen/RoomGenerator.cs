@@ -7,12 +7,14 @@ public class RoomGenerator
     private int maxIterations;
     private int roomWidthMin;
     private int roomLengthMin;
+    private DungeonController _currentDungeon;
 
-    public RoomGenerator(int maxIterations, int roomWidthMin, int roomLengthMin)
+    public RoomGenerator(DungeonController currentDungeon, int maxIterations, int roomWidthMin, int roomLengthMin)
     {
         this.maxIterations = maxIterations;
         this.roomWidthMin = roomWidthMin;
         this.roomLengthMin = roomLengthMin;
+        this._currentDungeon = currentDungeon;
     }
 
     // Given a space, generate a room under the parameter constraints (bottomCorner Modifier, topCornerModifier & offset)
@@ -45,7 +47,13 @@ public class RoomGenerator
             space.BottomRightAreaCorner = new Vector2Int(newTopRight.x, newBottomLeft.y);
             space.TopLeftAreaCorner = new Vector2Int(newBottomLeft.x, newTopRight.y);
             
-            listToReturn.Add((RoomNode) space);
+            RoomNode room = (RoomNode) space;
+            room.GenerateWalls();
+            room.MiddlePoint = StructureHelper.CalculateMiddlePoint(
+                        room.BottomLeftAreaCorner, 
+                        room.TopRightAreaCorner);
+            room.DungeonController = _currentDungeon;
+            listToReturn.Add(room);
         }
 
         return listToReturn;

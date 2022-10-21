@@ -28,9 +28,9 @@ public class ProgressBar : MonoBehaviour
         {
             Debug.LogError($"{name}'s ProgressImage is not of type \"Filled\" so it cannot be used as a progress bar. Disabling this Progress Bar.");
             enabled = false;
-#if UNITY_EDITOR
+        #if UNITY_EDITOR
             EditorGUIUtility.PingObject(this.gameObject);
-#endif
+        #endif
         }
     }
 
@@ -69,21 +69,23 @@ public class ProgressBar : MonoBehaviour
         float time = 0;
         float initialProgress = _progressImage.fillAmount;
 
-        while (time < 1)
+        while (time < 0.5)
         {
             _progressImage.fillAmount = Mathf.Lerp(initialProgress, Progress, time);
             time += Time.deltaTime * Speed;
 
-            _progressImage.color = _colorGradient.Evaluate(1 - _progressImage.fillAmount);
+            _progressImage.color = _colorGradient.Evaluate(_progressImage.fillAmount);
 
             _onProgress?.Invoke(_progressImage.fillAmount);
             yield return null;
         }
 
         _progressImage.fillAmount = Progress;
-        _progressImage.color = _colorGradient.Evaluate(1 - _progressImage.fillAmount);
+        _progressImage.color = _colorGradient.Evaluate(_progressImage.fillAmount);
 
         _onProgress?.Invoke(Progress);
         _onCompleted?.Invoke();
     }
+
+    public Image ProgressImage { get => this._progressImage; set => this._progressImage = value; }
 }

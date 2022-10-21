@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
@@ -11,9 +12,11 @@ public class UIManager : MonoBehaviour
 
     [SerializeField] private UIPanel[] panels;
 
-    [SerializeField] private UIPanel currentPanel;
+    [SerializeField] public UIPanel currentPanel;
 
     private readonly Stack<UIPanel> panelStack = new();
+
+    [SerializeField] private SceneFader fader;
 
     // Not using a strict singleton (One UI Manager Per Scene)
     private void Awake()
@@ -67,11 +70,12 @@ public class UIManager : MonoBehaviour
 
                 uIPanel.Show();
                 currentPanel = uIPanel;
+                return;
             }
         }
     }
 
-    public void Show(UIPanel uIPanel, bool remember = true) 
+    public void Show(UIPanel uIPanel, float fadeSpeed, bool remember = true) 
     {
         if (currentPanel != null)
         {
@@ -80,11 +84,22 @@ public class UIManager : MonoBehaviour
                 panelStack.Push(currentPanel);
             }
 
-            currentPanel.Hide();
+            if(fadeSpeed == 0f)
+                currentPanel.Hide();
         }
 
-        uIPanel.Show();
-        currentPanel = uIPanel;
+        if(fadeSpeed == 0f) {
+
+            uIPanel.Show();
+            currentPanel = uIPanel;
+
+        } else {
+            StartCoroutine(fader.FadeTransition(uIPanel));
+        }
+    }
+
+    public void Show(UIPanel uIPanel, bool remember = true) {
+        Show(uIPanel, 0f, remember);
     }
 
     public void ShowLast() 
@@ -122,6 +137,22 @@ public class UIManager : MonoBehaviour
                     ShowLast();
                 }
             }   
+        }
+
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            UIPanel inventoryUI = Get<InventoryUI>();
+            if (inventoryUI != null)
+            {
+                if (!inventoryUI.gameObject.activeSelf)
+                {
+                    Show(inventoryUI, true);
+                }
+                else
+                {
+                    Show<PlayerHUD>(false);
+                }
+            }
         }
     }
 }

@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class AttackController: MonoBehaviour 
+public abstract class AttackController : MonoBehaviour 
 {
-    [SerializeField] protected EntityController _entity;
+    [SerializeField] protected MobController _mob;
     [SerializeField] protected HitboxController _hitbox;
     [SerializeField] protected Vector3 _offset;
 
@@ -60,13 +60,13 @@ public abstract class AttackController: MonoBehaviour
 
     public void AttackAnimationEvent() 
     {
-        SpawnHitbox(Controller.Entity.AttackInfo);
+        SpawnHitbox(Controller.Mob.AttackInfo);
     }
 
-    public EntityController Controller { get => this._entity; }
+    public MobController Controller { get => this._mob; }
     public AttackInfo AttackInfo {
-        get => Controller.Entity.AttackInfo;
-        set => Controller.Entity.AttackInfo = value;
+        get => Controller.Mob.AttackInfo;
+        set => Controller.Mob.AttackInfo = value;
     }
     
     public bool IsAttacking { get => isAttacking; set => isAttacking = value; }
