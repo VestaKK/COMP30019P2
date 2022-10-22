@@ -27,5 +27,6 @@ public class Enemy : Mob
         // die
     }
 
-    public Player Player { get => CurrentDungeon.Player; set => this.CurrentDungeon.Player = value; }
+    // Probably don't want to set
+    public Player Player { get => GameManager.CurrentPlayer; set => GameManager.CurrentPlayer = value; }
 }

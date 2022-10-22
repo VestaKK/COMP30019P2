@@ -26,8 +26,6 @@ public class PlayerInventory : MonoBehaviour
 
             _instance._mainWeaponSlot = new Slot<Weapon>(this);
             _instance._offHandSlot = new Slot<Weapon>(this);
-
-            DontDestroyOnLoad(this);
         }
         else
         {

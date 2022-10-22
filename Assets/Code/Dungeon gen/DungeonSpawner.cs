@@ -54,21 +54,12 @@ public class DungeonSpawner: MonoBehaviour
     [SerializeField] public GameObject statueObject;
     [SerializeField] public GameObject[] cornerPropsList;
 
-    [SerializeField] private Player player;
     [SerializeField] private EnemySpawner enemySpawner;
 
-    public List<Node> listOfNodes;
-
-    void Start()
-    {
-        SpawnDungeon();
-    }
-
     // Spawn a dungeon
-    public void SpawnDungeon() 
+    public DungeonController SpawnDungeon() 
     {
-        // Destroy previous instance of dungeon
-        // DestroyAllChildren();
+        List<Node> listOfNodes;
 
         // Create Dungeon parent object
         GameObject dungeonObject = new GameObject("Dungeon");
@@ -119,8 +110,6 @@ public class DungeonSpawner: MonoBehaviour
         {
             InstantiateCorridor(listCorridors[i], i, dungeonObject);
         }
-        
-        NavMesh.BuildNavMesh();
 
         // Spawn ceilings
         GameObject ceilingParent = new GameObject("CeilingParent");
@@ -140,6 +129,8 @@ public class DungeonSpawner: MonoBehaviour
                 if (ceilingPositions[w,l])
                     CreateCeiling(w - extraCeilingWidth, l - extraCeilingWidth, ceilingParent);
 
+        NavMesh.BuildNavMesh();
+
         // Enemy spawns
         // good to have a list of enemies. Dunno what to do with them yet though
         dungeonController.rooms.ForEach((room) => {
@@ -148,13 +139,9 @@ public class DungeonSpawner: MonoBehaviour
             room.SpawnEnemies(enemySpawner);
         });
 
-        // Player spawn
-        if (player != null) 
-        { 
-            Player p = Instantiate(player, new Vector3(dungeonController.spawnRoom.SpawnPoint.x, 0, dungeonController.spawnRoom.SpawnPoint.y), Quaternion.identity);
-            p.CurrentDungeon = dungeonController;
-            dungeonController.Player = p;
-        }
+        
+
+        return dungeonController;
     }
 
     private void InstantiateRoom(RoomNode room, int roomIndex, GameObject dungeonObject)
