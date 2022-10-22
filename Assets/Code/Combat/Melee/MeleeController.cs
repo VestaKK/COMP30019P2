@@ -39,7 +39,7 @@ public class MeleeController : AttackController
                 transform.rotation,
                 transform) as MeleeHitboxController;
         newMeleeHitbox.transform.localScale = info.Aoe;
-        newMeleeHitbox.Initialize(info, info.Duration);
+        newMeleeHitbox.Initialize(info, info.Duration, this.gameObject.tag);
     }
 
     // TODO: Make this nicer

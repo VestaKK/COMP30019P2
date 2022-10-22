@@ -24,7 +24,7 @@ public class RangedController : AttackController
         RangedHitboxController newRangedHitbox = Instantiate(_hitbox, transform.position + transform.forward * info.Reach, transform.rotation) 
             as RangedHitboxController;
         newRangedHitbox.transform.rotation = transform.rotation;
-        newRangedHitbox.Initialize(AttackInfo, 10);
+        newRangedHitbox.Initialize(AttackInfo, 10, this.gameObject.tag);
     }
 
     protected override void UpdateController()
