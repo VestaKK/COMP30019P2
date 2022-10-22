@@ -6,25 +6,27 @@ public class EnemyController : MobController
 {
     [SerializeField] float DetectionDistanceSq = 0.0f;
     [SerializeField] float AttackDistanceSq = 0.0f;
+    [SerializeField] float ChaseDistanceSq = 0.0f;
     [SerializeField] AttackController enemyAttack;
+    [SerializeField] bool isChasing;
 
     private void Awake()
     {
         base.Awake();
         Entity = this.GetComponent<Enemy>();
+        agent.speed = Entity.Speed;
     }
 
     // Update is called once per frame
     void Update()
     {
-        agent.speed = Entity.Speed;
         base.Update();
         EntityMove();
         // Check Attack
     }
 
     public void EntityMove() {
-        if (ShouldChase() && !enemyAttack.IsAttacking)
+        if ((isChasing = ShouldChase()) && !enemyAttack.IsAttacking)
         {
             LookAtTarget(Enemy.Player.transform);
             agent.SetDestination(Enemy.Player.Position);
@@ -47,8 +49,8 @@ public class EnemyController : MobController
     }
 
     private bool ShouldChase() {
-        if(CanDetect(Enemy.Player)) { 
-            return !ShouldAttack();
+        if(CanDetect(Enemy.Player) || isChasing) { 
+            return !ShouldAttack() && CanChase(Enemy.Player);
         }
         return false;
     }
@@ -66,6 +68,9 @@ public class EnemyController : MobController
         yield return new WaitForSeconds(0.5f);
     }
 
+    private bool CanChase(Entity other ) {
+        return Enemy.DistanceToSq(other) < ChaseDistanceSq;
+    }
 
     private bool CanDetect(Entity other) {
         return Enemy.DistanceToSq(other) < DetectionDistanceSq;

@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class RangedController : AttackController
-{
-    [SerializeField] float ProjectileForce = 1000f;
-    
+{   
     protected override bool CheckAnimationTransitions()
     {
         if (clickCount == 1)

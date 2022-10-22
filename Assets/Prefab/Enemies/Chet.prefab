@@ -244,9 +244,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _controller: {fileID: 3326934664413890108}
-  _speed: 2
+  _speed: 3
   _health: 0
-  _maxHealth: 100
+  _maxHealth: 50
   LockedOn:
     m_PersistentCalls:
       m_Calls: []
@@ -291,7 +291,9 @@ MonoBehaviour:
   _healthBar: {fileID: 1264699916455806509}
   DetectionDistanceSq: 150
   AttackDistanceSq: 50
+  ChaseDistanceSq: 375
   enemyAttack: {fileID: 6930517222970800787}
+  isChasing: 0
 --- !u!114 &1569621614336331849
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -365,7 +367,7 @@ MonoBehaviour:
   _hitbox: {fileID: 7658802050884800525, guid: 7a4bf4758f32a714dae1b0de193fb90a, type: 3}
   _offset: {x: 0, y: 0, z: 0}
   _maxAttacks: 1
-  _maxCooldown: 2
+  _maxCooldown: 1.5
   clickCount: 0
   ProjectileForce: 1000
 --- !u!114 &5832880940618500118

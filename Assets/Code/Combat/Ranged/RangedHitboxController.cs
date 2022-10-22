@@ -6,9 +6,16 @@ public class RangedHitboxController : HitboxController
 {
     [SerializeField] float speed = 0f;
 
+    private Rigidbody rigidbody;
+
+    private void Awake()
+    {
+        rigidbody = GetComponent<Rigidbody>();
+    }
+
     private void FixedUpdate()
     {
-        transform.position += transform.forward * speed * Time.deltaTime;
+        rigidbody.MovePosition(transform.position + transform.forward * speed * Time.deltaTime);
     }
 
     public void OnCollisionEnter(Collision collision)
