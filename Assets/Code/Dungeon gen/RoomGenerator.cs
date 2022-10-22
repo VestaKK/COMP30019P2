@@ -5,15 +5,11 @@ using UnityEngine;
 public class RoomGenerator
 {
     private int maxIterations;
-    private int roomWidthMin;
-    private int roomLengthMin;
     private DungeonController _currentDungeon;
 
-    public RoomGenerator(DungeonController currentDungeon, int maxIterations, int roomWidthMin, int roomLengthMin)
+    public RoomGenerator(DungeonController currentDungeon, int maxIterations)
     {
         this.maxIterations = maxIterations;
-        this.roomWidthMin = roomWidthMin;
-        this.roomLengthMin = roomLengthMin;
         this._currentDungeon = currentDungeon;
     }
 

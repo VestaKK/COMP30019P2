@@ -465,11 +465,11 @@ MonoBehaviour:
   - {fileID: 919132149155446097, guid: 1c91cdd4ece456b438d06cd1aa10ce6b, type: 3}
   torchObject: {fileID: 3154640448174531074, guid: b65bc92451b9cbc498b8213930e8815a, type: 3}
   statueObject: {fileID: 919132149155446097, guid: b931f9e9b0fd9334f8684f30eb4a8fd2, type: 3}
-  propsList:
+  cornerPropsList:
   - {fileID: 919132149155446097, guid: 52749c5cdefe3eb4fb817c1efe262982, type: 3}
-  - {fileID: 919132149155446097, guid: 057852a4ab981bc46b6e20ddbeeda781, type: 3}
-  - {fileID: 919132149155446097, guid: ae79b90965284d34f85614ce51214504, type: 3}
   - {fileID: 919132149155446097, guid: d521b6abc1a0baa4180979c88c862586, type: 3}
+  - {fileID: 919132149155446097, guid: 694a2d7b9b1562a4c857329866fe3ff4, type: 3}
+  - {fileID: 919132149155446097, guid: 057852a4ab981bc46b6e20ddbeeda781, type: 3}
   player: {fileID: 6166529074385607406, guid: 546acacf7aa41564a974dd80678e0190, type: 3}
   enemySpawner: {fileID: 419025536}
 --- !u!4 &419025535
