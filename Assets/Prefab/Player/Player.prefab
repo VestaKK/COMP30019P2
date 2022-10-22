@@ -110,7 +110,7 @@ GameObject:
   - component: {fileID: 2146647953368272022}
   - component: {fileID: 6166529074385607406}
   - component: {fileID: 6774678663059308361}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -235,6 +235,7 @@ MonoBehaviour:
   LockedOff:
     m_PersistentCalls:
       m_Calls: []
+  _postProcessingMaterial: {fileID: 0}
   _inventory: {fileID: 0}
 --- !u!114 &6774678663059308361
 MonoBehaviour:

@@ -159,7 +159,7 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3326934663270072073}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   m_Radius: 1
   m_Height: 1
@@ -184,7 +184,7 @@ GameObject:
   - component: {fileID: 33414816337150685}
   - component: {fileID: 6930517222970800787}
   - component: {fileID: 5832880940618500118}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Chet
   m_TagString: Enemy
   m_Icon: {fileID: 0}
