@@ -6,6 +6,7 @@ public class Enemy : Mob
 {
     public delegate void DamageEvent();
     public event DamageEvent OnTakeDamage;
+    public GameObject item;
 
     public Enemy() : base() {}
     public override void TakeDamage(AttackInfo info) {
@@ -23,6 +24,8 @@ public class Enemy : Mob
     {
         gameObject.SetActive(false);
         Destroy(HealthBar.gameObject);
+        if (item != null)
+            Instantiate(item, transform.position + Vector3.up, Quaternion.identity);
         Destroy(this.gameObject);
         // die
     }

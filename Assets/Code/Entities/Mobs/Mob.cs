@@ -46,6 +46,6 @@ public abstract class Mob : Entity, IDamageable
 
     public MobController MobController { get => this.EntityController as MobController; }
 
-    public float MaxHealth { get => this._maxHealth; }
+    public float MaxHealth { get => this._maxHealth; set => this._maxHealth = value; }
     public ProgressBar HealthBar { get => this.MobController.HealthBar; set => this.MobController.HealthBar = value; }
 }

@@ -15,6 +15,7 @@ public abstract class AttackController : MonoBehaviour
     protected float coolDown = 0;
     [SerializeField] protected float _maxCooldown;
     public int clickCount = 0;
+    protected float damageBoost = 1;
 
     protected abstract void SpawnHitbox(AttackInfo info);
 
@@ -71,4 +72,6 @@ public abstract class AttackController : MonoBehaviour
     
     public bool IsAttacking { get => isAttacking; set => isAttacking = value; }
     public bool IsResting { get => isResting; set => isResting = value; }
+
+    public float DamageBoost { get => damageBoost; set => damageBoost = value; }
 }

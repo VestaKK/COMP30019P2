@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class EnemySpawner : Spawner<Enemy> {
     [SerializeField] protected Canvas _healthBarCanvas;
+    [SerializeField] private float _itemDropChance = 0.125f;
+    [SerializeField] private GameObject[] _items;
 
     public override Enemy SpawnEntity()
     {
@@ -24,6 +26,8 @@ public class EnemySpawner : Spawner<Enemy> {
             Quaternion.identity,
             parentTransform);
         newEnemy.SetupHealthbar(_healthBarCanvas, _camera);
+        if (Random.Range(0f, 1f) < _itemDropChance)
+            newEnemy.item = _items[Random.Range(0, _items.Length)];
         return newEnemy;
     }
 
@@ -35,6 +39,8 @@ public class EnemySpawner : Spawner<Enemy> {
             Quaternion.identity,
             parentTransform);
         newEnemy.SetupHealthbar(_healthBarCanvas, _camera);
+        if (Random.Range(0f, 1f) < _itemDropChance)
+            newEnemy.item = _items[Random.Range(0, _items.Length)];
         return newEnemy;
     }
 }

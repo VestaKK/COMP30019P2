@@ -11,7 +11,7 @@ public class MeleeController : AttackController
         if (clickCount == 1)
         {
             IsAttacking = true;
-            AttackInfo = new MeleeAttackInfo(10, 0.2f, new Vector3(1f, 1f, 0.3f), 1, _offset);
+            AttackInfo = new MeleeAttackInfo(10 * damageBoost, 0.2f, new Vector3(1f, 1f, 0.3f), 1, _offset);
             Controller.Animator.SetBool("Hit1", true);
             return true;
         }
@@ -21,7 +21,7 @@ public class MeleeController : AttackController
             Controller.GetAnimatorStateInfo(0).normalizedTime < 0.9f &&
             Controller.GetAnimatorStateInfo(0).IsName("Melee Hit 1"))
         {
-            AttackInfo = new MeleeAttackInfo(15, 0.2f,  new Vector3(1f, 1f, 0.3f), 1, _offset);
+            AttackInfo = new MeleeAttackInfo(15 * damageBoost, 0.2f,  new Vector3(1f, 1f, 0.3f), 1, _offset);
             Controller.Animator.SetBool("Hit1", false);
             Controller.Animator.SetBool("Hit2", true);
             return true;

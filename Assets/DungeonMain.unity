@@ -505,6 +505,10 @@ MonoBehaviour:
   maxSpawnsPerRoom: 3
   _camera: {fileID: 507788981}
   _healthBarCanvas: {fileID: 1596834139}
+  _itemDropChance: 0.125
+  _items:
+  - {fileID: 1157478675297215616, guid: 6ae6af896ae557449b97ed88e4b38ec1, type: 3}
+  - {fileID: 6392490142265764768, guid: 744597f8e582b0147b6bedadc8b2bc3e, type: 3}
 --- !u!1 &425520102
 GameObject:
   m_ObjectHideFlags: 0

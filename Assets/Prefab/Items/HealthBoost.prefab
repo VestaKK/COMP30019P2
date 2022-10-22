@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1773936229093590093}
   - component: {fileID: 1842173982979897587}
   m_Layer: 0
-  m_Name: HealthPack
+  m_Name: HealthBoost
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -31,7 +31,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 2011741952390697679}
+  - {fileID: 5845636935410948412}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -49,8 +49,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _controller: {fileID: 1773936229093590093}
   _animator: {fileID: 0}
+  _currentDungeon: {fileID: 0}
+  agent: {fileID: 0}
   turnSpeed: 10
   player: {fileID: 1842173982979897587}
+  distanceToPlayer: 0
 --- !u!143 &1773936229093590093
 CharacterController:
   m_ObjectHideFlags: 0
@@ -84,7 +87,7 @@ MonoBehaviour:
   _controller: {fileID: 5650673010094084038}
   _speed: 3
   item: {fileID: 11400000, guid: c6d64d0af3c58fd4f96ef8f440ca5f6f, type: 2}
---- !u!1001 &2045089260553565476
+--- !u!1001 &6239005761732607703
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -98,7 +101,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 907c2f8a86ff67a4a9a01e7495a86506, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 907c2f8a86ff67a4a9a01e7495a86506, type: 3}
       propertyPath: m_LocalPosition.y
@@ -143,8 +146,8 @@ PrefabInstance:
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 907c2f8a86ff67a4a9a01e7495a86506, type: 3}
---- !u!4 &2011741952390697679 stripped
+--- !u!4 &5845636935410948412 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 907c2f8a86ff67a4a9a01e7495a86506, type: 3}
-  m_PrefabInstance: {fileID: 2045089260553565476}
+  m_PrefabInstance: {fileID: 6239005761732607703}
   m_PrefabAsset: {fileID: 0}
