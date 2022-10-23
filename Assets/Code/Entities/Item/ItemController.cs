@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class ItemController : EntityController
 {
-    [SerializeField] float turnSpeed;
     [SerializeField] Entity player;
     [SerializeField] private float distanceToPlayer;
+
+    float turnSpeed = 100f;
+    private float noPickupTime = 1f;
 
     protected void Awake()
     {
@@ -17,11 +19,10 @@ public class ItemController : EntityController
     }
 
     public override Vector3 CalculateMoveDirection() {
-        if (distanceToPlayer <= 3)
+        if (distanceToPlayer <= 3 && noPickupTime <= 0)
         {
             return (player.transform.position - Entity.transform.position).normalized;
         }
-
 
         return Vector3.zero;
     }
@@ -33,12 +34,18 @@ public class ItemController : EntityController
         transform.rotation *= Quaternion.Euler(0, turnSpeed * Time.deltaTime, 0);
         EntityMove();
 
-        if (distanceToPlayer < 1f) 
+        if (distanceToPlayer < 1f && noPickupTime <= 0) 
         {
             ItemEntity itemEntity = this.Entity as ItemEntity;
             PlayerInventory.AddItem((itemEntity).item);
-            Destroy(this.gameObject);
+
+            DestroyImmediate(this.gameObject);
         }
+
+        if (noPickupTime <= 0)
+            noPickupTime = 0;
+        else
+            noPickupTime -= Time.deltaTime;
     }
 
     public Item Item { get => (this.Entity as ItemEntity).item ; }

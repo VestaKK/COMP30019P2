@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5650673010094084038}
   - component: {fileID: 1773936229093590093}
   - component: {fileID: 1842173982979897587}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: HealthBoost
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -51,7 +51,6 @@ MonoBehaviour:
   _animator: {fileID: 0}
   _currentDungeon: {fileID: 0}
   agent: {fileID: 0}
-  turnSpeed: 10
   player: {fileID: 1842173982979897587}
   distanceToPlayer: 0
 --- !u!143 &1773936229093590093
@@ -66,7 +65,7 @@ CharacterController:
   m_Enabled: 1
   serializedVersion: 2
   m_Height: 0.5
-  m_Radius: 0.2
+  m_Radius: 0.3
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
@@ -100,6 +99,18 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 907c2f8a86ff67a4a9a01e7495a86506, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 907c2f8a86ff67a4a9a01e7495a86506, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 907c2f8a86ff67a4a9a01e7495a86506, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 907c2f8a86ff67a4a9a01e7495a86506, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0
       objectReference: {fileID: 0}
@@ -113,7 +124,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 907c2f8a86ff67a4a9a01e7495a86506, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.7071067
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 907c2f8a86ff67a4a9a01e7495a86506, type: 3}
       propertyPath: m_LocalRotation.x
@@ -125,11 +136,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 907c2f8a86ff67a4a9a01e7495a86506, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 907c2f8a86ff67a4a9a01e7495a86506, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
+      value: -90
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 907c2f8a86ff67a4a9a01e7495a86506, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y

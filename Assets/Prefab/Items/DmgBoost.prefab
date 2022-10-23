@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6570786331962793335}
   - component: {fileID: 7980398904411730895}
   - component: {fileID: 2463093741478547898}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: DmgBoost
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -33,7 +33,7 @@ Transform:
   m_Children:
   - {fileID: 1982718350722839047}
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6570786331962793335
 MonoBehaviour:
@@ -51,7 +51,6 @@ MonoBehaviour:
   _animator: {fileID: 0}
   _currentDungeon: {fileID: 0}
   agent: {fileID: 0}
-  turnSpeed: 10
   player: {fileID: 2463093741478547898}
   distanceToPlayer: 0
 --- !u!143 &7980398904411730895
@@ -66,7 +65,7 @@ CharacterController:
   m_Enabled: 1
   serializedVersion: 2
   m_Height: 0.5
-  m_Radius: 0.2
+  m_Radius: 0.3
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
@@ -100,20 +99,32 @@ PrefabInstance:
       value: -1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: da58bc99d94ad5b4983b6b841a0a2344, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: da58bc99d94ad5b4983b6b841a0a2344, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: da58bc99d94ad5b4983b6b841a0a2344, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: da58bc99d94ad5b4983b6b841a0a2344, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 42.970577
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: da58bc99d94ad5b4983b6b841a0a2344, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 11.379163
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: da58bc99d94ad5b4983b6b841a0a2344, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 51.563187
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: da58bc99d94ad5b4983b6b841a0a2344, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.7071067
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: da58bc99d94ad5b4983b6b841a0a2344, type: 3}
       propertyPath: m_LocalRotation.x
@@ -121,15 +132,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: da58bc99d94ad5b4983b6b841a0a2344, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: da58bc99d94ad5b4983b6b841a0a2344, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: da58bc99d94ad5b4983b6b841a0a2344, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
+      value: -90
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: da58bc99d94ad5b4983b6b841a0a2344, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
@@ -139,6 +150,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -5754084199372789682, guid: da58bc99d94ad5b4983b6b841a0a2344, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 1963836030870330674, guid: da58bc99d94ad5b4983b6b841a0a2344, type: 3}
     - target: {fileID: 919132149155446097, guid: da58bc99d94ad5b4983b6b841a0a2344, type: 3}
       propertyPath: m_Name
       value: DmgPlus

@@ -17,7 +17,6 @@ public class Player : Mob
         base.Awake();
         _postProcessingScript = Camera.main.GetComponent<PostProcessing>();
         OnHealthUpdate += _postProcessingScript.SetChromaticAbberationIntensity;
-
         PlayerInventory.OnInventoryUpdate += UpdateMaxHealth;
         PlayerInventory.OnInventoryUpdate += UpdateDamageBoost;
     }
