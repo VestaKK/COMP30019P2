@@ -235,7 +235,6 @@ MonoBehaviour:
   LockedOff:
     m_PersistentCalls:
       m_Calls: []
-  _postProcessingMaterial: {fileID: 0}
   _inventory: {fileID: 0}
 --- !u!114 &6774678663059308361
 MonoBehaviour:
@@ -249,7 +248,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28c362711a7350849bcafd22d3a92fd5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  particles: {fileID: 6101957148919454123, guid: d62b8cbed3d236d448edec4ce6c27586, type: 3}
+  particles: {fileID: 847749176502123874, guid: d62b8cbed3d236d448edec4ce6c27586, type: 3}
 --- !u!1001 &1995692666865106325
 PrefabInstance:
   m_ObjectHideFlags: 0

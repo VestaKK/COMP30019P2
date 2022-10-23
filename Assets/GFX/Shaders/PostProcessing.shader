@@ -52,17 +52,11 @@ Shader "PUNKSOULS/PostProcessing"
             float _SampleY;
             float _Amount;
 
-            float2 pixelate(float2 uv, const float pixelSampleX, const float pixelSampleY, const float depth) {
-                float pixelX = 1 / (pixelSampleX );
-                float pixelY = 1 / (pixelSampleY);
+            float2 pixelate(float2 uv, const float pixelSampleX, const float pixelSampleY) {
+                float pixelX = 1 / pixelSampleX;
+                float pixelY = 1 / pixelSampleY;
                 return half2((int)(uv.x / pixelX) * pixelX, (int)(uv.y / pixelY) * pixelY);
             }
-            
-            float remap(float origFrom, float origTo, float targetFrom, float targetTo, float value) {
-                float rel = (value - origFrom) / (origTo - origFrom);
-                return lerp(targetFrom, targetTo, rel);
-            }
-
 
             fixed4 frag(v2f i) : SV_Target
             {
@@ -70,11 +64,13 @@ Shader "PUNKSOULS/PostProcessing"
 
                 depth = clamp(0, 0.3, Linear01Depth(depth));
 
-                _Amount = _Amount * depth;
-                float2 UV = pixelate(i.uv, _SampleX, _SampleY, depth);
-                float colR = tex2D(_MainTex, float2(UV.x - _Amount, UV.y - _Amount)).r;
+                float2 UV = pixelate(i.uv, _SampleX, _SampleY);
+                float _AmountX = _Amount * (UV.x - 0.5f);
+                float _AmountY = _Amount * (UV.y - 0.5f);
+
+                float colR = tex2D(_MainTex, float2(UV.x - _AmountX, UV.y - _AmountY)).r;
                 float colG = tex2D(_MainTex, UV).g;
-                float colB = tex2D(_MainTex, float2(UV.x + _Amount, UV.y + _Amount)).b;
+                float colB = tex2D(_MainTex, float2(UV.x + _AmountX, UV.y + _AmountY)).b;
                 fixed4 col = fixed4(colR, colG, colB, 1);
                 
                 return col;

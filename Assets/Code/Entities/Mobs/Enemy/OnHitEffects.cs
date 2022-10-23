@@ -5,7 +5,8 @@ using UnityEngine;
 public class OnHitEffects : MonoBehaviour
 {
     private Enemy _enemy;
-    [SerializeField] ParticleSystemRenderer particles;
+    [SerializeField] ParticleSystem particles;
+    ParticleSystem currParticles;
     // Start is called before the first frame update
     private void OnEnable()
     {
@@ -15,7 +16,20 @@ public class OnHitEffects : MonoBehaviour
 
     private void HitParticles()
     {
-        Instantiate(particles, transform);
+        if (currParticles != null)
+            Destroy(currParticles.gameObject);
+
+        currParticles = Instantiate(particles, transform.position + _enemy.EntityController.Controller.center, transform.rotation);
+    }
+
+    private void Update()
+    {
+        if (currParticles == null) return;
+
+        if (!currParticles.IsAlive())
+        {
+            Destroy(currParticles.gameObject);
+        }
     }
 
     private void OnDisable()
