@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class EnemyController : MobController
 {
@@ -10,11 +11,17 @@ public class EnemyController : MobController
     [SerializeField] AttackController enemyAttack;
     [SerializeField] bool isChasing;
 
+    [SerializeField] protected AudioClip moveClip;
+
+    private AudioSource audioSource;
+
     private void Awake()
     {
         base.Awake();
         Entity = this.GetComponent<Enemy>();
         agent.speed = Entity.Speed;
+
+        audioSource = this.GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -30,6 +37,13 @@ public class EnemyController : MobController
         {
             LookAtTarget(Enemy.Player.transform);
             agent.SetDestination(Enemy.Player.Position);
+
+            if (moveClip != null && !audioSource.isPlaying)
+            {
+                audioSource.clip = moveClip;
+                audioSource.loop = true;
+                audioSource.Play();
+            }
         }
         else if (ShouldAttack())
         {
@@ -41,10 +55,12 @@ public class EnemyController : MobController
                 agent.SetDestination(Enemy.Position);
                 StartCoroutine(AttackCoroutine());
             }
+            // audioSource.Stop();
         }
         else
         {
             agent.SetDestination(Enemy.Position);
+            // audioSource.Stop();
         }
     }
 
