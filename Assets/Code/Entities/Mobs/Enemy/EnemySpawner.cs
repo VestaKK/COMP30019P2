@@ -11,14 +11,14 @@ public class EnemySpawner : Spawner<Enemy> {
 
     public override Enemy SpawnEntity()
     {
-        int rand = Random.Range(0, Prefabs.Count - 1);
+        int rand = Random.Range(0, Prefabs.Count);
         Enemy prefab = Prefabs[rand];
         return SpawnEntity(transform, Vector3.zero, Quaternion.identity, prefab);
     }
 
     public override Enemy SpawnEntity(Transform parentTransform, Vector3 offset, Quaternion rotation)
     {
-        int rand = Random.Range(0, Prefabs.Count - 1);
+        int rand = Random.Range(0, Prefabs.Count);
         Enemy prefab = Prefabs[rand];
         Enemy newEnemy = Instantiate(
             prefab,

@@ -34,7 +34,7 @@ public class ItemController : EntityController
         transform.rotation *= Quaternion.Euler(0, turnSpeed * Time.deltaTime, 0);
         EntityMove();
 
-        if (distanceToPlayer < 1f && noPickupTime <= 0) 
+        if (distanceToPlayer < 0.3f && noPickupTime <= 0) 
         {
             ItemEntity itemEntity = this.Entity as ItemEntity;
             PlayerInventory.AddItem((itemEntity).item);

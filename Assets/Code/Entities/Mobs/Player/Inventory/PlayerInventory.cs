@@ -13,8 +13,8 @@ public class PlayerInventory : MonoBehaviour
     private Slot<Weapon> _mainWeaponSlot;
     private Slot<Weapon> _offHandSlot;
 
-    [SerializeField] private List<ItemSlot> itemSlots = new List<ItemSlot>();
-    private Dictionary<Item, ItemSlot> itemDictionary = new Dictionary<Item, ItemSlot>();
+    [SerializeField] private List<ItemSlot> itemSlots;
+    private Dictionary<Item, ItemSlot> itemDictionary;
 
     private static PlayerInventory _instance;
 
@@ -26,6 +26,8 @@ public class PlayerInventory : MonoBehaviour
 
             _instance._mainWeaponSlot = new Slot<Weapon>(this);
             _instance._offHandSlot = new Slot<Weapon>(this);
+            _instance.itemSlots = new List<ItemSlot>();
+            _instance.itemDictionary = new Dictionary<Item, ItemSlot>();
         }
         else
         {
@@ -45,6 +47,7 @@ public class PlayerInventory : MonoBehaviour
         else 
         {
             itemSlot = new ItemSlot(newItem);
+            Debug.Log(itemSlot.item.name);
             _instance.itemDictionary.Add(newItem, itemSlot);
             _instance.itemSlots.Add(itemSlot);
             OnInventoryUpdate.Invoke(itemSlot);

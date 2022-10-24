@@ -47,7 +47,7 @@ public class RoomNode : Node
         Debug.Log("Spawning enemies for " + this);
 
         while(spawns++ < targetSpawns) {
-            int rand = Random.Range(0, spawner.Prefabs.Count - 1);
+            int rand = Random.Range(0, spawner.Prefabs.Count);
             T prefab = spawner.Prefabs[rand];
 
             Vector3 spawnPoint = GetSafeSpawn(base_spawn, spawner.GetController(prefab));

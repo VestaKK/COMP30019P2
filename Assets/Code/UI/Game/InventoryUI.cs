@@ -7,15 +7,22 @@ public class InventoryUI : UIPanel {
 
     [SerializeField] GameObject relicView;
     [SerializeField] GameObject slotPrefab;
-    private Dictionary<ItemSlot, GameObject> itemToSlot = new Dictionary<ItemSlot, GameObject>();
+    private Dictionary<ItemSlot, GameObject> itemToSlot;
 
     public override void Initialise()
     {
         PlayerInventory.OnInventoryUpdate += UpdateInventory;
+        Debug.Log("This has Initialised");
+        itemToSlot = new Dictionary<ItemSlot, GameObject>();
     }
 
-    private void UpdateInventory(ItemSlot itemSlot) 
+    private void OnDisable()
     {
+       PlayerInventory.OnInventoryUpdate -= UpdateInventory;
+    }
+
+    private void UpdateInventory(ItemSlot itemSlot)
+    { 
         if (itemToSlot.TryGetValue(itemSlot, out GameObject itemView))
         {
             itemView.GetComponentInChildren<Text>().text = itemSlot.count.ToString();

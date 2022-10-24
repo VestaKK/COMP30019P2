@@ -30,6 +30,7 @@ public class UIManager : MonoBehaviour
 
             foreach (UIPanel uIPanel in panels)
             {
+                Debug.Log("Panels Initialised");
                 uIPanel.Initialise();
                 uIPanel.Hide();
             }

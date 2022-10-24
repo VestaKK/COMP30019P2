@@ -726,11 +726,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _prefabs:
   - {fileID: 3326934664413890111, guid: 638f5ee5cfe0a71e0a01d20363cf6ed8, type: 3}
+  - {fileID: 3326934664413890111, guid: 1d329f2169ca6a34ba5aadcc63729ab9, type: 3}
   minSpawnsPerRoom: 1
   maxSpawnsPerRoom: 3
   _camera: {fileID: 507788981}
   _healthBarCanvas: {fileID: 1596834139}
-  _itemDropChance: 0.25
+  _itemDropChance: 0.125
   _items:
   - {fileID: 1157478675297215616, guid: 6ae6af896ae557449b97ed88e4b38ec1, type: 3}
   - {fileID: 6392490142265764768, guid: 744597f8e582b0147b6bedadc8b2bc3e, type: 3}
