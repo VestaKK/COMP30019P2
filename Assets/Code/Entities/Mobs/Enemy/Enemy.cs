@@ -19,14 +19,14 @@ public class Enemy : Mob
         if (Health <= 0)
         {
             if (deathClip != null)
-                audioSource.PlayOneShot(deathClip, 0.3f);
+                audioSource.PlayOneShot(deathClip, 1f);
             OnDeath();
             return;
         }
         HealthBar.SetProgress(Health / MaxHealth);
 
         if (takeDamageClip.Length > 0)
-            audioSource.PlayOneShot(takeDamageClip[Random.Range(0, takeDamageClip.Length)], 0.3f);
+            audioSource.PlayOneShot(takeDamageClip[Random.Range(0, takeDamageClip.Length)], 1f);
     }
 
     public override void OnDeath()

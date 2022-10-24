@@ -19,6 +19,7 @@ public class Player : Mob
         OnHealthUpdate += _postProcessingScript.SetChromaticAbberationIntensity;
         PlayerInventory.OnInventoryUpdate += UpdateMaxHealth;
         PlayerInventory.OnInventoryUpdate += UpdateDamageBoost;
+        PlayerInventory.OnInventoryUpdate += PlayItemPickupClip;
     }
 
     private void OnDisable()
@@ -58,6 +59,11 @@ public class Player : Mob
             float damageBoost = 0.15f;
             ((PlayerController) this._controller).PlayerMelee.DamageBoost += damageBoost;
         }
+    }
+
+    private void PlayItemPickupClip(ItemSlot itemSlot)
+    {
+        FindObjectOfType<AudioManager>().Play("ItemPickup");
     }
 
     public override void OnDeath()
