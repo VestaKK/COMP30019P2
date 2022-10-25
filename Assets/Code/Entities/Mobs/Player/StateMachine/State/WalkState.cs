@@ -9,19 +9,8 @@ public class WalkState : PlayerState
 
     public override void Enter()
     {
-        if (Player.LockOnTarget != null)
-        {
-            Player.LookAtTarget();
-        }
-        else
-        {
-            Player.LookAtMovementDirection();
-        }
-
+        Player.Motion.UpdateRelativeVelocity();
         HandleMovementAnimations();
-
-        Player.Velocity = new Vector3(Player.Speed * Player.Velocity.x, Player.Velocity.y, Player.Speed * Player.Velocity.z);
-        Player.Controller.Move(Player.Velocity * Time.deltaTime);
     }
 
     public override void Exit()
@@ -61,7 +50,7 @@ public class WalkState : PlayerState
         {
             _stateManager.SwitchState(_stateManager.Roll());
         }
-        else if (InputManager.GetKeyDown(InputAction.Attack) && 
+        else if (InputManager.GetKeyDown(InputAction.Attack) &&
             !Player.PlayerMelee.IsResting)
         {
             _stateManager.SwitchState(_stateManager.Attack());
@@ -69,6 +58,10 @@ public class WalkState : PlayerState
         else if (!Player.IsMoving())
         {
             _stateManager.SwitchState(_stateManager.Idle());
+        }
+        else if (InputManager.GetKey(InputAction.Aim))
+        {
+            _stateManager.SwitchState(_stateManager.Gun());
         }
     }
 }

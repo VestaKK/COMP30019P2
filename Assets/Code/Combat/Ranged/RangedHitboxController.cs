@@ -5,6 +5,7 @@ using UnityEngine;
 public class RangedHitboxController : HitboxController
 {
     [SerializeField] float speed = 0f;
+    [SerializeField] GameObject explosionParticles;
 
     private Rigidbody rigidbody;
 
@@ -21,6 +22,7 @@ public class RangedHitboxController : HitboxController
     public void OnCollisionEnter(Collision collision)
     {
         Destroy(this.gameObject);
+        Instantiate(explosionParticles, transform.position, transform.rotation);
     }
     
     // Should only detect Hurtboxes
@@ -34,6 +36,7 @@ public class RangedHitboxController : HitboxController
         {
             damageable.TakeDamage(attackInfo);
             Destroy(this.gameObject);
+            Instantiate(explosionParticles,transform.position, transform.rotation);
         } 
     }
 }

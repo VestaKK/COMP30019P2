@@ -1,16 +1,38 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
     private static GameManager _instance;
+    private bool _isPaused = false;
+    private bool _GameOver = false;
 
     [SerializeField] DungeonSpawner _dungeonSpawner;
     [SerializeField] Player _playerPrefab;
 
+    [SerializeField] private int _score = 0;
+    private int _levelCount = 0;
+    private float _timer = 0;
+    [SerializeField] private Transform _scoreText;
+
     DungeonController _currentDungeon = null;
     [SerializeField] Player _currentPlayer = null;
+    [SerializeField] private bool _inExitRoom = false;
+
+    public delegate void GameEvent();
+    public static event GameEvent OnEnterExitRoom;
+    public static event GameEvent OnExitExitRoom;
+    public static event GameEvent OnPlayerFinishLevel;
+    public static event GameEvent OnPlayerStartLevel;
+    public static event GameEvent OnPlayerDeath;
+
+    public static void AddToScore(int scoreAmount) 
+    {
+        _instance._score += scoreAmount;
+        _instance._scoreText.GetComponent<TMP_Text>().text = "SCORE: " + _instance._score.ToString();
+    }
 
     private void Awake()
     {
@@ -27,6 +49,7 @@ public class GameManager : MonoBehaviour
 
     IEnumerator NextLevel() 
     {
+        AddToScore(500);
         UIManager.instance.Show<LOADING>(true);
         yield return new WaitForSeconds(0.2f);
 
@@ -50,14 +73,32 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
+        if (!_instance._isPaused)
+            _timer += Time.deltaTime;
+        
         if (_instance._currentPlayer == null) return;
 
-        if (_instance._currentPlayer.CurrentRoom == _instance._currentDungeon.exitRoom) 
+        if (_instance._currentPlayer.CurrentRoom == _instance._currentDungeon.exitRoom)
         {
+            if (_inExitRoom == false)
+            {
+                _instance._inExitRoom = true;
+                OnEnterExitRoom.Invoke();
+            }
+
             if (Input.GetKeyDown(KeyCode.E))
             {
+                _instance._levelCount++;
                 StartCoroutine(NextLevel());
             }
+        }
+        else 
+        {
+            if (_instance._inExitRoom == true) 
+            {
+                _instance._inExitRoom = false;
+                OnExitExitRoom.Invoke();
+            } 
         }
     }
 
@@ -71,6 +112,7 @@ public class GameManager : MonoBehaviour
             Quaternion.identity);
 
             _instance._currentPlayer = p;
+            _instance._currentPlayer.OnPlayerInstanceDeath += _instance.GameOver;
 
             UIManager.instance.Get<PlayerHUD>().LinkPlayer(_instance._currentPlayer);
         }
@@ -80,6 +122,13 @@ public class GameManager : MonoBehaviour
             
             _instance._currentPlayer.gameObject.transform.position = new Vector3(0, 100, 0);
 
+            // Kinda Temp, But We'll see
+            if (_instance._levelCount % 2 == 0) 
+            {
+                _instance._dungeonSpawner.GetComponent<Spawner<Enemy>>().MaxSpawnsPerRoom++;
+                _instance._dungeonSpawner.GetComponent<Spawner<Enemy>>().MinSpawnsPerRoom++;
+            }
+            
             _instance._currentDungeon = _instance._dungeonSpawner.SpawnDungeon();
 
             _instance._currentPlayer.gameObject.transform.position = 
@@ -93,6 +142,32 @@ public class GameManager : MonoBehaviour
         
     }
 
+    public static void PauseGame() 
+    {
+        Time.timeScale = 0;
+        _instance._isPaused = true;
+    }
+
+    public static void UnpauseGame()
+    {
+        Time.timeScale = 1;
+        _instance._isPaused = false;
+    }
+
+    private void GameOver() 
+    {
+        _instance._GameOver = true;
+        GameOverScreen gameOverScreen = (GameOverScreen)UIManager.instance.Get<GameOverScreen>();
+
+        if (gameOverScreen != null) 
+        {
+            gameOverScreen.SetStats(_instance._score, _instance._levelCount, _instance._timer);
+            UIManager.instance.Show(gameOverScreen, false);
+        }
+    }
+
     public static Player CurrentPlayer { get => _instance._currentPlayer; set => _instance._currentPlayer = value; }
     public static DungeonController CurrentDungeon { get => _instance._currentDungeon; set => _instance._currentDungeon = value; }
+    public static bool isPaused { get => _instance._isPaused; }
+    public static bool inExitRoom { get => _instance._inExitRoom; }
 }

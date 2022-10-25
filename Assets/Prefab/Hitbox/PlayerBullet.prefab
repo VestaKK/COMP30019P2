@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 7658802050884800525}
   - component: {fileID: 3663800359786797332}
   m_Layer: 9
-  m_Name: Cannonball
+  m_Name: PlayerBullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -69,8 +69,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c22848188459d4e4a87d8004984b5251, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 15
-  explosionParticles: {fileID: 3971624642421618065, guid: e2fea18b32851b540a9d3a096c579372, type: 3}
+  speed: 30
+  explosionParticles: {fileID: 3971624642421618065, guid: e0e412356c0c5364e82a07d72c4c5087, type: 3}
 --- !u!54 &3663800359786797332
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1393,8 +1393,8 @@ ParticleSystem:
       maxColor: {r: 1, g: 1, b: 1, a: 1}
       maxGradient:
         serializedVersion: 2
-        key0: {r: 1, g: 0.1554602, b: 0, a: 1}
-        key1: {r: 1, g: 0.5641353, b: 0, a: 1}
+        key0: {r: 1, g: 0.510552, b: 0, a: 1}
+        key1: {r: 0.93867874, g: 0, b: 1, a: 1}
         key2: {r: 0.611748, g: 0.9056604, b: 0.8972931, a: 0}
         key3: {r: 1, g: 1, b: 1, a: 0}
         key4: {r: 0.13543029, g: 0.12549017, b: 0.99215686, a: 0}
@@ -2772,7 +2772,7 @@ ParticleSystem:
     strength:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.1
+      scalar: 1
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -2929,7 +2929,7 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     separateAxes: 0
-    frequency: 0.5
+    frequency: 10
     damping: 1
     octaves: 1
     octaveMultiplier: 0.5

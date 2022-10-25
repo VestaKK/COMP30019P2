@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class PlayerController : MobController
 {
-
     // Player's melee controller
     [SerializeField] MeleeController playerMelee;
     [SerializeField] protected Camera _camera;
     [SerializeField] bool _isRolling = false;
     [SerializeField] float DetectionDistanceSq;
     [SerializeField] float maxLockOnRadius;
+    [SerializeField] HitboxController _playerBullet;
+    [SerializeField] float _bulletDamage = 50;
 
     StateManager _stateManager;
     PlayerState _currentState;
@@ -26,6 +27,8 @@ public class PlayerController : MobController
     // Update is called once per frame
     void Update()
     {
+        if (GameManager.isPaused) return;
+
         base.Update();
         if(InputManager.GetKeyDown(InputAction.LockOn)) {
             HandleLockOn();
@@ -157,4 +160,6 @@ public class PlayerController : MobController
     public StateManager StateManager { get => _stateManager; set => _stateManager = value; }
 
     public Vector3 Velocity { get => Motion.Velocity; set => Motion.Velocity = value; }
+    public HitboxController PlayerBullet { get => _playerBullet; set => _playerBullet = value; }
+    public float BulletDamage { get => _bulletDamage; set => _bulletDamage = value; }
 }

@@ -132,10 +132,12 @@ public class UIManager : MonoBehaviour
                 if (!pauseMenu.gameObject.activeSelf)
                 {
                     Show(pauseMenu, true);
+                    GameManager.PauseGame();
                 }
                 else
                 {
                     ShowLast();
+                    GameManager.UnpauseGame();
                 }
             }   
         }

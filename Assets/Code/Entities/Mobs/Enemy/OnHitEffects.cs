@@ -19,7 +19,7 @@ public class OnHitEffects : MonoBehaviour
         if (currParticles != null)
             Destroy(currParticles.gameObject);
 
-        currParticles = Instantiate(particles, transform.position + _enemy.EntityController.Controller.center, transform.rotation, transform);
+        currParticles = Instantiate(particles, transform.position + _enemy.EntityController.Controller.center, transform.rotation);
     }
 
     private void Update()

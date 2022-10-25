@@ -20,12 +20,15 @@ public abstract class Spawner<EntityType> : MonoBehaviour
         public abstract EntityType SpawnEntity(); 
 
         public int GetSpawnCount() {
-            return Random.Range(minSpawnsPerRoom, maxSpawnsPerRoom);
+            return Random.Range(MinSpawnsPerRoom, MaxSpawnsPerRoom);
         }
         public List<EntityType> Prefabs { get => _prefabs; }
 
-        public CharacterController GetController(EntityType prefab) {
+    public CharacterController GetController(EntityType prefab) {
             return prefab.EntityController.Controller;
         }
 
+
+    public int MaxSpawnsPerRoom { get => maxSpawnsPerRoom; set => maxSpawnsPerRoom = value; }
+    public int MinSpawnsPerRoom { get => minSpawnsPerRoom; set => minSpawnsPerRoom = value; }
 }

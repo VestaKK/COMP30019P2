@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 739aba6ad6a2a4f4eaca3d43b078b06d, type: 3}
-  m_Name: SwordOfSpeed
+  m_Name: Bullet Ammo
   m_EditorClassIdentifier: 
   id: 2
-  itemName: SwordofSpeed
-  icon: {fileID: 21300000, guid: f6a12a0433f5cbd4baf2caa299c82731, type: 3}
+  itemName: Bullet
+  icon: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}

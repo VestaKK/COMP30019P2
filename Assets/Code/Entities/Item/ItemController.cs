@@ -27,7 +27,8 @@ public class ItemController : EntityController
         return Vector3.zero;
     }
 
-    protected void Update() { 
+    protected void Update() {
+        if (GameManager.isPaused) return;
         base.Update();
         distanceToPlayer = Entity.DistanceTo(player);
         Motion.UpdateVelocity();

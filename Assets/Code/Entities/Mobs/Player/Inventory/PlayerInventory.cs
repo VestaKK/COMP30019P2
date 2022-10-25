@@ -9,9 +9,14 @@ public class PlayerInventory : MonoBehaviour
     public delegate void PlayerInventoryUpdate(ItemSlot itemSlot);
     public static event PlayerInventoryUpdate OnInventoryUpdate;
 
+    public delegate void PlayerInventoryUpdateBullets();
+    public static event PlayerInventoryUpdateBullets OnInventoryUpdateBullets;
 
     private Slot<Weapon> _mainWeaponSlot;
     private Slot<Weapon> _offHandSlot;
+
+    [SerializeField] int _maxBullets;
+    [SerializeField] int _numBullets;
 
     [SerializeField] private List<ItemSlot> itemSlots;
     private Dictionary<Item, ItemSlot> itemDictionary;
@@ -28,6 +33,8 @@ public class PlayerInventory : MonoBehaviour
             _instance._offHandSlot = new Slot<Weapon>(this);
             _instance.itemSlots = new List<ItemSlot>();
             _instance.itemDictionary = new Dictionary<Item, ItemSlot>();
+            _instance._numBullets = _maxBullets;
+            OnInventoryUpdateBullets.Invoke();
         }
         else
         {
@@ -54,12 +61,47 @@ public class PlayerInventory : MonoBehaviour
         }
 
         
+
+        if (newItem.id == 2)
+        {
+            Debug.Log(" lsfigjkhbdfgh");
+            if (!FullBullets())
+            {
+                AddBullet();
+            }
+        }
+
     }
 
     public static List<ItemSlot> GetItems() 
     {
         return _instance.itemSlots;
     }
+
+    public static bool HasBullets()
+    {
+        return NumBullets > 0;
+    }
+
+    public static bool FullBullets()
+    {
+        return NumBullets == MaxBullets;
+    }
+
+    public static void FireBullet() 
+    {
+        NumBullets--;
+        OnInventoryUpdateBullets.Invoke();
+    }
+
+    public static void AddBullet()
+    {
+        NumBullets++;
+        OnInventoryUpdateBullets.Invoke();
+    }
+
+    public static int NumBullets { get => _instance._numBullets; set => _instance._numBullets = value; }
+    public static int MaxBullets { get => _instance._maxBullets; set => _instance._maxBullets = value; }
 }
 
 

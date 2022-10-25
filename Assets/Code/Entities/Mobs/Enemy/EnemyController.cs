@@ -21,6 +21,7 @@ public class EnemyController : MobController
     void Update()
     {
         base.Update();
+        if (GameManager.isPaused) return;
         EntityMove();
         // Check Attack
     }
