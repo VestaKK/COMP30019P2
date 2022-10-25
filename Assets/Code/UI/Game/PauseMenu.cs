@@ -13,4 +13,5 @@ public class PauseMenu : UIPanel {
     {
         quitButton.onClick.AddListener(() => SceneManager.LoadScene("MainMenuScene"));
     }
+
 }

@@ -49,7 +49,9 @@ public class GameManager : MonoBehaviour
 
     IEnumerator NextLevel() 
     {
-        AddToScore(500);
+        if (_instance._levelCount > 0)
+            AddToScore(500);
+
         UIManager.instance.Show<LOADING>(true);
         yield return new WaitForSeconds(0.2f);
 
