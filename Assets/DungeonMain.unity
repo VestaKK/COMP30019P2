@@ -1809,7 +1809,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 585514d0778134722a7b14b4911c8d25, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxBullets: 6
+  _maxBullets: 10
   _numBullets: 0
   itemSlots: []
 --- !u!1 &660510559
@@ -2893,7 +2893,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1322596251
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3544,7 +3544,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1702228430
 MonoBehaviour:
   m_ObjectHideFlags: 0

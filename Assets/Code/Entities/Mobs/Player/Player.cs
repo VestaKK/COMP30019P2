@@ -54,7 +54,7 @@ public class Player : Mob
         if (itemSlot.item.id == 0) // Health boost item
         {
             float healthPercentage = this.Health / this.MaxHealth;
-            float healthBoost = 0.2f;
+            float healthBoost = 0.10f;
             this.MaxHealth *= (1 + healthBoost * itemSlot.count) / (1 - healthBoost + healthBoost * itemSlot.count);
             this.Health = this.MaxHealth * healthPercentage;
         }
@@ -64,7 +64,7 @@ public class Player : Mob
     {
         if (itemSlot.item.id == 1)
         {
-            float damageBoost = 0.15f;
+            float damageBoost = 0.10f;
             PlayerController controller = (PlayerController)this._controller;
             controller.PlayerMelee.DamageBoost += damageBoost;
             controller.BulletDamage *= 1.0f + damageBoost;

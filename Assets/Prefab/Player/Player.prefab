@@ -214,7 +214,7 @@ MonoBehaviour:
   DetectionDistanceSq: 200
   maxLockOnRadius: 10
   _playerBullet: {fileID: 7658802050884800525, guid: 3bf5f57b3b18c614383451df21dbf2d6, type: 3}
-  _bulletDamage: 10000
+  _bulletDamage: 15
 --- !u!114 &6166529074385607406
 MonoBehaviour:
   m_ObjectHideFlags: 0

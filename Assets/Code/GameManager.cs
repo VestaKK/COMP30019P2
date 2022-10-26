@@ -52,7 +52,7 @@ public class GameManager : MonoBehaviour
         if (_instance._levelCount > 0)
             AddToScore(500);
 
-        UIManager.instance.Show<LOADING>(true);
+        UIManager.instance.Show<LOADING>(false);
         yield return new WaitForSeconds(0.2f);
 
         if (_instance._currentDungeon != null) 
@@ -68,7 +68,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(0.2f);
 
         Camera.main.GetComponent<CameraLookAt>().Target(_instance._currentPlayer);
-        UIManager.instance.ShowLast();
+        UIManager.instance.Show<PlayerHUD>();
 
         yield return null;
     }
@@ -125,11 +125,8 @@ public class GameManager : MonoBehaviour
             _instance._currentPlayer.gameObject.transform.position = new Vector3(0, 100, 0);
 
             // Kinda Temp, But We'll see
-            if (_instance._levelCount % 2 == 0) 
-            {
-                _instance._dungeonSpawner.GetComponent<Spawner<Enemy>>().MaxSpawnsPerRoom++;
-                _instance._dungeonSpawner.GetComponent<Spawner<Enemy>>().MinSpawnsPerRoom++;
-            }
+            _instance._dungeonSpawner.GetComponent<Spawner<Enemy>>().MaxSpawnsPerRoom++;
+            _instance._dungeonSpawner.GetComponent<Spawner<Enemy>>().MinSpawnsPerRoom++;
             
             _instance._currentDungeon = _instance._dungeonSpawner.SpawnDungeon();
 
