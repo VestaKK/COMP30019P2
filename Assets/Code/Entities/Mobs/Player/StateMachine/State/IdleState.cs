@@ -42,5 +42,9 @@ public class IdleState : PlayerState
         {
             _stateManager.SwitchState(_stateManager.Walk());
         }
+        else if (InputManager.GetKey(InputAction.Aim))
+        {
+            _stateManager.SwitchState(_stateManager.Gun());
+        }
     }
 }

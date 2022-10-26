@@ -30,6 +30,7 @@ public class UIManager : MonoBehaviour
 
             foreach (UIPanel uIPanel in panels)
             {
+                Debug.Log("Panels Initialised");
                 uIPanel.Initialise();
                 uIPanel.Hide();
             }
@@ -131,10 +132,12 @@ public class UIManager : MonoBehaviour
                 if (!pauseMenu.gameObject.activeSelf)
                 {
                     Show(pauseMenu, true);
+                    GameManager.PauseGame();
                 }
                 else
                 {
                     ShowLast();
+                    GameManager.UnpauseGame();
                 }
             }   
         }

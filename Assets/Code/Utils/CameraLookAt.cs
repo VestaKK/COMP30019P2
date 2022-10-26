@@ -28,7 +28,7 @@ public class CameraLookAt : MonoBehaviour
 
     private void LateUpdate()
     {
-        if (!initialised) return;
+        if (!initialised || GameManager.isPaused) return;
         // Adjust Zoom
         Vector2 scrollDelta = Input.mouseScrollDelta;
         if (scrollDelta.y < 0 && cameraZoom > 6 || scrollDelta.y > 0 && cameraZoom < 15)

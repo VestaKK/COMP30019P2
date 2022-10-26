@@ -16,4 +16,5 @@ public class PauseMenu : UIPanel {
             SceneManager.LoadScene("MainMenuScene");
         });
     }
+
 }

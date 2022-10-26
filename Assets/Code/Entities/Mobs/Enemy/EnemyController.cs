@@ -28,6 +28,7 @@ public class EnemyController : MobController
     void Update()
     {
         base.Update();
+        if (GameManager.isPaused) return;
         EntityMove();
         // Check Attack
     }
@@ -44,9 +45,13 @@ public class EnemyController : MobController
                 audioSource.loop = true;
                 audioSource.Play();
             }
+            _animator.SetFloat("RelativeVelocityX", 0);
+            _animator.SetFloat("RelativeVelocityZ", 1);
         }
         else if (ShouldAttack())
         {
+            _animator.SetFloat("RelativeVelocityX", 0);
+            _animator.SetFloat("RelativeVelocityZ", 0);
             if (!enemyAttack.IsAttacking)
                 LookAtTarget(Enemy.Player.transform);
 
@@ -59,6 +64,8 @@ public class EnemyController : MobController
         }
         else
         {
+            _animator.SetFloat("RelativeVelocityX", 0);
+            _animator.SetFloat("RelativeVelocityZ", 0);
             agent.SetDestination(Enemy.Position);
             // audioSource.Stop();
         }
@@ -81,7 +88,7 @@ public class EnemyController : MobController
     private IEnumerator AttackCoroutine()
     {
         enemyAttack.OnClick();
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.2f);
     }
 
     private bool CanChase(Entity other ) {

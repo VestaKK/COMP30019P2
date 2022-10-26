@@ -12,10 +12,17 @@ public class Player : Mob
 
     PostProcessing _postProcessingScript;
 
+    public delegate void DeathEvent();
+    public event DeathEvent OnPlayerInstanceDeath;
+
     private void Awake()
     {
         base.Awake();
         _postProcessingScript = Camera.main.GetComponent<PostProcessing>();
+    }
+
+    private void OnEnable()
+    {
         OnHealthUpdate += _postProcessingScript.SetChromaticAbberationIntensity;
         PlayerInventory.OnInventoryUpdate += UpdateMaxHealth;
         PlayerInventory.OnInventoryUpdate += UpdateDamageBoost;
@@ -25,6 +32,8 @@ public class Player : Mob
     private void OnDisable()
     {
         OnHealthUpdate -= _postProcessingScript.SetChromaticAbberationIntensity;
+        PlayerInventory.OnInventoryUpdate -= UpdateMaxHealth;
+        PlayerInventory.OnInventoryUpdate -= UpdateDamageBoost;
     }
 
     [SerializeField] private PlayerInventory _inventory;
@@ -46,7 +55,7 @@ public class Player : Mob
         if (itemSlot.item.id == 0) // Health boost item
         {
             float healthPercentage = this.Health / this.MaxHealth;
-            float healthBoost = 0.2f;
+            float healthBoost = 0.10f;
             this.MaxHealth *= (1 + healthBoost * itemSlot.count) / (1 - healthBoost + healthBoost * itemSlot.count);
             this.Health = this.MaxHealth * healthPercentage;
         }
@@ -56,8 +65,10 @@ public class Player : Mob
     {
         if (itemSlot.item.id == 1)
         {
-            float damageBoost = 0.15f;
-            ((PlayerController) this._controller).PlayerMelee.DamageBoost += damageBoost;
+            float damageBoost = 0.10f;
+            PlayerController controller = (PlayerController)this._controller;
+            controller.PlayerMelee.DamageBoost += damageBoost;
+            controller.BulletDamage *= 1.0f + damageBoost;
         }
     }
 
@@ -104,11 +115,23 @@ public class Player : Mob
         FindObjectOfType<AudioManager>().Play("Roll");
         yield return new WaitForSeconds(1.2f);
         isPlayingRollAudio = false;
+
+    // TODO: Move this to PlayerController
+    public void ShootBullet() 
+    {
+        PlayerController controller = _controller as PlayerController;
+        
+        RangedHitboxController newRangedHitbox = Instantiate(controller.PlayerBullet, 
+            transform.position + transform.forward * 1 + _controller.Controller.center, 
+            transform.rotation) as RangedHitboxController;
+
+        newRangedHitbox.Initialize(new AttackInfo(controller.BulletDamage, Vector3.one, 1, Vector3.zero), 10, this.gameObject.tag);
     }
 
     public override void OnDeath()
     {
         gameObject.SetActive(false);
+        OnPlayerInstanceDeath.Invoke();
         // Destroy(this.gameObject);
         // die
     }

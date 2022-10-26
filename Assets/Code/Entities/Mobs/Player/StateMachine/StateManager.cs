@@ -9,7 +9,8 @@ public class StateManager
         Idle,
         Walk,
         Roll,
-        Attack
+        Attack,
+        Gun
     }
 
     private PlayerState _currentState;
@@ -23,6 +24,7 @@ public class StateManager
         _states.Add(State.Walk, new WalkState(this));
         _states.Add(State.Roll, new RollState(this));
         _states.Add(State.Attack, new AttackState(this));
+        _states.Add(State.Gun, new GunState(this));
         SwitchState(GetState(initialState));
     }
 
@@ -34,7 +36,7 @@ public class StateManager
     }
 
     public PlayerState Walk() {
-        return  GetState(State.Walk);
+        return GetState(State.Walk);
     }
 
     public PlayerState Roll() {
@@ -43,6 +45,11 @@ public class StateManager
 
     public PlayerState Attack() {
         return GetState(State.Attack);
+    }
+
+    public PlayerState Gun()
+    {
+        return GetState(State.Gun);
     }
 
     public void Update() {

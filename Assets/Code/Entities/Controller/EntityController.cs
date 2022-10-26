@@ -25,6 +25,18 @@ public abstract class EntityController : MonoBehaviour
 
     protected void Update()
     {
+        if (GameManager.isPaused)
+        {
+            if (_animator != null)
+                _animator.enabled = false;
+            return;
+        }
+        else 
+        {
+            if (_animator != null)
+                _animator.enabled = true;
+        }
+
         Motion.UpdateVelocity();
         if (IsMoving())
         {

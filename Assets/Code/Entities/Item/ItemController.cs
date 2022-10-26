@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class ItemController : EntityController
 {
-    [SerializeField] Entity player;
     [SerializeField] private float distanceToPlayer;
 
     float turnSpeed = 100f;
@@ -14,27 +13,27 @@ public class ItemController : EntityController
     {
         base.Awake();
         GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>() as Entity;
         Entity = this.GetComponent<ItemEntity>() as Entity;
     }
 
     public override Vector3 CalculateMoveDirection() {
         if (distanceToPlayer <= 3 && noPickupTime <= 0)
         {
-            return (player.transform.position - Entity.transform.position).normalized;
+            return (Player.transform.position - Entity.transform.position).normalized;
         }
 
         return Vector3.zero;
     }
 
-    protected void Update() { 
+    protected void Update() {
+        if (GameManager.isPaused && Player != null) return;
         base.Update();
-        distanceToPlayer = Entity.DistanceTo(player);
+        distanceToPlayer = Entity.DistanceTo(Player);
         Motion.UpdateVelocity();
         transform.rotation *= Quaternion.Euler(0, turnSpeed * Time.deltaTime, 0);
         EntityMove();
 
-        if (distanceToPlayer < 1f && noPickupTime <= 0) 
+        if (distanceToPlayer < 0.3f && noPickupTime <= 0) 
         {
             ItemEntity itemEntity = this.Entity as ItemEntity;
             PlayerInventory.AddItem((itemEntity).item);
@@ -49,4 +48,5 @@ public class ItemController : EntityController
     }
 
     public Item Item { get => (this.Entity as ItemEntity).item ; }
+    public Player Player { get => GameManager.CurrentPlayer; }
 }

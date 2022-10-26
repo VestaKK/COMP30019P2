@@ -8,6 +8,7 @@ public class Enemy : Mob
     public delegate void DamageEvent();
     public event DamageEvent OnTakeDamage;
     public GameObject item;
+    [SerializeField] private int _score;
 
     public Enemy() : base() {}
     public override void TakeDamage(AttackInfo info) {
@@ -15,7 +16,9 @@ public class Enemy : Mob
             return;
 
         Health -= info.Damage;
+
         OnTakeDamage.Invoke();
+
         if (Health <= 0)
         {
             if (deathClip != null)
@@ -23,6 +26,7 @@ public class Enemy : Mob
             OnDeath();
             return;
         }
+
         HealthBar.SetProgress(Health / MaxHealth);
 
         if (takeDamageClip.Length > 0)
@@ -41,6 +45,7 @@ public class Enemy : Mob
         MobController.Animator.SetTrigger("DeathAnimation");
         yield return new WaitForSeconds(0.5f);
         gameObject.SetActive(false);
+        GameManager.AddToScore(_score);
         Destroy(HealthBar.gameObject);
         if (item != null)
             Instantiate(item, transform.position + Vector3.up, Quaternion.identity);

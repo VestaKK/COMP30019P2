@@ -44,6 +44,8 @@ public abstract class AttackController : MonoBehaviour
 
     void Update()
     {
+        if (GameManager.isPaused) return;
+
         UpdateController();
 
         if (coolDown <= 0)

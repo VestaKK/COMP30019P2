@@ -84,8 +84,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _controller: {fileID: 5650673010094084038}
-  _speed: 3
-  item: {fileID: 11400000, guid: c6d64d0af3c58fd4f96ef8f440ca5f6f, type: 2}
+  _speed: 5
+  item: {fileID: 11400000, guid: a2a3b8b844acfdb48bc3c3e38e56c854, type: 2}
 --- !u!1001 &6239005761732607703
 PrefabInstance:
   m_ObjectHideFlags: 0
