@@ -18,12 +18,18 @@ public abstract class Mob : Entity, IDamageable
         set => this._attackType = value;    
     }
 
+    protected AudioSource audioSource;
 
+    [SerializeField] protected AudioClip[] takeDamageClip;
     public abstract void TakeDamage(AttackInfo info);
+    
+    [SerializeField] protected AudioClip deathClip;
     public abstract void OnDeath();
+    protected bool isDead = false;
 
     protected void Awake() {
         this._health = _maxHealth;
+        this.audioSource = GetComponent<AudioSource>();
     }
 
     public void SetupHealthbar(Canvas canvas, Camera camera) {

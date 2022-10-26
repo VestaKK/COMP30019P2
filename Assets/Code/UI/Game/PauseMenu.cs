@@ -11,7 +11,10 @@ public class PauseMenu : UIPanel {
 
     public override void Initialise()
     {
-        quitButton.onClick.AddListener(() => SceneManager.LoadScene("MainMenuScene"));
+        quitButton.onClick.AddListener(() => {
+            FindObjectOfType<AudioManager>().Play("UIClick");
+            SceneManager.LoadScene("MainMenuScene");
+        });
     }
 
 }

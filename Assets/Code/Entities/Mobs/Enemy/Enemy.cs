@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class Enemy : Mob
 {
@@ -11,6 +12,8 @@ public class Enemy : Mob
 
     public Enemy() : base() {}
     public override void TakeDamage(AttackInfo info) {
+        if (isDead)
+            return;
 
         Health -= info.Damage;
 
@@ -18,21 +21,35 @@ public class Enemy : Mob
 
         if (Health <= 0)
         {
+            if (deathClip != null)
+                audioSource.PlayOneShot(deathClip, 1f);
             OnDeath();
+            return;
         }
 
         HealthBar.SetProgress(Health / MaxHealth);
+
+        if (takeDamageClip.Length > 0)
+            audioSource.PlayOneShot(takeDamageClip[Random.Range(0, takeDamageClip.Length)], 1f);
     }
 
     public override void OnDeath()
     {
+        isDead = true;
+        // die
+        StartCoroutine(PlayDeathAnimation());
+    }
+
+    private IEnumerator PlayDeathAnimation()
+    {
+        MobController.Animator.SetTrigger("DeathAnimation");
+        yield return new WaitForSeconds(0.5f);
         gameObject.SetActive(false);
         GameManager.AddToScore(_score);
         Destroy(HealthBar.gameObject);
         if (item != null)
             Instantiate(item, transform.position + Vector3.up, Quaternion.identity);
         Destroy(this.gameObject);
-        // die
     }
 
     // Probably don't want to set

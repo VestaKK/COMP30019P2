@@ -4,10 +4,14 @@ using UnityEngine;
 
 public class RangedController : AttackController
 {   
+    [SerializeField] private AudioClip[] _attackClips;
+
     protected override bool CheckAnimationTransitions()
     {
         if (clickCount == 1)
         {
+            if (_attackClips.Length > 0 && !IsAttacking)
+                _audioSource.PlayOneShot(_attackClips[Random.Range(0, _attackClips.Length)], 1f);
             IsAttacking = true;
             AttackInfo = new AttackInfo(10, Vector3.one, 1, _offset);
             Controller.Animator.SetBool("isShooting", true);

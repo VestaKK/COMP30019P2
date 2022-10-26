@@ -14,8 +14,17 @@ public class MainMenu : UIPanel
 
     public override void Initialise()
     {
-        playButton.onClick.AddListener(() => SceneManager.LoadScene("DungeonMain"));
-        optionsButton.onClick.AddListener(() => UIManager.instance.Show<OptionsMenu>(true));
-        quitButton.onClick.AddListener(() => Application.Quit());
+        playButton.onClick.AddListener(() => {
+            FindObjectOfType<AudioManager>().Play("UIClick");
+            SceneManager.LoadScene("DungeonMain");
+        });
+        optionsButton.onClick.AddListener(() => {
+            FindObjectOfType<AudioManager>().Play("UIClick");
+            UIManager.instance.Show<OptionsMenu>(true);
+        });
+        quitButton.onClick.AddListener(() => {
+            FindObjectOfType<AudioManager>().Play("UIClick");
+            Application.Quit();
+        });
     }
 }

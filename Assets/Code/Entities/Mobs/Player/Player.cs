@@ -26,6 +26,7 @@ public class Player : Mob
         OnHealthUpdate += _postProcessingScript.SetChromaticAbberationIntensity;
         PlayerInventory.OnInventoryUpdate += UpdateMaxHealth;
         PlayerInventory.OnInventoryUpdate += UpdateDamageBoost;
+        PlayerInventory.OnInventoryUpdate += PlayItemPickupClip;
     }
 
     private void OnDisable()
@@ -70,6 +71,50 @@ public class Player : Mob
             controller.BulletDamage *= 1.0f + damageBoost;
         }
     }
+
+    private void PlayItemPickupClip(ItemSlot itemSlot)
+    {
+        FindObjectOfType<AudioManager>().Play("ItemPickup");
+    }
+
+    void Update()
+    {
+        ManageMovementAudio();
+    }
+
+    private bool isPlayingFootsteps = false;
+    private bool isPlayingRollAudio = false;
+
+    private void ManageMovementAudio() 
+    {
+        PlayerController playerController = (PlayerController) MobController;
+        if (playerController.IsMoving() && !playerController.IsRolling && !isPlayingFootsteps)
+        {
+            StartCoroutine(PlayFootsteps(playerController));
+        }
+        if (playerController.IsRolling && !isPlayingRollAudio)
+        {
+            StartCoroutine(PlayRollAudio(playerController));
+        }
+    }
+
+    private IEnumerator PlayFootsteps(PlayerController controller) 
+    {
+        isPlayingFootsteps = true;
+        while (controller.IsMoving() && !controller.IsRolling)
+        {
+            FindObjectOfType<AudioManager>().Play("Footsteps");
+            yield return new WaitForSeconds(0.3f);
+        }
+        isPlayingFootsteps = false;
+    }
+
+    private IEnumerator PlayRollAudio(PlayerController controller)
+    {
+        isPlayingRollAudio = true;
+        FindObjectOfType<AudioManager>().Play("Roll");
+        yield return new WaitForSeconds(1.2f);
+        isPlayingRollAudio = false;
 
     // TODO: Move this to PlayerController
     public void ShootBullet() 
