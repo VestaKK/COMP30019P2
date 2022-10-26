@@ -12,8 +12,9 @@ public class EnemyController : MobController
     [SerializeField] bool isChasing;
 
     [SerializeField] protected AudioClip moveClip;
+    [SerializeField] private AudioClip[] _attackClips;
 
-    private AudioSource audioSource;
+    private AudioSource _audioSource;
 
     private void Awake()
     {
@@ -21,7 +22,7 @@ public class EnemyController : MobController
         Entity = this.GetComponent<Enemy>();
         agent.speed = Entity.Speed;
 
-        audioSource = this.GetComponent<AudioSource>();
+        _audioSource = this.GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -39,11 +40,11 @@ public class EnemyController : MobController
             LookAtTarget(Enemy.Player.transform);
             agent.SetDestination(Enemy.Player.Position);
 
-            if (moveClip != null && !audioSource.isPlaying)
+            if (moveClip != null && !_audioSource.isPlaying)
             {
-                audioSource.clip = moveClip;
-                audioSource.loop = true;
-                audioSource.Play();
+                _audioSource.clip = moveClip;
+                _audioSource.loop = true;
+                _audioSource.Play();
             }
             _animator.SetFloat("RelativeVelocityX", 0);
             _animator.SetFloat("RelativeVelocityZ", 1);
@@ -87,6 +88,9 @@ public class EnemyController : MobController
 
     private IEnumerator AttackCoroutine()
     {
+        if (_attackClips.Length > 0 && !enemyAttack.IsAttacking)
+        {   Debug.Log('s');
+            _audioSource.PlayOneShot(_attackClips[Random.Range(0, _attackClips.Length)], 1f);}
         enemyAttack.OnClick();
         yield return new WaitForSeconds(0.2f);
     }

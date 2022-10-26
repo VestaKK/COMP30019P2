@@ -10,8 +10,6 @@ public abstract class AttackController : MonoBehaviour
 
     [SerializeField] protected int _maxAttacks;
 
-    protected AudioSource _audioSource;
-
     private bool isResting = false;
     private bool isAttacking = false;
     protected float coolDown = 0;
@@ -35,11 +33,6 @@ public abstract class AttackController : MonoBehaviour
         clickCount = Mathf.Clamp(clickCount, 0, _maxAttacks);
 
         return CheckAnimationTransitions();
-    }
-
-    void Awake()
-    {
-        _audioSource = gameObject.GetComponent<AudioSource>();
     }
 
     void Update()
