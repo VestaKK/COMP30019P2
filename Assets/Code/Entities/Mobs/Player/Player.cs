@@ -115,6 +115,7 @@ public class Player : Mob
         FindObjectOfType<AudioManager>().Play("Roll");
         yield return new WaitForSeconds(1.2f);
         isPlayingRollAudio = false;
+    }
 
     // TODO: Move this to PlayerController
     public void ShootBullet() 
