@@ -30,7 +30,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7560212255015531543
 MonoBehaviour:
@@ -87,6 +87,13 @@ MonoBehaviour:
     - {fileID: 8300000, guid: 87c5f7cbf9c1c844581e87568014362a, type: 3}
     - {fileID: 8300000, guid: 8be240c1e41ce86458fa45ccabc43d44, type: 3}
     - {fileID: 8300000, guid: f92dc190c79920c4d9f9500055d541ea, type: 3}
+    volume: 0.12
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: UIClick
+    clips:
+    - {fileID: 8300000, guid: f8dcb7c6c59c0df42abe0ffac7692ebb, type: 3}
     volume: 0.12
     pitch: 1
     loop: 0
