@@ -1,6 +1,7 @@
 using UnityEngine.Audio;
 using UnityEngine;
 using System;
+using Random = UnityEngine.Random;
 
 public class AudioManager : MonoBehaviour
 {
@@ -23,7 +24,7 @@ public class AudioManager : MonoBehaviour
         foreach (Sound s in sounds)
         {
             s.source = gameObject.AddComponent<AudioSource>();
-            s.source.clip = s.clip;
+            s.source.clip = s.clips[0];
 
             s.source.volume = s.volume;
             s.source.pitch = s.pitch;
@@ -46,6 +47,7 @@ public class AudioManager : MonoBehaviour
             Debug.LogWarning("Sound missing");
             return;
         }
+        s.source.clip = s.clips[Random.Range(0, s.clips.Length)];
         s.source.Play();
     }
 }

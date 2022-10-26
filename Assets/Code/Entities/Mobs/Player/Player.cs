@@ -66,6 +66,46 @@ public class Player : Mob
         FindObjectOfType<AudioManager>().Play("ItemPickup");
     }
 
+    void Update()
+    {
+        ManageMovementAudio();
+    }
+
+    private bool isPlayingFootsteps = false;
+    private bool isPlayingRollAudio = false;
+
+    private void ManageMovementAudio() 
+    {
+        PlayerController playerController = (PlayerController) MobController;
+        if (playerController.IsMoving() && !playerController.IsRolling && !isPlayingFootsteps)
+        {
+            StartCoroutine(PlayFootsteps(playerController));
+        }
+        if (playerController.IsRolling && !isPlayingRollAudio)
+        {
+            StartCoroutine(PlayRollAudio(playerController));
+        }
+    }
+
+    private IEnumerator PlayFootsteps(PlayerController controller) 
+    {
+        isPlayingFootsteps = true;
+        while (controller.IsMoving() && !controller.IsRolling)
+        {
+            FindObjectOfType<AudioManager>().Play("Footsteps");
+            yield return new WaitForSeconds(0.3f);
+        }
+        isPlayingFootsteps = false;
+    }
+
+    private IEnumerator PlayRollAudio(PlayerController controller)
+    {
+        isPlayingRollAudio = true;
+        FindObjectOfType<AudioManager>().Play("Roll");
+        yield return new WaitForSeconds(1.2f);
+        isPlayingRollAudio = false;
+    }
+
     public override void OnDeath()
     {
         gameObject.SetActive(false);
