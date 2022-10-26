@@ -677,7 +677,7 @@ MonoBehaviour:
   spawnFloorTile: {fileID: 919132149155446097, guid: 3b14ea48188ba964c87b42d39a20efb0, type: 3}
   spawnFloorTileEdge: {fileID: 919132149155446097, guid: 383752231b9288247b8d2d9d7b28313f, type: 3}
   spawnFloorTileCorner: {fileID: 919132149155446097, guid: 6f974d664ed26b54bbb3d9c1450bdc39, type: 3}
-  exitObject: {fileID: 919132149155446097, guid: fcd22fd0a044dfc4c976e42fd8f67899, type: 3}
+  exitObject: {fileID: 124687315787621638, guid: fb2d6f5a6d590ad4686be2c1473ac765, type: 3}
   pillarObject: {fileID: 919132149155446097, guid: 9c51544e310790e4e87196964745ac1f, type: 3}
   shelvesObjectsList:
   - {fileID: 919132149155446097, guid: c80eb0921d56fe345a10377a5914a3de, type: 3}
@@ -1125,19 +1125,19 @@ MonoBehaviour:
     source: {fileID: 0}
   - name: Swing1
     clip: {fileID: 8300000, guid: 4b71d99dfb52525488a02adcaad52c12, type: 3}
-    volume: 0.15
+    volume: 0.1
     pitch: 1
     loop: 0
     source: {fileID: 0}
   - name: Swing2
     clip: {fileID: 8300000, guid: 7bb34605e50d0c74e818cef8912aa259, type: 3}
-    volume: 0.15
+    volume: 0.1
     pitch: 1
     loop: 0
     source: {fileID: 0}
   - name: ItemPickup
     clip: {fileID: 8300000, guid: 15df2506b655de242b5315c40e081dc0, type: 3}
-    volume: 0.12
+    volume: 0.15
     pitch: 1
     loop: 0
     source: {fileID: 0}
@@ -1149,7 +1149,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 528212808}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 83.507286, y: 2.1308482, z: 32.86262}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
