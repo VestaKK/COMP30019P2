@@ -28,9 +28,18 @@ public class EnemyController : MobController
     // Update is called once per frame
     void Update()
     {
-        base.Update();
         if (GameManager.isPaused) return;
-        EntityMove();
+        base.Update();
+
+        if (Mob.isDead)
+        {
+            agent.SetDestination(Enemy.Position);
+            transform.LookAt(transform);
+        }
+        else
+        {
+            EntityMove();
+        }
         // Check Attack
     }
 
@@ -100,7 +109,8 @@ public class EnemyController : MobController
     }
 
     private bool CanDetect(Entity other) {
-        return Enemy.DistanceToSq(other) < DetectionDistanceSq;
+        return Enemy.DistanceToSq(other) < DetectionDistanceSq && 
+            Enemy.CurrentRoom == other.CurrentRoom;
     }
 
     public override Vector3 CalculateMoveDirection()

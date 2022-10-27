@@ -28,7 +28,7 @@ public class PlayerController : MobController
     void Update()
     {
         if (GameManager.isPaused) return;
-
+        
         base.Update();
         if(InputManager.GetKeyDown(InputAction.LockOn)) {
             HandleLockOn();
@@ -93,7 +93,7 @@ public class PlayerController : MobController
             Mob closestToMouse = null;
             float closestDist = 0f;
             foreach(Mob mob in mobs) {
-                if(mob.Equals(this.Mob))
+                if(mob.Equals(this.Mob) || mob.isDead)
                     continue;
 
                 float dist = Mob.DistanceToSq(mob);

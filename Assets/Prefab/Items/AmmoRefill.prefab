@@ -51,7 +51,6 @@ MonoBehaviour:
   _animator: {fileID: 0}
   _currentDungeon: {fileID: 0}
   agent: {fileID: 0}
-  player: {fileID: 1842173982979897587}
   distanceToPlayer: 0
 --- !u!143 &1773936229093590093
 CharacterController:
@@ -84,7 +83,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _controller: {fileID: 5650673010094084038}
-  _speed: 5
+  _speed: 7
   item: {fileID: 11400000, guid: e7ae0f2eca8e8544aa97f6ec21d0b63f, type: 2}
 --- !u!1001 &581971954544350343
 PrefabInstance:

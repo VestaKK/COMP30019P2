@@ -42,10 +42,17 @@ public class Enemy : Mob
 
     private IEnumerator PlayDeathAnimation()
     {
-        MobController.Animator.SetTrigger("DeathAnimation");
         Destroy(HealthBar.gameObject);
         GameManager.AddToScore(_score);
-        yield return new WaitForSeconds(1f);
+        MobController.Animator.SetTrigger("DeathAnimation");
+
+        while (
+            !MobController.Animator.GetCurrentAnimatorStateInfo(0).IsName("DeathAnimation") ||
+            MobController.Animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 0.95f &&
+            MobController.Animator.GetCurrentAnimatorStateInfo(0).IsName("DeathAnimation")) 
+        {
+            yield return null;
+        }
         gameObject.SetActive(false);
         if (item != null)
             Instantiate(item, transform.position + Vector3.up, Quaternion.identity);

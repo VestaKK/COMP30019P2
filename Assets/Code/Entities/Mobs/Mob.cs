@@ -25,7 +25,7 @@ public abstract class Mob : Entity, IDamageable
     
     [SerializeField] protected AudioClip deathClip;
     public abstract void OnDeath();
-    protected bool isDead = false;
+    public bool isDead = false;
 
     protected void Awake() {
         this._health = _maxHealth;
