@@ -142,9 +142,9 @@ public class UIManager : MonoBehaviour
             }   
         }
 
-        if (GameManager.isPaused) return;
+        // if (GameManager.isPaused) return;
 
-        if (Input.GetKeyDown(KeyCode.Tab))
+        if (Input.GetKeyDown(KeyCode.Tab) && !GameManager.isPaused)
         {
             UIPanel inventoryUI = Get<InventoryUI>();
             if (inventoryUI != null)
