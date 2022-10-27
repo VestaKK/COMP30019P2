@@ -68,6 +68,8 @@ public class GameManager : MonoBehaviour
         SetUpDungeon();
         yield return new WaitForSecondsRealtime(0.2f);
 
+        _currentPlayer.Heal(99999f);
+
         Camera.main.GetComponent<CameraLookAt>().Target(_instance._currentPlayer);
         UIManager.instance.Show<PlayerHUD>();
         UnpauseGame();

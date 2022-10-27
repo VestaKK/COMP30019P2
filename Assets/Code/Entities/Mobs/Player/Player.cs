@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -39,7 +40,9 @@ public class Player : Mob
     [SerializeField] private PlayerInventory _inventory;
 
     public override void TakeDamage(AttackInfo info) {
-        Health -= info.Damage;
+        float damage = info.Damage;
+        if (((PlayerController) MobController).IsRolling) damage /= 2;
+        Health -= damage;
 
         OnTakeDamage.Invoke();
         OnHealthUpdate.Invoke(Health / MaxHealth);
@@ -48,6 +51,12 @@ public class Player : Mob
         {
             OnDeath();
         }
+    }
+
+    public void Heal(float health)
+    {
+        Health = Math.Min(Health + health, MaxHealth);
+        OnHealthUpdate.Invoke(Health / MaxHealth);
     }
 
     private void UpdateMaxHealth(ItemSlot itemSlot)
