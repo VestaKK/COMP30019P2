@@ -52,8 +52,9 @@ public class GameManager : MonoBehaviour
         if (_instance._levelCount > 0)
             AddToScore(500);
 
+        PauseGame();
         UIManager.instance.Show<LOADING>(false);
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSecondsRealtime(0.2f);
 
         if (_instance._currentDungeon != null) 
         {
@@ -65,10 +66,11 @@ public class GameManager : MonoBehaviour
         }
 
         SetUpDungeon();
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSecondsRealtime(0.2f);
 
         Camera.main.GetComponent<CameraLookAt>().Target(_instance._currentPlayer);
         UIManager.instance.Show<PlayerHUD>();
+        UnpauseGame();
 
         yield return null;
     }

@@ -12,10 +12,13 @@ public class GunState : PlayerState
         Player.LookAtMouse();
         Player.Motion.UpdateRelativeVelocity();
         HandleMovementAnimations();
+        Player.Animator.SetLayerWeight(1, 1);
     }
 
     public override void Update()
     {
+        Debug.Log(Player.IsMoving().ToString());
+
         Player.LookAtMouse();
 
         Player.Motion.UpdateRelativeVelocity();
@@ -28,9 +31,6 @@ public class GunState : PlayerState
                 PlayerInventory.FireBullet();
             }   
         }
-
-
-        
 
         HandleMovementAnimations();
 
@@ -46,6 +46,7 @@ public class GunState : PlayerState
     public override void Exit()
     {
         Player.Motion.UpdateRelativeVelocity();
+        Player.Animator.SetLayerWeight(1, 0);
         HandleMovementAnimations();
     }
 

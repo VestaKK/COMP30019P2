@@ -11,7 +11,7 @@ public class TextDisplay : MonoBehaviour
 
     public IEnumerator DisplayFadingTextCoroutine(string Text, float duration) 
     {
-        float startingAlpha = 0.8f;
+        float startingAlpha = 1f;
         float timePassed = 0f;
 
 

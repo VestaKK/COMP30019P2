@@ -109,8 +109,8 @@ public class EnemyController : MobController
     }
 
     private bool CanDetect(Entity other) {
-        return Enemy.DistanceToSq(other) < DetectionDistanceSq && 
-            Enemy.CurrentRoom == other.CurrentRoom;
+        return Enemy.DistanceToSq(other) < DetectionDistanceSq; 
+            //|| Enemy.CurrentRoom == other.CurrentRoom;
     }
 
     public override Vector3 CalculateMoveDirection()

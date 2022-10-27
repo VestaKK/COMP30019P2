@@ -6,16 +6,17 @@ Shader "PUNKSOULS/PostProcessing"
         _SampleX("X-axis Resolution", float) = 1920
         _SampleY("Y-axis Resolution", float) = 1080
         _Amount("Chromatic Abberation Intensity", Range(0,0.02)) = 0
+        _Rate("Sin Wave Rate", float) = 1
+        _Amplitude("Sin Wave Amplitude", float) = 0.3
+        _Tightness("Lens Tightness", float) = 10
+        _Intensity("Lens Intensity", float) = 10
 
     }
     SubShader
     {
-        // No culling or depth
-        Cull Off ZWrite Off ZTest Always
-
         Pass
         {
-            Tags { "RenderType" = "Opaque" }
+            Tags { "RenderType" = "Transperant" }
             LOD 100
 
             CGPROGRAM
@@ -28,7 +29,6 @@ Shader "PUNKSOULS/PostProcessing"
             {
                 float4 vertex : POSITION;
                 float2 uv : TEXCOORD0;
-                float2 depth : TEXCOORD1;
             };
 
             struct v2f
@@ -42,7 +42,6 @@ Shader "PUNKSOULS/PostProcessing"
                 v2f o;
                 o.vertex = UnityObjectToClipPos(v.vertex);
                 o.uv = v.uv;
-                UNITY_TRANSFER_DEPTH(o.depth);
                 return o;
             }
 
@@ -51,6 +50,10 @@ Shader "PUNKSOULS/PostProcessing"
             float _SampleX;
             float _SampleY;
             float _Amount;
+            float _Rate;
+            float _Amplitude;
+            float _Tightness;
+            float _Intensity;
 
             float2 pixelate(float2 uv, const float pixelSampleX, const float pixelSampleY) {
                 float pixelX = 1 / pixelSampleX;
@@ -60,17 +63,35 @@ Shader "PUNKSOULS/PostProcessing"
 
             fixed4 frag(v2f i) : SV_Target
             {
-                float depth = tex2D(_CameraDepthTexture, i.uv).r;
 
-                depth = clamp(0, 0.3, Linear01Depth(depth));
+                // Lens Distortion
+                float2 uvCentered = i.uv * 2 - 1;
+                float2 distortionMagnitude = sqrt(uvCentered.x * uvCentered.x * uvCentered.y * uvCentered.y) * (_Amount / 0.02);
+                float2 smoothDistortionMagnitude = pow(distortionMagnitude, _Tightness);
+                float2 uvDistorted = i.uv + uvCentered * smoothDistortionMagnitude * _Intensity;
 
-                float2 UV = pixelate(i.uv, _SampleX, _SampleY);
-                float _AmountX = _Amount * (UV.x - 0.5f);
-                float _AmountY = _Amount * (UV.y - 0.5f);
+                // Pixelation
+                float2 UV = pixelate(uvDistorted, _SampleX, _SampleY);
+                
+                if (uvDistorted.x < 0 || uvDistorted.x > 1)
+                    return float4(0, 0, 0, 0);
 
-                float colR = tex2D(_MainTex, float2(UV.x - _AmountX, UV.y - _AmountY)).r;
-                float colG = tex2D(_MainTex, UV).g;
-                float colB = tex2D(_MainTex, float2(UV.x + _AmountX, UV.y + _AmountY)).b;
+                if (uvDistorted.y < 0 || uvDistorted.y > 1)
+                    return float4(0, 0, 0, 0);
+
+                _Amount = _Amount - _Amount * _Amplitude * sin(_Time * _Rate);
+
+                // Chromatic Abberation
+                float _AmountX = _Amount * pow(distortionMagnitude.x, 1.2);
+                float _AmountY = _Amount * pow(distortionMagnitude.y, 1.2);
+                
+                float2 uvRed = float2(UV.x - _AmountX, UV.y - _AmountY);
+                float2 uvGreen = float2(UV);
+                float2 uvBlue = float2(UV.x + _AmountX, UV.y + _AmountY);
+
+                float colR = tex2D(_MainTex, uvRed).r;
+                float colG = tex2D(_MainTex, uvGreen).g;
+                float colB = tex2D(_MainTex, uvBlue).b;
                 fixed4 col = fixed4(colR, colG, colB, 1);
                 
                 return col;

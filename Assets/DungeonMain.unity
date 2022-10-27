@@ -361,14 +361,14 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 237305200}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 923018175}
   - {fileID: 421350090}
-  m_Father: {fileID: 1322596251}
+  m_Father: {fileID: 1147899015}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -1447,6 +1447,7 @@ GameObject:
   - component: {fileID: 506591801}
   - component: {fileID: 506591803}
   - component: {fileID: 506591802}
+  - component: {fileID: 506591804}
   m_Layer: 5
   m_Name: HealPanel
   m_TagString: Untagged
@@ -1461,12 +1462,12 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 506591800}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1322596251}
+  m_Father: {fileID: 1147899015}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -1512,6 +1513,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 506591800}
   m_CullTransparentMesh: 1
+--- !u!114 &506591804
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 506591800}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f331f6e54f0a0334092f5a197ceee245, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &507788979
 GameObject:
   m_ObjectHideFlags: 0
@@ -1628,8 +1641,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   postProcessingMat: {fileID: 2100000, guid: a8f351aca95f9b644a303356767d8006, type: 2}
   _chromaticAmountMax: 0.02
-  _rate: 5
-  _amplitude: 0.4
 --- !u!1 &626955176
 GameObject:
   m_ObjectHideFlags: 0
@@ -2571,6 +2582,9 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 237305201}
+  - {fileID: 2104673452}
+  - {fileID: 506591801}
   - {fileID: 1322596251}
   - {fileID: 1702228431}
   - {fileID: 1266348724}
@@ -2907,9 +2921,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1626321041}
-  - {fileID: 2104673452}
-  - {fileID: 506591801}
-  - {fileID: 237305201}
   m_Father: {fileID: 1147899015}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2969,8 +2980,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _player: {fileID: 0}
-  hitPanel: {fileID: 2104673453}
-  healPanel: {fileID: 506591802}
+  hitPanel: {fileID: 2104673455}
+  healPanel: {fileID: 506591804}
   textDisplay: {fileID: 237305204}
 --- !u!1 &1428182423
 GameObject:
@@ -4498,6 +4509,7 @@ GameObject:
   - component: {fileID: 2104673452}
   - component: {fileID: 2104673454}
   - component: {fileID: 2104673453}
+  - component: {fileID: 2104673455}
   m_Layer: 5
   m_Name: HItPanel
   m_TagString: Untagged
@@ -4512,12 +4524,12 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2104673451}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1322596251}
+  m_Father: {fileID: 1147899015}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -4563,6 +4575,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2104673451}
   m_CullTransparentMesh: 1
+--- !u!114 &2104673455
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2104673451}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f331f6e54f0a0334092f5a197ceee245, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &7560212254528542558
 PrefabInstance:
   m_ObjectHideFlags: 0

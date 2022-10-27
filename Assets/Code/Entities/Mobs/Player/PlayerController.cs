@@ -12,7 +12,8 @@ public class PlayerController : MobController
     [SerializeField] float maxLockOnRadius;
     [SerializeField] HitboxController _playerBullet;
     [SerializeField] float _bulletDamage = 50;
-
+    [SerializeField] Transform _gunSlot;
+    [SerializeField] Transform _swordSlot;
     StateManager _stateManager;
     PlayerState _currentState;
 
@@ -22,6 +23,9 @@ public class PlayerController : MobController
         _stateManager = new StateManager(this, StateManager.State.Idle);
         Entity = this.GetComponent<Player>();
         _camera = Camera.main;
+        _swordSlot.gameObject.SetActive(true);
+        _gunSlot.gameObject.SetActive(false);
+        _animator.SetBool("isMoving", false);
     }
 
     // Update is called once per frame
@@ -30,10 +34,31 @@ public class PlayerController : MobController
         if (GameManager.isPaused) return;
         
         base.Update();
+
         if(InputManager.GetKeyDown(InputAction.LockOn)) {
             HandleLockOn();
         }
+
         StateManager.Update();
+
+        if (IsMoving())
+            _animator.SetBool("isMoving", true);
+        else
+            _animator.SetBool("isMoving", false);
+
+        if (!_isRolling) 
+        {
+            if (InputManager.GetKey(InputAction.Aim))
+            {
+                _swordSlot.gameObject.SetActive(false);
+                _gunSlot.gameObject.SetActive(true);
+            }
+            else
+            {
+                _swordSlot.gameObject.SetActive(true);
+                _gunSlot.gameObject.SetActive(false);
+            }
+        }
     }
 
     // Called by rolling animation
@@ -162,4 +187,6 @@ public class PlayerController : MobController
     public Vector3 Velocity { get => Motion.Velocity; set => Motion.Velocity = value; }
     public HitboxController PlayerBullet { get => _playerBullet; set => _playerBullet = value; }
     public float BulletDamage { get => _bulletDamage; set => _bulletDamage = value; }
+    public Transform GunSlot { get => _gunSlot; set => _gunSlot = value; }
+    public Transform SwordSlot { get => _swordSlot; set => _swordSlot = value; }
 }
