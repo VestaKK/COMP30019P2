@@ -98,7 +98,7 @@ public class EnemyController : MobController
     private IEnumerator AttackCoroutine()
     {
         if (_attackClips.Length > 0 && !enemyAttack.IsAttacking)
-            _audioSource.PlayOneShot(_attackClips[Random.Range(0, _attackClips.Length)], 1f);
+            _audioSource.PlayOneShot(_attackClips[Random.Range(0, _attackClips.Length)], 0.8f);
         enemyAttack.OnClick();
         yield return new WaitForSeconds(0.2f);
     }

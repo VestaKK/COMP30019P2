@@ -136,6 +136,8 @@ public class Player : Mob
             transform.rotation) as RangedHitboxController;
 
         newRangedHitbox.Initialize(new AttackInfo(controller.BulletDamage, Vector3.one, 1, Vector3.zero), 10, this.gameObject.tag);
+
+        FindObjectOfType<AudioManager>().Play("Shoot");
     }
 
     public override void OnDeath()

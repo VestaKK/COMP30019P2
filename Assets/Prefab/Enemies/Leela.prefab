@@ -235,6 +235,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 598155daf75e90841ba8ac09e5b95a3f, type: 3}
   - {fileID: 8300000, guid: 45bf0933999ccd6438dadce8b96bc650, type: 3}
   deathClip: {fileID: 8300000, guid: 78d4908328e546e4eb88ae69f0bf6f62, type: 3}
+  isDead: 0
   item: {fileID: 0}
   _score: 150
 --- !u!143 &3326934664413890109
@@ -279,7 +280,8 @@ MonoBehaviour:
   enemyAttack: {fileID: 8189845659579415343}
   isChasing: 0
   moveClip: {fileID: 0}
-  _attackClips: []
+  _attackClips:
+  - {fileID: 8300000, guid: 8f1d2fc66b86f6d468c90ffca5455eca, type: 3}
 --- !u!114 &1569621614336331849
 MonoBehaviour:
   m_ObjectHideFlags: 0
