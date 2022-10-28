@@ -98,3 +98,14 @@ MonoBehaviour:
     pitch: 1
     loop: 0
     source: {fileID: 0}
+  - name: Shoot
+    clips:
+    - {fileID: 8300000, guid: bdb58a552b0b93d41a7a475ae299f26c, type: 3}
+    - {fileID: 8300000, guid: 92bd31e0d0d1e6041a351000b8cac731, type: 3}
+    - {fileID: 8300000, guid: 0ae4b0666d4d9bb46b9c9f2455de22a1, type: 3}
+    - {fileID: 8300000, guid: 7a7b2d2f51358b54e8bc02568ad48e41, type: 3}
+    - {fileID: 8300000, guid: 73b95b614f99aba4e84fe5303c63f26a, type: 3}
+    volume: 0.12
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}

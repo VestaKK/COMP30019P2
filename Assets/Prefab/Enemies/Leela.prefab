@@ -280,7 +280,8 @@ MonoBehaviour:
   enemyAttack: {fileID: 8189845659579415343}
   isChasing: 0
   moveClip: {fileID: 0}
-  _attackClips: []
+  _attackClips:
+  - {fileID: 8300000, guid: 8f1d2fc66b86f6d468c90ffca5455eca, type: 3}
 --- !u!114 &1569621614336331849
 MonoBehaviour:
   m_ObjectHideFlags: 0
