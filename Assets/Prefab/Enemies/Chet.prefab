@@ -258,6 +258,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 598155daf75e90841ba8ac09e5b95a3f, type: 3}
   - {fileID: 8300000, guid: 45bf0933999ccd6438dadce8b96bc650, type: 3}
   deathClip: {fileID: 8300000, guid: 78d4908328e546e4eb88ae69f0bf6f62, type: 3}
+  isDead: 0
   item: {fileID: 0}
   _score: 100
 --- !u!143 &3326934664413890109
@@ -296,7 +297,7 @@ MonoBehaviour:
   agent: {fileID: 8987647246713590478}
   _lockOnTarget: {fileID: 0}
   _healthBar: {fileID: 1264699916455806509}
-  DetectionDistanceSq: 150
+  DetectionDistanceSq: 100
   AttackDistanceSq: 50
   ChaseDistanceSq: 600
   enemyAttack: {fileID: 6930517222970800787}

@@ -7,7 +7,7 @@ public class ItemController : EntityController
     [SerializeField] private float distanceToPlayer;
 
     float turnSpeed = 100f;
-    private float noPickupTime = 1f;
+    private float noPickupTime = 0.5f;
 
     protected void Awake()
     {

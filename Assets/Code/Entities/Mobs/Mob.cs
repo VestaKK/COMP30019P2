@@ -43,7 +43,6 @@ public abstract class Mob : Entity, IDamageable
         TakeDamage(new AttackInfo(dmg, Vector3.zero,0,Vector3.zero));
     }
 
-
     // Getters and Setters
     public float Health {
         get { return this._health; }

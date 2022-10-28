@@ -142,7 +142,7 @@ public class UIManager : MonoBehaviour
             }   
         }
 
-        if (GameManager.isPaused) return;
+        if (GameManager.isPaused || GameManager.GameOver) return;
 
         if (Input.GetKeyDown(KeyCode.Tab))
         {

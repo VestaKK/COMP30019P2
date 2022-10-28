@@ -14,12 +14,14 @@ public class EnemyController : MobController
     [SerializeField] protected AudioClip moveClip;
     [SerializeField] private AudioClip[] _attackClips;
 
+    private bool attackCoroutine = false;
     private AudioSource _audioSource;
 
     private void Awake()
     {
         base.Awake();
         Entity = this.GetComponent<Enemy>();
+
         agent.speed = Entity.Speed;
 
         _audioSource = this.GetComponent<AudioSource>();
@@ -44,7 +46,9 @@ public class EnemyController : MobController
     }
 
     public void EntityMove() {
-        if ((isChasing = ShouldChase()) && !enemyAttack.IsAttacking)
+        if ((isChasing = ShouldChase()) && 
+            !attackCoroutine &&
+            !enemyAttack.IsAttacking)
         {
             LookAtTarget(Enemy.Player.transform);
             agent.SetDestination(Enemy.Player.Position);
@@ -82,8 +86,9 @@ public class EnemyController : MobController
     }
 
     private bool ShouldChase() {
-        if(CanDetect(Enemy.Player) || isChasing) { 
-            return !ShouldAttack() && CanChase(Enemy.Player);
+        if(CanDetect(Enemy.Player) || isChasing) {
+            if (CanChase(Enemy.Player)) 
+                return !ShouldAttack();
         }
         return false;
     }
@@ -97,10 +102,18 @@ public class EnemyController : MobController
 
     private IEnumerator AttackCoroutine()
     {
+        attackCoroutine = true;
+
         if (_attackClips.Length > 0 && !enemyAttack.IsAttacking)
             _audioSource.PlayOneShot(_attackClips[Random.Range(0, _attackClips.Length)], 1f);
         enemyAttack.OnClick();
-        yield return new WaitForSeconds(0.2f);
+        while (enemyAttack.IsAttacking)
+        {
+            yield return null;
+        }
+
+        attackCoroutine = false;
+        yield break;
     }
 
     private bool CanChase(Entity other ) {
@@ -108,7 +121,7 @@ public class EnemyController : MobController
     }
 
     private bool CanDetect(Entity other) {
-        return Enemy.DistanceToSq(other) < DetectionDistanceSq; 
+        return Enemy.DistanceToSq(other) < DetectionDistanceSq || Enemy.CurrentRoom == other.CurrentRoom;  
             //|| Enemy.CurrentRoom == other.CurrentRoom;
     }
 

@@ -15,7 +15,6 @@ public class PlayerInventory : MonoBehaviour
     private Slot<Weapon> _mainWeaponSlot;
     private Slot<Weapon> _offHandSlot;
 
-    [SerializeField] int _maxBullets;
     [SerializeField] int _numBullets;
 
     [SerializeField] private List<ItemSlot> itemSlots;
@@ -33,7 +32,7 @@ public class PlayerInventory : MonoBehaviour
             _instance._offHandSlot = new Slot<Weapon>(this);
             _instance.itemSlots = new List<ItemSlot>();
             _instance.itemDictionary = new Dictionary<Item, ItemSlot>();
-            _instance._numBullets = _maxBullets;
+            _instance._numBullets = 10;
             OnInventoryUpdateBullets.Invoke();
         }
         else
@@ -64,11 +63,7 @@ public class PlayerInventory : MonoBehaviour
 
         if (newItem.id == 2)
         {
-            Debug.Log(" lsfigjkhbdfgh");
-            if (!FullBullets())
-            {
-                AddBullet();
-            }
+            AddBullet(2);
         }
 
     }
@@ -83,11 +78,6 @@ public class PlayerInventory : MonoBehaviour
         return NumBullets > 0;
     }
 
-    public static bool FullBullets()
-    {
-        return NumBullets == MaxBullets;
-    }
-
     public static void FireBullet() 
     {
         NumBullets--;
@@ -100,8 +90,14 @@ public class PlayerInventory : MonoBehaviour
         OnInventoryUpdateBullets.Invoke();
     }
 
+    public static void AddBullet(int amount)
+    {
+        NumBullets += amount;
+        OnInventoryUpdateBullets.Invoke();
+    }
+
+
     public static int NumBullets { get => _instance._numBullets; set => _instance._numBullets = value; }
-    public static int MaxBullets { get => _instance._maxBullets; set => _instance._maxBullets = value; }
 }
 
 

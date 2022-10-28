@@ -13,8 +13,11 @@ public class GameManager : MonoBehaviour
     [SerializeField] Player _playerPrefab;
 
     [SerializeField] private int _score = 0;
+
     private int _levelCount = 0;
+
     private float _timer = 0;
+
     [SerializeField] private Transform _scoreText;
 
     DungeonController _currentDungeon = null;
@@ -49,7 +52,7 @@ public class GameManager : MonoBehaviour
 
     IEnumerator NextLevel() 
     {
-        if (_instance._levelCount > 0)
+        if (_instance.LevelCount > 0)
             AddToScore(500);
 
         PauseGame();
@@ -67,8 +70,7 @@ public class GameManager : MonoBehaviour
 
         SetUpDungeon();
         yield return new WaitForSecondsRealtime(0.2f);
-
-        _currentPlayer.Heal(99999f);
+        _currentPlayer.Heal(20);
 
         Camera.main.GetComponent<CameraLookAt>().Target(_instance._currentPlayer);
         UIManager.instance.Show<PlayerHUD>();
@@ -79,6 +81,9 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
+        if (_instance._GameOver)
+            return;
+
         if (!_instance._isPaused)
             _timer += Time.deltaTime;
         
@@ -94,7 +99,7 @@ public class GameManager : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.E))
             {
-                _instance._levelCount++;
+                _instance.LevelCount++;
                 StartCoroutine(NextLevel());
             }
         }
@@ -108,6 +113,13 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public static float GetHealthDifficultyScalar() 
+    {
+        if (_instance._levelCount == 0) return 0;
+        Debug.Log(Mathf.Sqrt((_instance._levelCount) / 4.0f).ToString());
+        return Mathf.Sqrt((_instance._levelCount) / 9.0f);
+    }
+
     private static void SetUpDungeon() {
         if (_instance._currentPlayer == null)
         {
@@ -118,7 +130,7 @@ public class GameManager : MonoBehaviour
             Quaternion.identity);
 
             _instance._currentPlayer = p;
-            _instance._currentPlayer.OnPlayerInstanceDeath += _instance.GameOver;
+            _instance._currentPlayer.OnPlayerInstanceDeath += _instance.GameOverFunc;
 
             UIManager.instance.Get<PlayerHUD>().LinkPlayer(_instance._currentPlayer);
         }
@@ -157,20 +169,22 @@ public class GameManager : MonoBehaviour
         _instance._isPaused = false;
     }
 
-    private void GameOver() 
+    private void GameOverFunc() 
     {
         _instance._GameOver = true;
         GameOverScreen gameOverScreen = (GameOverScreen)UIManager.instance.Get<GameOverScreen>();
 
         if (gameOverScreen != null) 
         {
-            gameOverScreen.SetStats(_instance._score, _instance._levelCount, _instance._timer);
+            gameOverScreen.SetStats(_instance._score, _instance.LevelCount, _instance._timer);
             UIManager.instance.Show(gameOverScreen, false);
         }
     }
 
+    public static bool GameOver { get => _instance._GameOver; }
     public static Player CurrentPlayer { get => _instance._currentPlayer; set => _instance._currentPlayer = value; }
     public static DungeonController CurrentDungeon { get => _instance._currentDungeon; set => _instance._currentDungeon = value; }
     public static bool isPaused { get => _instance._isPaused; }
     public static bool inExitRoom { get => _instance._inExitRoom; }
+    public int LevelCount { get => _levelCount; set => _levelCount = value; }
 }

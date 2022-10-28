@@ -11,6 +11,10 @@ public class Player : Mob
     public delegate void HealthUpdateEvent(float healthPercentage);
     public event HealthUpdateEvent OnHealthUpdate;
 
+    public delegate void HealEvent();
+    public event HealEvent OnHeal;
+
+
     PostProcessing _postProcessingScript;
 
     public delegate void DeathEvent();
@@ -28,6 +32,7 @@ public class Player : Mob
         PlayerInventory.OnInventoryUpdate += UpdateMaxHealth;
         PlayerInventory.OnInventoryUpdate += UpdateDamageBoost;
         PlayerInventory.OnInventoryUpdate += PlayItemPickupClip;
+        PlayerInventory.OnInventoryUpdate += UpdateHealth;
     }
 
     private void OnDisable()
@@ -35,6 +40,9 @@ public class Player : Mob
         OnHealthUpdate -= _postProcessingScript.SetChromaticAbberationIntensity;
         PlayerInventory.OnInventoryUpdate -= UpdateMaxHealth;
         PlayerInventory.OnInventoryUpdate -= UpdateDamageBoost;
+        PlayerInventory.OnInventoryUpdate -= PlayItemPickupClip;
+        PlayerInventory.OnInventoryUpdate -= UpdateHealth;
+
     }
 
     [SerializeField] private PlayerInventory _inventory;
@@ -64,9 +72,10 @@ public class Player : Mob
         if (itemSlot.item.id == 0) // Health boost item
         {
             float healthPercentage = this.Health / this.MaxHealth;
-            float healthBoost = 0.10f;
+            float healthBoost = 0.15f;
             this.MaxHealth *= (1 + healthBoost * itemSlot.count) / (1 - healthBoost + healthBoost * itemSlot.count);
             this.Health = this.MaxHealth * healthPercentage;
+            OnHealthUpdate.Invoke(Health / MaxHealth);
         }
     }
 
@@ -74,10 +83,19 @@ public class Player : Mob
     {
         if (itemSlot.item.id == 1)
         {
-            float damageBoost = 0.10f;
+            float damageBoost = 0.15f;
             PlayerController controller = (PlayerController)this._controller;
             controller.PlayerMelee.DamageBoost += damageBoost;
             controller.BulletDamage *= 1.0f + damageBoost;
+        }
+    }
+
+    private void UpdateHealth(ItemSlot itemSlot)
+    {
+        if (itemSlot.item.id == 3) // Health boost item
+        {
+            Heal(MaxHealth * 0.1f);
+            OnHeal.Invoke();
         }
     }
 

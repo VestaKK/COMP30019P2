@@ -24,7 +24,7 @@ public class PanelFadeScreen : MonoBehaviour
         while (panelImage.color.a > 0.05)
         {
             Color temp = panelImage.color;
-            temp.a = temp.a - 0.3f * Time.deltaTime;
+            temp.a = temp.a - 0.3f * Time.unscaledDeltaTime;
             panelImage.color = temp;
             yield return null;
         }

@@ -11,9 +11,11 @@ public class PlayerHUD : UIPanel
     [SerializeField] private PanelFadeScreen hitPanel;
     [SerializeField] private PanelFadeScreen healPanel;
     [SerializeField] private TextDisplay textDisplay;
+    [SerializeField] private ProgressBar healthBar;
 
     bool hitPanelCoroutine = false;
-
+    bool healthUpdatePending = false;
+    float healthPercentageToUpdate = 0;
     public override void Initialise()
     {
         PlayerInventory.OnInventoryUpdate += DisplayItemPickupText;
@@ -25,6 +27,22 @@ public class PlayerHUD : UIPanel
     {
         _player = player;
         _player.OnTakeDamage += HUDDamageEffect;
+        _player.OnHealthUpdate += UpdateHealthBar;
+        _player.OnHeal += HUDHealEffect;
+    }
+
+    public void UpdateHealthBar(float healthPercentage) 
+    {
+        if (this.gameObject.activeSelf)
+        { 
+            
+            healthBar.SetProgress(healthPercentage);
+        }
+        else 
+        {
+            healthUpdatePending = true;
+            healthPercentageToUpdate = healthPercentage;
+        }
     }
 
     private void OnDestroy()
@@ -33,11 +51,26 @@ public class PlayerHUD : UIPanel
         GameManager.OnEnterExitRoom -= DisplayInteractiveText;
         GameManager.OnExitExitRoom -= DropInteractiveText;
         _player.OnTakeDamage -= HUDDamageEffect;
+        _player.OnHealthUpdate -= UpdateHealthBar;
+        _player.OnHeal -= HUDHealEffect;
     }
 
     private void DisplayItemPickupText(ItemSlot itemSlot) 
     {
         textDisplay.DisplayFadingText("+ " + itemSlot.item.name, 3f);
+    }
+
+    private void Update()
+    {
+        if (healthUpdatePending) 
+        {
+            if (this.gameObject.activeSelf) 
+            {
+                healthBar.SetProgressInstant(healthPercentageToUpdate);
+                healthUpdatePending = false;
+                healthPercentageToUpdate = 0;
+            }
+        }
     }
 
     private void DisplayInteractiveText() 
@@ -59,5 +92,10 @@ public class PlayerHUD : UIPanel
     private void HUDDamageEffect() 
     {
         hitPanel.FadeEffect();
+    }
+
+    private void HUDHealEffect() 
+    {
+        healPanel.FadeEffect();
     }
 }

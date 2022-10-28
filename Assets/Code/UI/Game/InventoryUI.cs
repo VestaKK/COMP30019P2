@@ -10,7 +10,6 @@ public class InventoryUI : UIPanel {
     private Dictionary<ItemSlot, GameObject> itemToSlot;
 
     [SerializeField] TMP_Text numBulletsText;
-    [SerializeField] TMP_Text maxBulletsText;
 
     public override void Initialise()
     {
@@ -38,6 +37,5 @@ public class InventoryUI : UIPanel {
     {
         Debug.Log("Bingus");
         numBulletsText.text = PlayerInventory.NumBullets.ToString();
-        maxBulletsText.text = PlayerInventory.MaxBullets.ToString();
     }
 }

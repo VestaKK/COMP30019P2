@@ -66,35 +66,53 @@ Shader "PUNKSOULS/PostProcessing"
 
                 // Lens Distortion
                 float2 uvCentered = i.uv * 2 - 1;
-                float2 distortionMagnitude = sqrt(uvCentered.x * uvCentered.x * uvCentered.y * uvCentered.y) * (_Amount / 0.02);
+                float2 distortionMagnitude = sqrt((uvCentered.x * uvCentered.x) + (uvCentered.y * uvCentered.y)) * (_Amount / 0.02);
                 float2 smoothDistortionMagnitude = pow(distortionMagnitude, _Tightness);
                 float2 uvDistorted = i.uv + uvCentered * smoothDistortionMagnitude * _Intensity;
 
                 // Pixelation
-                float2 UV = pixelate(uvDistorted, _SampleX, _SampleY);
-                
-                if (uvDistorted.x < 0 || uvDistorted.x > 1)
-                    return float4(0, 0, 0, 0);
-
-                if (uvDistorted.y < 0 || uvDistorted.y > 1)
-                    return float4(0, 0, 0, 0);
-
-                _Amount = _Amount - _Amount * _Amplitude * sin(_Time * _Rate);
+                float2 UV;
 
                 // Chromatic Abberation
-                float _AmountX = _Amount * pow(distortionMagnitude.x, 1.2);
-                float _AmountY = _Amount * pow(distortionMagnitude.y, 1.2);
-                
-                float2 uvRed = float2(UV.x - _AmountX, UV.y - _AmountY);
-                float2 uvGreen = float2(UV);
-                float2 uvBlue = float2(UV.x + _AmountX, UV.y + _AmountY);
+                _Amount = _Amount - _Amount * _Amplitude * sin(_Time * _Rate);
 
-                float colR = tex2D(_MainTex, uvRed).r;
-                float colG = tex2D(_MainTex, uvGreen).g;
-                float colB = tex2D(_MainTex, uvBlue).b;
-                fixed4 col = fixed4(colR, colG, colB, 1);
-                
-                return col;
+                // if the UV samples outside the texture, we sample the camera's renderTexture normally
+                if (uvDistorted.x < 0 || uvDistorted.x > 1 || uvDistorted.y < 0 || uvDistorted.y > 1)
+                {
+                    UV = pixelate(i.uv, _SampleX, _SampleY);
+                    float _AmountX = _Amount * (UV.x - 0.5);
+                    float _AmountY = _Amount * (UV.y - 0.5);
+
+                    float2 uvRed = float2(UV.x - _AmountX, UV.y - _AmountY);
+                    float2 uvGreen = float2(UV);
+                    float2 uvBlue = float2(UV.x + _AmountX, UV.y + _AmountY);
+
+                    float colR = tex2D(_MainTex, uvRed).r;
+                    float colG = tex2D(_MainTex, uvGreen).g;
+                    float colB = tex2D(_MainTex, uvBlue).b;
+                    fixed4 col = fixed4(colR, colG, colB, 1);
+
+                    // make the "border" darker than the center of the screen
+                    return col * 0.5f;
+                }
+                // Otherwise we distort the texture
+                else
+                {
+                    UV = pixelate(uvDistorted, _SampleX, _SampleY);
+                    float _AmountX = _Amount * pow(distortionMagnitude.x,2) * uvCentered.x;
+                    float _AmountY = _Amount * pow(distortionMagnitude.y,2) * uvCentered.y;
+
+                    float2 uvRed = float2(UV.x + _AmountX, UV.y + _AmountY);
+                    float2 uvGreen = float2(UV);
+                    float2 uvBlue = float2(UV.x - _AmountX, UV.y - _AmountY);
+
+                    float colR = tex2D(_MainTex, uvRed).r;
+                    float colG = tex2D(_MainTex, uvGreen).g;
+                    float colB = tex2D(_MainTex, uvBlue).b;
+                    fixed4 col = fixed4(colR, colG, colB, 1);
+
+                    return col;
+                }
             }
             ENDCG
         }

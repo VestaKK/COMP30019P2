@@ -11,6 +11,14 @@ public class Enemy : Mob
     [SerializeField] private int _score;
 
     public Enemy() : base() {}
+
+    protected void Awake()
+    {
+        MaxHealth = MaxHealth + MaxHealth*GameManager.GetHealthDifficultyScalar();
+        this.Health = MaxHealth;
+        this.audioSource = GetComponent<AudioSource>();
+    }
+
     public override void TakeDamage(AttackInfo info) {
         if (isDead)
             return;
