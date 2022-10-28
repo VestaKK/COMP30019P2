@@ -851,6 +851,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d024cd325376804a89d3b8ec51771b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inGame: 1
   startPanel: {fileID: 1322596254}
   panels:
   - {fileID: 1702228430}

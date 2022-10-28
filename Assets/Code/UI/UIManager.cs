@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 public class UIManager : MonoBehaviour
 {
     public static UIManager instance;
-
+    [SerializeField] private bool inGame;
     [SerializeField] private UIPanel startPanel;
 
     [SerializeField] private UIPanel[] panels;
@@ -123,6 +123,8 @@ public class UIManager : MonoBehaviour
     // Controlled by a game manager But this will do for now
     private void Update()
     {
+        if (!inGame) return;
+
         if (InputManager.GetKeyDown(InputAction.Pause)) 
         {
             UIPanel pauseMenu = Get<PauseMenu>();
