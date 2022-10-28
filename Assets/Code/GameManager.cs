@@ -70,7 +70,7 @@ public class GameManager : MonoBehaviour
 
         SetUpDungeon();
         yield return new WaitForSecondsRealtime(0.2f);
-        _currentPlayer.Heal(20);
+        _currentPlayer.Heal(40);
 
         Camera.main.GetComponent<CameraLookAt>().Target(_instance._currentPlayer);
         UIManager.instance.Show<PlayerHUD>();
