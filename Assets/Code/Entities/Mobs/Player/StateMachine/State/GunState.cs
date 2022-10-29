@@ -17,10 +17,7 @@ public class GunState : PlayerState
 
     public override void Update()
     {
-        Debug.Log(Player.IsMoving().ToString());
-
         Player.LookAtMouse();
-
         Player.Motion.UpdateRelativeVelocity();
 
         if (Input.GetMouseButtonDown(0)) 
