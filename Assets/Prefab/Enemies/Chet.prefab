@@ -379,7 +379,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _mob: {fileID: 3326934664413890108}
   _hitbox: {fileID: 7658802050884800525, guid: 7a4bf4758f32a714dae1b0de193fb90a, type: 3}
-  _offset: {x: 0, y: 0, z: 0}
+  _offset: {x: 0, y: 1, z: 0}
   _maxAttacks: 1
   _maxCooldown: 1.5
   clickCount: 0

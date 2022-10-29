@@ -33,16 +33,10 @@ public class PlayerHUD : UIPanel
 
     public void UpdateHealthBar(float healthPercentage) 
     {
-        if (this.gameObject.activeSelf)
-        { 
-            
+        if (this.gameObject.activeSelf)   
             healthBar.SetProgress(healthPercentage);
-        }
         else 
-        {
-            healthUpdatePending = true;
-            healthPercentageToUpdate = healthPercentage;
-        }
+            healthBar.SetProgressInstant(healthPercentage);
     }
 
     private void OnDestroy()
@@ -62,15 +56,7 @@ public class PlayerHUD : UIPanel
 
     private void Update()
     {
-        if (healthUpdatePending) 
-        {
-            if (this.gameObject.activeSelf) 
-            {
-                healthBar.SetProgressInstant(healthPercentageToUpdate);
-                healthUpdatePending = false;
-                healthPercentageToUpdate = 0;
-            }
-        }
+
     }
 
     private void DisplayInteractiveText() 

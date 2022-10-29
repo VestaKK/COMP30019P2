@@ -21,8 +21,8 @@ public class RangedHitboxController : HitboxController
 
     public void OnCollisionEnter(Collision collision)
     {
-        Destroy(this.gameObject);
         Instantiate(explosionParticles, transform.position, transform.rotation);
+        Destroy(this.gameObject);
     }
     
     // Should only detect Hurtboxes
