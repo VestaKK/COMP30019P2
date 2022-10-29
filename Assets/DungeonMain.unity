@@ -985,8 +985,8 @@ MonoBehaviour:
   _prefabs:
   - {fileID: 3326934664413890111, guid: 638f5ee5cfe0a71e0a01d20363cf6ed8, type: 3}
   - {fileID: 3326934664413890111, guid: 1d329f2169ca6a34ba5aadcc63729ab9, type: 3}
-  minSpawnsPerRoom: 10
-  maxSpawnsPerRoom: 20
+  minSpawnsPerRoom: 1
+  maxSpawnsPerRoom: 3
   _camera: {fileID: 507788981}
   maxSpawnCheckCount: 50
   _healthBarCanvas: {fileID: 0}
