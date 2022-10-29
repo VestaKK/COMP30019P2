@@ -11,6 +11,8 @@ public abstract class Spawner<EntityType> : MonoBehaviour
         [SerializeField] private int maxSpawnsPerRoom;
         [SerializeField] protected Camera _camera;
 
+        [SerializeField] public int maxSpawnCheckCount;
+
         void Awake() {
             _camera = Camera.main;
         }

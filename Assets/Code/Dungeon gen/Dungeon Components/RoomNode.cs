@@ -43,19 +43,22 @@ public class RoomNode : Node
     public void SpawnEnemies<T>(Spawner<T> spawner) where T : Enemy {
         int spawns = 0;
         int targetSpawns = spawner.GetSpawnCount();
+        int maxDepth = spawner.maxSpawnCheckCount;
         Vector3 base_spawn = new Vector3(MiddlePoint.x, 0, MiddlePoint.y);
         Debug.Log("Spawning enemies for " + this);
-
         while(spawns++ < targetSpawns) {
             int rand = Random.Range(0, spawner.Prefabs.Count);
             T prefab = spawner.Prefabs[rand];
 
-            Vector3 spawnPoint = GetSafeSpawn(base_spawn, spawner.GetController(prefab));
-            Enemy e = spawner.SpawnEntity(DungeonController.transform, spawnPoint, Quaternion.identity, prefab);
-            e.CurrentDungeon = DungeonController;
+            bool safeSpawn;
+            Vector3 spawnPoint = GetSafeSpawn(base_spawn, spawner.GetController(prefab), maxDepth, out safeSpawn);
+            if(safeSpawn) {
+                Enemy e = spawner.SpawnEntity(DungeonController.transform, spawnPoint, Quaternion.identity, prefab);
+                e.CurrentDungeon = DungeonController;
 
-            // maintain room relationship
-            e.CurrentRoom = this;
+                // maintain room relationship
+                e.CurrentRoom = this;
+            }
             // Entities.Add(e);
         }
         Debug.Log("Finished Spawning");
@@ -68,21 +71,33 @@ public class RoomNode : Node
         return SpawnBounds.Contains(vec2d, true);
     }
 
-    private Vector3 GetSafeSpawn(Vector3 base_spawn, CharacterController prefab) {
+    private Vector3 GetSafeSpawn(Vector3 base_spawn, CharacterController prefab, int maxDepth, out bool isSafe) {
         Vector3 randSpawn = GetRandSpawn(base_spawn, prefab);
         Collider[] collided = Physics.OverlapSphere(randSpawn, prefab.radius);
+        int depthCount = 0;
         while(collided.Length != 0) {
             randSpawn = GetRandSpawn(base_spawn, prefab);
-            collided = Physics.OverlapSphere(randSpawn, prefab.radius);
-        }
+            collided = Physics.OverlapSphere(randSpawn, prefab.radius); //Physics.OverlapCapsule(randSPawn);//
+            depthCount++;
+            if(depthCount >= maxDepth) {
+                isSafe = false;
+                Debug.Log(randSpawn + " was not safe for prefab: " + prefab);
+                return Vector3.zero;
+            }
 
+        }
+        isSafe = true;
         return randSpawn;
     }
 
     private Vector3 GetRandSpawn(Vector3 base_spawn, CharacterController prefab) {
         float randX = Random.Range(-SpawnBounds.width / 2, SpawnBounds.width / 2);
         float randZ = Random.Range(-SpawnBounds.height / 2, SpawnBounds.height / 2);
-        return new Vector3(base_spawn.x + randX, prefab.center.y + prefab.radius + 0.25f, base_spawn.z + randZ); // raise it off the floor
+        Debug.Log("Spawning at: " + (prefab.center.y + prefab.height + 0.25f));
+        Debug.Log(prefab);
+        Debug.Log("Height: " + prefab.height);
+        Debug.Log("Center: " + prefab.center.y);
+        return new Vector3(base_spawn.x + randX, prefab.center.y + 0.25f, base_spawn.z + randZ); // raise it off the floor
     }
 
     public int Width { get => (int) (TopRightAreaCorner.x - BottomLeftAreaCorner.x); }
