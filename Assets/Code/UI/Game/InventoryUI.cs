@@ -27,7 +27,8 @@ public class InventoryUI : UIPanel {
         else
         {
             itemView = Instantiate(slotPrefab, relicView);
-            itemView.GetComponentInChildren<Text>().text = itemSlot.count.ToString();
+            itemView.GetComponentsInChildren<Text>()[1].text = itemSlot.item.description;
+            itemView.GetComponentsInChildren<Text>()[0].text = itemSlot.count.ToString();
             itemView.GetComponentsInChildren<Image>()[1].GetComponent<Image>().sprite = itemSlot.item.icon;
             itemToSlot.Add(itemSlot, itemView);
         }

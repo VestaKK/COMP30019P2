@@ -458,9 +458,9 @@ MonoBehaviour:
   m_text: "CONTROLS:\n\n\tWASD to move\n\n\tLeft click to swing sword\n\n\tHold Right
     click to aim gun, Left click to shoot\n\t\n\tBullet Reserve is at the bottom
     right next to the health bar\n\n\tSpace to roll around\n\n\tR to lock onto enemies\n\n\tTab
-    to check inventory\n\n\tE to interact with the teleporter at the exit\n\n\nGAMEPLAY:\n\t\n\tGet
-    the highest score you can\n\n\tEnemies drop items that might do stuff\n\t\n\tFollow
-    the teleporter's hum to find the exit\n\n\tDon't dye\n"
+    to check inventory\n\n\nGAMEPLAY:\n\n\tEnemies drop items that might do stuff\n\t\n\tFollow
+    the teleporter's hum to find the exit\n\n\tGet the highest score you can and
+    Don't Dye\n"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 2d03d23df4b44344bab72821120e7d99, type: 2}
   m_sharedMaterial: {fileID: -2696377008380657768, guid: 2d03d23df4b44344bab72821120e7d99, type: 2}
@@ -3756,7 +3756,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1702228430
 MonoBehaviour:
   m_ObjectHideFlags: 0
