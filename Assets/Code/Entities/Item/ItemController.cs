@@ -12,7 +12,6 @@ public class ItemController : EntityController
     protected void Awake()
     {
         base.Awake();
-        GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
         Entity = this.GetComponent<ItemEntity>() as Entity;
     }
 
@@ -29,8 +28,10 @@ public class ItemController : EntityController
         if (GameManager.isPaused && Player != null) return;
         base.Update();
         distanceToPlayer = Entity.DistanceTo(Player);
-        Motion.UpdateVelocity();
         transform.rotation *= Quaternion.Euler(0, turnSpeed * Time.deltaTime, 0);
+        if (Player.isDead) return;
+
+        Motion.UpdateVelocity();
         EntityMove();
 
         if (distanceToPlayer < 0.3f && noPickupTime <= 0) 

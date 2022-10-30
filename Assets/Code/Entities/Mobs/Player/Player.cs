@@ -161,6 +161,7 @@ public class Player : Mob
     public override void OnDeath()
     {
         gameObject.SetActive(false);
+        isDead = true;
         OnPlayerInstanceDeath.Invoke();
         // Destroy(this.gameObject);
         // die
