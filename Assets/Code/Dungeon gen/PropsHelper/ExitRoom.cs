@@ -12,33 +12,51 @@ public static partial class PropsHelper
 
         float xOffset = GetObjectBounds(torchObject).x / 2 + 0.1f;
         float zOffset = GetObjectBounds(torchObject).z / 2 + 0.1f;
-        room.Props.Add(
-            new Prop(
-                torchObject, 
-                new Vector3(
-                    room.BottomLeftAreaCorner.x + xOffset, 
-                    0, 
-                    room.BottomLeftAreaCorner.y + zOffset)));
-        room.Props.Add(
-            new Prop(
-                torchObject, 
-                new Vector3(
-                    room.BottomRightAreaCorner.x - xOffset, 
-                    0, 
-                    room.BottomRightAreaCorner.y + zOffset)));
-        room.Props.Add(
-            new Prop(
-                torchObject, 
-                new Vector3(
-                    room.TopLeftAreaCorner.x + xOffset, 
-                    0, 
-                    room.TopLeftAreaCorner.y - zOffset)));
-        room.Props.Add(
-            new Prop(
-                torchObject, 
-                new Vector3(
-                    room.TopRightAreaCorner.x - xOffset, 
-                    0, 
-                    room.TopRightAreaCorner.y - zOffset)));
+
+        Vector2 bottomLeft = new Vector2(
+            room.BottomLeftAreaCorner.x + xOffset, 
+            room.BottomLeftAreaCorner.y + zOffset);
+        Vector2 bottomRight = new Vector2(
+            room.BottomRightAreaCorner.x - xOffset, 
+            room.BottomRightAreaCorner.y + zOffset);
+        Vector2 topLeft = new Vector2(
+            room.TopLeftAreaCorner.x + xOffset, 
+            room.TopLeftAreaCorner.y - zOffset);
+        Vector2 topRight = new Vector2(
+            room.TopRightAreaCorner.x - xOffset, 
+            room.TopRightAreaCorner.y - zOffset);
+        
+        if (CheckClearFromDoor(room, bottomLeft, torchObject))
+            room.Props.Add(
+                new Prop(
+                    torchObject, 
+                    new Vector3(
+                        bottomLeft.x, 
+                        0, 
+                        bottomLeft.y)));
+        if (CheckClearFromDoor(room, bottomRight, torchObject))
+            room.Props.Add(
+                new Prop(
+                    torchObject, 
+                    new Vector3(
+                        bottomRight.x, 
+                        0, 
+                        bottomRight.y)));
+        if (CheckClearFromDoor(room, topLeft, torchObject))
+            room.Props.Add(
+                new Prop(
+                    torchObject, 
+                    new Vector3(
+                        topLeft.x, 
+                        0, 
+                        topLeft.y)));
+        if (CheckClearFromDoor(room, topRight, torchObject))
+            room.Props.Add(
+                new Prop(
+                    torchObject, 
+                    new Vector3(
+                        topRight.x, 
+                        0, 
+                        topRight.y)));
     }
 }
