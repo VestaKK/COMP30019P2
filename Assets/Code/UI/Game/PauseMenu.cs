@@ -20,7 +20,7 @@ public class PauseMenu : UIPanel {
 
         quitButton.onClick.AddListener(() => {
             FindObjectOfType<AudioManager>().Play("UIClick");
-            SceneManager.LoadScene("MainMenuScene");
+            SceneManager.LoadScene(0);
         });
     }
 
