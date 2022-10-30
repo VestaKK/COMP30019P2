@@ -16,7 +16,7 @@ public class MainMenu : UIPanel
     {
         playButton.onClick.AddListener(() => {
             FindObjectOfType<AudioManager>().Play("UIClick");
-            SceneManager.LoadScene("DungeonMain");
+            SceneManager.LoadScene(1);
         });
         optionsButton.onClick.AddListener(() => {
             FindObjectOfType<AudioManager>().Play("UIClick");

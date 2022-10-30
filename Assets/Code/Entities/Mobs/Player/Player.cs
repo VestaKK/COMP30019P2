@@ -94,7 +94,7 @@ public class Player : Mob
     {
         if (itemSlot.item.id == 3) // Health boost item
         {
-            Heal(MaxHealth * 0.1f);
+            Heal(MaxHealth * 0.15f);
             OnHeal.Invoke();
         }
     }
