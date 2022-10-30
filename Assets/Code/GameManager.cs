@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour
     private float _timer = 0;
 
     [SerializeField] private Transform _scoreText;
+    [SerializeField] private TextDisplay _textDisplay;
 
     DungeonController _currentDungeon = null;
     [SerializeField] Player _currentPlayer = null;
@@ -75,6 +76,8 @@ public class GameManager : MonoBehaviour
         Camera.main.GetComponent<CameraLookAt>().Target(_instance._currentPlayer);
         UIManager.instance.Show<PlayerHUD>();
         UnpauseGame();
+        if (_instance.LevelCount == 0)
+            _textDisplay.DisplayFadingText("PRESS ESC FOR INSTRUCTIONS", 10f);
 
         yield return null;
     }
