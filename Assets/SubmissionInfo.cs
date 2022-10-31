@@ -27,7 +27,7 @@ public static class SubmissionInfo
 
     // This may be a "working title" to begin with, but ensure it is final by
     // the video milestone deadline (plain text, no more than 50 chars).
-    public static readonly string GameName = "CyberSouls";
+    public static readonly string GameName = "Cyber Souls";
 
     // Write a brief blurb of your game, no more than 200 words. Again, ensure
     // this is final by the video milestone deadline.
