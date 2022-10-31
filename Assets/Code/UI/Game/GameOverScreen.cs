@@ -15,7 +15,10 @@ public class GameOverScreen : UIPanel
 
     public override void Initialise()
     {
-        quitButton.onClick.AddListener(() => SceneManager.LoadScene("MainMenuScene"));
+        quitButton.onClick.AddListener(() => {
+            FindObjectOfType<AudioManager>().Play("UIClick");
+            SceneManager.LoadScene(0);
+        });
     }
 
     public void SetStats(int score, int levelsCleared, float time) 
