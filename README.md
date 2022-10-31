@@ -33,8 +33,8 @@ For now this is the base plan before we progress on to things like:
 2. Procedural Dungeon generation
 3. Player Progression
 
-<h2>Milestone 2:</h2>
-<p><h3>Teamwork in different areas:</h3>
+<h3>Milestone 2:</h3>
+<p><h4>Teamwork in different areas up to this point:</h4>
   <ul>
     <li>
       <h5>Event Handling:</h5>
@@ -87,6 +87,104 @@ For now this is the base plan before we progress on to things like:
       <ul>
         <li>Matthew Pham</li>
         <li>Bryn</li>
+      </ul>
+    </li>
+    <li>
+      <h5>All-Round QA and feature implementation:</h5>
+      <ul>
+        <li>Takumi</li>
+        <li>Matthew Pham</li>
+        <li>Bryn</li>
+      </ul>
+    </li>
+  </ul>
+</p>
+
+<h3>Milestone 3:</h3>
+<p><h4>Teamwork in different areas up to this point:</h4>
+  <ul>
+    <li>
+      <h5>Event Handling:</h5>
+      <ul>
+        <li>Bryn</li>
+        <li>Matthew Pham</li>
+      </ul>
+    </li>
+    <li>
+      <h5>Procedural Gen:</h5>
+      <ul>
+        <li>Takumi</li>
+        <li>Bryn</li>
+      </ul>
+    </li>
+    <li>
+      <h5>Shaders and Graphics Processing:</h5>
+      <ul>
+        <li>Matthew Pham</li>
+      </ul>
+    </li>
+    <li>
+      <h5>Gameplay:</h5>
+      <ul>
+        <li>Matthew Pham</li>
+        <li>Takumi</li>
+        <li>Bryn</li>
+        <li>Matthew Lin</li>
+      </ul>
+    </li>
+    <li>
+      <h5>Weapons:</h5>
+      <ul>
+        <li>Matthew Pham</li>
+        <li>Matthew Lin</li>
+      </ul>
+    </li>
+    <li>
+      <h5>UI:</h5>
+      <ul>
+        <li>Matthew Pham</li>
+      </ul>
+    </li>
+    <li>
+      <h5>Particle System:</h5>
+      <ul>
+        <li>Matthew Lin</li>
+      </ul>
+    </li>
+    <li>
+      <h5>Menu System:</h5>
+      <ul>
+        <li>Matthew Pham</li>
+        <li>Bryn</li>
+      </ul>
+    </li>
+    <li>
+      <h5>Audio: </h5>
+      <ul>
+        <li>Takumi</li>
+      </ul>
+    </li>
+    <li>
+      <h5>Game Balancing/Tweaking</h5>
+      <ul>
+        <li>Takumi</li>
+        <li>Matthew Pham</li>
+      </ul>
+    </li>
+    <li>
+      <h5>Game Testing/Interviewing</h5>
+      <ul>
+        <li>Takumi</li>
+        <li>Matthew Pham</li>
+      </ul>
+    </li>
+    <li>
+      <h5>Report Writing</h5>
+      <ul>
+        <li>Takumi</li>
+        <li>Matthew Pham</li>
+        <li>Bryn</li>
+        <li>Matthew Lin</li>
       </ul>
     </li>
     <li>
