@@ -94,7 +94,7 @@ For now this is the base plan before we progress on to things like:
 - Game Testing/Interviewing:
   - Takumi
   - Matthew Pham
-- Report Writing
+- Report Writing:
   - Takumi
   - Matthew Pham
   - Bryn
