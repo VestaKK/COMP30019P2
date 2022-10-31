@@ -27,14 +27,12 @@ public static class SubmissionInfo
 
     // This may be a "working title" to begin with, but ensure it is final by
     // the video milestone deadline (plain text, no more than 50 chars).
-    public static readonly string GameName = "Punk Souls";
+    public static readonly string GameName = "CyberSouls";
 
     // Write a brief blurb of your game, no more than 200 words. Again, ensure
     // this is final by the video milestone deadline.
     public static readonly string GameBlurb = 
-@"In this 2.5D top-down roguelike set in a futuristic cyber-fantasy dystopian Alabama, the player is the victim of twisted experiments, leaving them with the ability to become enraged when on the brink of death. 
-Motivated by the need for revenge, the player must fight through hordes of enemies in the Alabama underground, collecting items and power ups along the way. All enemies and rooms will be procedurally generated, with enemies being generated from a set of models and abilities. The monsters of the underground have been twisted by both corrupt organisations and the twisted environment.
-Since being experimented on, the player is slowly losing their concept of humanity, and so to remind them of their humanity there is a familiar cat at each checkpoint that the player can interact with to heal at discrete intervals throughout the game.";
+@"CyberSouls is a 2.5D roguelike dungeon-crawler set in space. Control a lone space dude as you fight through enemies and navigate to the exit of the dungeon to advance to the next level. Defeating enemies have a chance to drop item relics that aid the player in different ways to help with the ever increasing difficulty as you clear more levels. Try to get as far as possible and clear as many dungeons and enemies as possible to attain the highest score!";
     
     // By the gameplay video milestone deadline this should be a direct link
     // to a YouTube video upload containing your video. Ensure "Made for kids"
