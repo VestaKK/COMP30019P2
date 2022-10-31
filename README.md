@@ -33,179 +33,81 @@ For now this is the base plan before we progress on to things like:
 2. Procedural Dungeon generation
 3. Player Progression
 
-<h3>Milestone 2:</h3>
-<p><h4>Teamwork in different areas up to this point:</h4>
-  <ul>
-    <li>
-      <h5>Event Handling:</h5>
-      <ul>
-        <li>Bryn</li>
-        <li>Matthew Pham</li>
-      </ul>
-    </li>
-    <li>
-      <h5>Procedural Gen:</h5>
-      <ul>
-        <li>Takumi</li>
-        <li>Bryn</li>
-      </ul>
-    </li>
-    <li>
-      <h5>Shaders and Graphics Processing:</h5>
-      <ul>
-        <li>Matthew Pham</li>
-      </ul>
-    </li>
-    <li>
-      <h5>Gameplay:</h5>
-      <ul>
-        <li>Matthew Pham</li>
-        <li>Takumi</li>
-        <li>Bryn</li>
-      </ul>
-    </li>
-    <li>
-      <h5>Weapons:</h5>
-      <ul>
-        <li>Matthew Lin</li>
-      </ul>
-    </li>
-    <li>
-      <h5>UI:</h5>
-      <ul>
-        <li>Matthew Pham</li>
-      </ul>
-    </li>
-    <li>
-      <h5>Particle System:</h5>
-      <ul>
-        <li>Matthew Lin</li>
-      </ul>
-    </li>
-    <li>
-      <h5>Menu System:</h5>
-      <ul>
-        <li>Matthew Pham</li>
-        <li>Bryn</li>
-      </ul>
-    </li>
-    <li>
-      <h5>All-Round QA and feature implementation:</h5>
-      <ul>
-        <li>Takumi</li>
-        <li>Matthew Pham</li>
-        <li>Bryn</li>
-      </ul>
-    </li>
-  </ul>
-</p>
+### Milestone 2:
+#### Teamwork in different areas up to this point:
+- Event Handling:
+  - Bryn
+  - Matthew Pham
+- Procedural Gen:
+  - Takumi
+  - Bryn
+- Shaders and Graphics Processing:
+  - Matthew Pham
+- Gameplay:
+  - Matthew Pham
+  - Takumi
+  - Bryn
+- Weapons:
+  - Matthew Lin
+- UI:
+  - Matthew Pham
+- Particle System:
+  - Matthew Lin
+- Menu System:
+  - Matthew Pham
+  - Bryn
+- All-Round QA and feature implementation:
+  - Takumi
+  - Matthew Pham
+  - Bryn
 
-<h3>Milestone 3:</h3>
-<p><h4>Teamwork in different areas up to this point:</h4>
-  <ul>
-    <li>
-      <h5>Event Handling:</h5>
-      <ul>
-        <li>Bryn</li>
-        <li>Matthew Pham</li>
-      </ul>
-    </li>
-    <li>
-      <h5>Procedural Gen:</h5>
-      <ul>
-        <li>Takumi</li>
-        <li>Bryn</li>
-      </ul>
-    </li>
-    <li>
-      <h5>Shaders and Graphics Processing:</h5>
-      <ul>
-        <li>Matthew Pham</li>
-      </ul>
-    </li>
-    <li>
-      <h5>Gameplay:</h5>
-      <ul>
-        <li>Matthew Pham</li>
-        <li>Takumi</li>
-        <li>Bryn</li>
-        <li>Matthew Lin</li>
-      </ul>
-    </li>
-    <li>
-      <h5>Weapons:</h5>
-      <ul>
-        <li>Matthew Pham</li>
-        <li>Matthew Lin</li>
-      </ul>
-    </li>
-    <li>
-      <h5>UI:</h5>
-      <ul>
-        <li>Matthew Pham</li>
-      </ul>
-    </li>
-    <li>
-      <h5>Particle System:</h5>
-      <ul>
-        <li>Matthew Lin</li>
-      </ul>
-    </li>
-    <li>
-      <h5>Menu System:</h5>
-      <ul>
-        <li>Matthew Pham</li>
-        <li>Bryn</li>
-      </ul>
-    </li>
-    <li>
-      <h5>Audio: </h5>
-      <ul>
-        <li>Takumi</li>
-      </ul>
-    </li>
-    <li>
-      <h5>Game Balancing/Tweaking</h5>
-      <ul>
-        <li>Takumi</li>
-        <li>Matthew Pham</li>
-      </ul>
-    </li>
-    <li>
-      <h5>Game Testing/Interviewing</h5>
-      <ul>
-        <li>Takumi</li>
-        <li>Matthew Pham</li>
-      </ul>
-    </li>
-    <li>
-      <h5>Report Writing</h5>
-      <ul>
-        <li>Takumi</li>
-        <li>Matthew Pham</li>
-        <li>Bryn</li>
-        <li>Matthew Lin</li>
-      </ul>
-    </li>
-    <li>
-      <h5>All-Round QA and feature implementation:</h5>
-      <ul>
-        <li>Takumi</li>
-        <li>Matthew Pham</li>
-        <li>Bryn</li>
-      </ul>
-    </li>
-  </ul>
-</p>
+### Milestone 3:
+#### Teamwork in different areas up to this point:
+- Event Handling:
+  - Bryn
+  - Matthew Pham
+- Procedural Gen:
+  - Takumi
+  - Bryn
+- Shaders and Graphics Processing:
+  - Matthew Pham
+- Gameplay:
+  - Matthew Pham
+  - Takumi
+  - Bryn
+  - Matthew Lin
+- Weapons:
+  - Matthew Pham
+  - Matthew Lin
+- UI:
+  - Matthew Pham
+- Particle System:
+  - Matthew Lin
+- Menu System:
+  - Matthew Pham
+  - Bryn
+- Audio:
+  - Takumi
+- Game Balancing/Tweaking:
+  - Takumi
+  - Matthew Pham
+- Game Testing/Interviewing:
+  - Takumi
+  - Matthew Pham
+- Report Writing
+  - Takumi
+  - Matthew Pham
+  - Bryn
+  - Matthew Lin
+- All-Round QA and feature implementation:
+  - Takumi
+  - Matthew Pham
+  - Bryn
+  - Matthew Lin
+
 <!-- [[EndTeamworkPlan]] PLEASE LEAVE THIS LINE UNTOUCHED -->
 
 ## Final report
-
-Read the specification for details on what needs to be covered in this report... 
-
-Remember that _"this document"_ should be `well written` and formatted **appropriately**. 
-Below are examples of markdown features available on GitHub that might be useful in your report. 
-For more details you can find a guide [here](https://docs.github.com/en/github/writing-on-github).
 
 ### Table of contents
 * [Game Summary](#game-summary)
