@@ -39,6 +39,11 @@ public class ProgressBar : MonoBehaviour
         SetProgress(_progress, _defaultSpeed);
     }
 
+    public void SetProgressInstant(float _progress)
+    {
+        _progressImage.fillAmount = _progress;
+    }
+
     public void SetProgress(float Progress, float Speed)
     {
         if(!gameObject.activeInHierarchy) {
@@ -72,7 +77,7 @@ public class ProgressBar : MonoBehaviour
         while (time < 0.5)
         {
             _progressImage.fillAmount = Mathf.Lerp(initialProgress, Progress, time);
-            time += Time.deltaTime * Speed;
+            time += Time.unscaledDeltaTime * Speed;
 
             _progressImage.color = _colorGradient.Evaluate(_progressImage.fillAmount);
 

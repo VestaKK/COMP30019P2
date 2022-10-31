@@ -49,8 +49,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _controller: {fileID: 1773936229093590093}
   _animator: {fileID: 0}
-  turnSpeed: 100
+  _currentDungeon: {fileID: 0}
+  agent: {fileID: 0}
   player: {fileID: 1842173982979897587}
+  distanceToPlayer: 0
 --- !u!143 &1773936229093590093
 CharacterController:
   m_ObjectHideFlags: 0
@@ -82,7 +84,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _controller: {fileID: 5650673010094084038}
-  _speed: 3
+  _speed: 5
   item: {fileID: 11400000, guid: 155777dc1d630734cbc40a4d56d26dbd, type: 2}
 --- !u!1001 &2197685794027079648
 PrefabInstance:

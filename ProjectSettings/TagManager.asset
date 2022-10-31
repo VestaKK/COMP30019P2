@@ -16,8 +16,8 @@ TagManager:
   - Hurtbox
   - NavmeshIgnore
   - RangedHitbox
-  - 
-  - 
+  - Entity
+  - Items
   - 
   - 
   - 

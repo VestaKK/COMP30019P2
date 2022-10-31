@@ -9,7 +9,7 @@ public class CameraLookAt : MonoBehaviour
     [SerializeField] private Vector3 offsetDirection;
     [SerializeField] private float cameraZoom;
 
-
+    bool initialised = false;
 
     private void Start()
     {
@@ -18,29 +18,27 @@ public class CameraLookAt : MonoBehaviour
         camera = Camera.main;
     }
 
+    public void Target(Player player) 
+    {
+        playerController = player.gameObject.GetComponent<CharacterController>();
+        transform.position = playerController.transform.position + cameraZoom * offsetDirection;
+        transform.LookAt(playerController.transform);
+        initialised = true;
+    }
+
     private void LateUpdate()
     {
-        if (playerController == null)
+        if (!initialised || GameManager.isPaused) return;
+        // Adjust Zoom
+        Vector2 scrollDelta = Input.mouseScrollDelta;
+        if (scrollDelta.y < 0 && cameraZoom > 6 || scrollDelta.y > 0 && cameraZoom < 15)
         {
-            GameObject playerGameObject = GameObject.FindWithTag("Player");
-            if (playerGameObject == null) return;
-            playerController = playerGameObject.GetComponent<CharacterController>();
-            transform.position = playerController.transform.position + cameraZoom * offsetDirection;
-            transform.LookAt(playerController.transform);
+            cameraZoom += scrollDelta.y;
         }
-        else 
-        {
-            // Adjust Zoom
-            Vector2 scrollDelta = Input.mouseScrollDelta;
-            if (scrollDelta.y < 0 && cameraZoom > 6 || scrollDelta.y > 0 && cameraZoom < 15)
-            {
-                cameraZoom += scrollDelta.y;
-            }
 
-            // Follow Player 
-            Vector3 targetPosition = playerController.transform.position + cameraZoom * offsetDirection;
-            Vector3 lerpPosition = Vector3.Lerp(transform.position, targetPosition, 0.03f);
-            transform.position = lerpPosition;
-        }
+        // Follow Player 
+        Vector3 targetPosition = playerController.transform.position + cameraZoom * offsetDirection;
+        Vector3 lerpPosition = Vector3.Lerp(transform.position, targetPosition, 0.03f);
+        transform.position = lerpPosition;
     }
 }

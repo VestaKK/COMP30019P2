@@ -40,7 +40,7 @@ public class DungeonGenerator
         List<Node> roomSpaces = StructureHelper.TraverseGraphToExtractLowestLeaves(bsp.RootNode);
 
         // Generate rooms from the room spaces
-        RoomGenerator roomGenerator = new RoomGenerator(dungeonController, maxIterations, roomWidthMin, roomLengthMin);
+        RoomGenerator roomGenerator = new RoomGenerator(dungeonController, maxIterations);
         List<RoomNode> roomList = 
             roomGenerator.GenerateRoomsInGivenSpaces(
                 roomSpaces, 
@@ -54,7 +54,7 @@ public class DungeonGenerator
                 child => Vector2.Distance(
                     child.MiddlePoint, new Vector2(dungeonWidth/2, dungeonLength/2))
             ).ToList()[0];
-        spawnRoom.IsSpawn = true;
+        spawnRoom.Type = RoomType.SpawnRoom;
 
         // Adjust spawn room size
         float spawnWidthChange, spawnLengthChange;
@@ -102,7 +102,7 @@ public class DungeonGenerator
                     child => child.BottomLeftAreaCorner.x + child.BottomLeftAreaCorner.y
                 ).ToList()[0];
         }
-        exitRoom.IsExit = true;
+        exitRoom.Type = RoomType.ExitRoom;
 
         // Adjust exit room size
         float exitWidthChange, exitLengthChange;

@@ -8,5 +8,6 @@ public enum InputAction
     LockOn,
     Pause,
     Attack,
-    Roll
+    Roll,
+    Aim
 }

@@ -42,6 +42,16 @@ public class InputManager : MonoBehaviour
         return instance.LocalGetKeyDown(kc);
     }
 
+    public static bool GetKeyUp(InputAction action)
+    {
+        return instance.LocalGetKeyUp(action);
+    }
+
+    public static bool GetKeyUp(KeyCode kc)
+    {
+        return instance.LocalGetKeyUp(kc);
+    }
+
     private KeyCode LocalGetKeyForAction(InputAction action)
     {
         foreach (KeyBinder.KeyBind keyBind in binder.keyBinds) {
@@ -62,8 +72,25 @@ public class InputManager : MonoBehaviour
         return false;
     }
 
+    private bool LocalGetKeyUp(InputAction action)
+    {
+        foreach (KeyBinder.KeyBind keyBind in binder.keyBinds)
+        {
+            if (keyBind.Action == action)
+            {
+                return LocalGetKeyUp(keyBind.KeyCode);
+            }
+        }
+        return false;
+    }
+
     private bool LocalGetKeyDown(KeyCode kc) {
         return Input.GetKeyDown(kc);
+    }
+
+    private bool LocalGetKeyUp(KeyCode kc)
+    {
+        return Input.GetKeyUp(kc);
     }
 
     private bool LocalGetKey(InputAction action)

@@ -4,14 +4,22 @@ using UnityEngine;
 
 public class MeleeController : AttackController
 {
+    private AudioManager _audioManager;
+
+    void Awake() 
+    {
+        _audioManager = FindObjectOfType<AudioManager>();
+    }
     // TODO: Animation names need to be paramaterised
     protected override bool CheckAnimationTransitions() 
     {
         // TODO: Make this nicer
         if (clickCount == 1)
         {
+            if (!IsAttacking)
+                _audioManager.Play("Swing1");
             IsAttacking = true;
-            AttackInfo = new MeleeAttackInfo(10, 0.2f, new Vector3(1f, 1f, 0.3f), 1, _offset);
+            AttackInfo = new MeleeAttackInfo(10 * damageBoost, 0.2f, new Vector3(1f, 1f, 0.3f), 1, _offset);
             Controller.Animator.SetBool("Hit1", true);
             return true;
         }
@@ -21,7 +29,8 @@ public class MeleeController : AttackController
             Controller.GetAnimatorStateInfo(0).normalizedTime < 0.9f &&
             Controller.GetAnimatorStateInfo(0).IsName("Melee Hit 1"))
         {
-            AttackInfo = new MeleeAttackInfo(15, 0.2f,  new Vector3(1f, 1f, 0.3f), 1, _offset);
+            _audioManager.Play("Swing2");
+            AttackInfo = new MeleeAttackInfo(15 * damageBoost, 0.2f,  new Vector3(1f, 1f, 0.3f), 1, _offset);
             Controller.Animator.SetBool("Hit1", false);
             Controller.Animator.SetBool("Hit2", true);
             return true;
@@ -39,7 +48,7 @@ public class MeleeController : AttackController
                 transform.rotation,
                 transform) as MeleeHitboxController;
         newMeleeHitbox.transform.localScale = info.Aoe;
-        newMeleeHitbox.Initialize(info, info.Duration);
+        newMeleeHitbox.Initialize(info, info.Duration, this.gameObject.tag);
     }
 
     // TODO: Make this nicer

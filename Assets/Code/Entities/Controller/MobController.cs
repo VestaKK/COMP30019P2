@@ -15,6 +15,14 @@ public abstract class MobController : EntityController
 
     protected void Update() {
         base.Update();
+        if (LockOnTarget != null) 
+        {
+            if (LockOnTarget.GetComponent<Mob>().isDead) 
+            {
+                LockOnTarget.GetComponent<Mob>().LockedOff.Invoke();
+                _lockOnTarget = null;
+            }
+        }
     }
 
     public void LockOn(Mob other) {

@@ -18,12 +18,18 @@ public abstract class Mob : Entity, IDamageable
         set => this._attackType = value;    
     }
 
+    protected AudioSource audioSource;
 
+    [SerializeField] protected AudioClip[] takeDamageClip;
     public abstract void TakeDamage(AttackInfo info);
+    
+    [SerializeField] protected AudioClip deathClip;
     public abstract void OnDeath();
+    public bool isDead = false;
 
     protected void Awake() {
         this._health = _maxHealth;
+        this.audioSource = GetComponent<AudioSource>();
     }
 
     public void SetupHealthbar(Canvas canvas, Camera camera) {
@@ -37,7 +43,6 @@ public abstract class Mob : Entity, IDamageable
         TakeDamage(new AttackInfo(dmg, Vector3.zero,0,Vector3.zero));
     }
 
-
     // Getters and Setters
     public float Health {
         get { return this._health; }
@@ -46,6 +51,6 @@ public abstract class Mob : Entity, IDamageable
 
     public MobController MobController { get => this.EntityController as MobController; }
 
-    public float MaxHealth { get => this._maxHealth; }
+    public float MaxHealth { get => this._maxHealth; set => this._maxHealth = value; }
     public ProgressBar HealthBar { get => this.MobController.HealthBar; set => this.MobController.HealthBar = value; }
 }

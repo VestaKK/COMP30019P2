@@ -7,14 +7,15 @@ public abstract class AttackController : MonoBehaviour
     [SerializeField] protected MobController _mob;
     [SerializeField] protected HitboxController _hitbox;
     [SerializeField] protected Vector3 _offset;
-
     [SerializeField] protected int _maxAttacks;
 
+    protected bool isEnabled = false;
     private bool isResting = false;
     private bool isAttacking = false;
     protected float coolDown = 0;
     [SerializeField] protected float _maxCooldown;
     public int clickCount = 0;
+    protected float damageBoost = 1;
 
     protected abstract void SpawnHitbox(AttackInfo info);
 
@@ -36,6 +37,8 @@ public abstract class AttackController : MonoBehaviour
 
     void Update()
     {
+        if (GameManager.isPaused) return;
+
         UpdateController();
 
         if (coolDown <= 0)
@@ -54,13 +57,18 @@ public abstract class AttackController : MonoBehaviour
 
         if (isAttacking) 
         {
-            CheckAnimationTransitions();
+            if (CheckAnimationTransitions())
+                isEnabled = true;
         }
     }
 
     public void AttackAnimationEvent() 
     {
-        SpawnHitbox(Controller.Mob.AttackInfo);
+        if (isEnabled == true)
+        {
+            SpawnHitbox(Controller.Mob.AttackInfo);
+            isEnabled = false;
+        }
     }
 
     public MobController Controller { get => this._mob; }
@@ -71,4 +79,6 @@ public abstract class AttackController : MonoBehaviour
     
     public bool IsAttacking { get => isAttacking; set => isAttacking = value; }
     public bool IsResting { get => isResting; set => isResting = value; }
+
+    public float DamageBoost { get => damageBoost; set => damageBoost = value; }
 }

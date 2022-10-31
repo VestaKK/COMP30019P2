@@ -9,12 +9,16 @@ public class PlayerInventory : MonoBehaviour
     public delegate void PlayerInventoryUpdate(ItemSlot itemSlot);
     public static event PlayerInventoryUpdate OnInventoryUpdate;
 
+    public delegate void PlayerInventoryUpdateBullets();
+    public static event PlayerInventoryUpdateBullets OnInventoryUpdateBullets;
 
     private Slot<Weapon> _mainWeaponSlot;
     private Slot<Weapon> _offHandSlot;
 
-    [SerializeField] private List<ItemSlot> itemSlots = new List<ItemSlot>();
-    private Dictionary<Item, ItemSlot> itemDictionary = new Dictionary<Item, ItemSlot>();
+    [SerializeField] int _numBullets;
+
+    [SerializeField] private List<ItemSlot> itemSlots;
+    private Dictionary<Item, ItemSlot> itemDictionary;
 
     private static PlayerInventory _instance;
 
@@ -26,8 +30,10 @@ public class PlayerInventory : MonoBehaviour
 
             _instance._mainWeaponSlot = new Slot<Weapon>(this);
             _instance._offHandSlot = new Slot<Weapon>(this);
-
-            DontDestroyOnLoad(this);
+            _instance.itemSlots = new List<ItemSlot>();
+            _instance.itemDictionary = new Dictionary<Item, ItemSlot>();
+            _instance._numBullets = 10;
+            OnInventoryUpdateBullets.Invoke();
         }
         else
         {
@@ -47,18 +53,51 @@ public class PlayerInventory : MonoBehaviour
         else 
         {
             itemSlot = new ItemSlot(newItem);
+            Debug.Log(itemSlot.item.name);
             _instance.itemDictionary.Add(newItem, itemSlot);
             _instance.itemSlots.Add(itemSlot);
             OnInventoryUpdate.Invoke(itemSlot);
         }
 
         
+
+        if (newItem.id == 2)
+        {
+            AddBullet(2);
+        }
+
     }
 
     public static List<ItemSlot> GetItems() 
     {
         return _instance.itemSlots;
     }
+
+    public static bool HasBullets()
+    {
+        return NumBullets > 0;
+    }
+
+    public static void FireBullet() 
+    {
+        NumBullets--;
+        OnInventoryUpdateBullets.Invoke();
+    }
+
+    public static void AddBullet()
+    {
+        NumBullets++;
+        OnInventoryUpdateBullets.Invoke();
+    }
+
+    public static void AddBullet(int amount)
+    {
+        NumBullets += amount;
+        OnInventoryUpdateBullets.Invoke();
+    }
+
+
+    public static int NumBullets { get => _instance._numBullets; set => _instance._numBullets = value; }
 }
 
 

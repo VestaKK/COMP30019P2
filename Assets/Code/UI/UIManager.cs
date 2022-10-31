@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 public class UIManager : MonoBehaviour
 {
     public static UIManager instance;
-
+    [SerializeField] private bool inGame;
     [SerializeField] private UIPanel startPanel;
 
     [SerializeField] private UIPanel[] panels;
@@ -30,6 +30,7 @@ public class UIManager : MonoBehaviour
 
             foreach (UIPanel uIPanel in panels)
             {
+                Debug.Log("Panels Initialised");
                 uIPanel.Initialise();
                 uIPanel.Hide();
             }
@@ -122,6 +123,8 @@ public class UIManager : MonoBehaviour
     // Controlled by a game manager But this will do for now
     private void Update()
     {
+        if (!inGame) return;
+
         if (InputManager.GetKeyDown(InputAction.Pause)) 
         {
             UIPanel pauseMenu = Get<PauseMenu>();
@@ -131,15 +134,19 @@ public class UIManager : MonoBehaviour
                 if (!pauseMenu.gameObject.activeSelf)
                 {
                     Show(pauseMenu, true);
+                    GameManager.PauseGame();
                 }
                 else
                 {
                     ShowLast();
+                    GameManager.UnpauseGame();
                 }
             }   
         }
 
-        if (Input.GetKeyDown(KeyCode.Tab))
+        if (GameManager.isPaused || GameManager.GameOver) return;
+
+        if (Input.GetKeyDown(KeyCode.Tab) && !GameManager.isPaused)
         {
             UIPanel inventoryUI = Get<InventoryUI>();
             if (inventoryUI != null)

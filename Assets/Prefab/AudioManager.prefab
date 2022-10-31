@@ -1,0 +1,111 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &7560212255015531542
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7560212255015531540}
+  - component: {fileID: 7560212255015531543}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7560212255015531540
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7560212255015531542}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7560212255015531543
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7560212255015531542}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8763d73bf1a7304c96bfbf8d7e21ffb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sounds:
+  - name: Theme
+    clips:
+    - {fileID: 8300000, guid: b15ff5a2e363844f495045993610505b, type: 3}
+    volume: 0.085
+    pitch: 1
+    loop: 1
+    source: {fileID: 0}
+  - name: Swing1
+    clips:
+    - {fileID: 8300000, guid: 4b71d99dfb52525488a02adcaad52c12, type: 3}
+    volume: 0.05
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Swing2
+    clips:
+    - {fileID: 8300000, guid: 7bb34605e50d0c74e818cef8912aa259, type: 3}
+    volume: 0.05
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: ItemPickup
+    clips:
+    - {fileID: 8300000, guid: 15df2506b655de242b5315c40e081dc0, type: 3}
+    volume: 0.15
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Roll
+    clips:
+    - {fileID: 8300000, guid: 6a388b195757cd147966ffb6779116f2, type: 3}
+    volume: 0.12
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Footsteps
+    clips:
+    - {fileID: 8300000, guid: 5779affd67e7e224e83b7c054446bd4a, type: 3}
+    - {fileID: 8300000, guid: 3979674ad5195e34e85a9568c748e1d0, type: 3}
+    - {fileID: 8300000, guid: 87c5f7cbf9c1c844581e87568014362a, type: 3}
+    - {fileID: 8300000, guid: 8be240c1e41ce86458fa45ccabc43d44, type: 3}
+    - {fileID: 8300000, guid: f92dc190c79920c4d9f9500055d541ea, type: 3}
+    volume: 0.12
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: UIClick
+    clips:
+    - {fileID: 8300000, guid: f8dcb7c6c59c0df42abe0ffac7692ebb, type: 3}
+    volume: 0.12
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Shoot
+    clips:
+    - {fileID: 8300000, guid: bdb58a552b0b93d41a7a475ae299f26c, type: 3}
+    - {fileID: 8300000, guid: 92bd31e0d0d1e6041a351000b8cac731, type: 3}
+    - {fileID: 8300000, guid: 0ae4b0666d4d9bb46b9c9f2455de22a1, type: 3}
+    - {fileID: 8300000, guid: 7a7b2d2f51358b54e8bc02568ad48e41, type: 3}
+    - {fileID: 8300000, guid: 73b95b614f99aba4e84fe5303c63f26a, type: 3}
+    volume: 0.12
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}

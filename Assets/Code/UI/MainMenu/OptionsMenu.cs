@@ -13,7 +13,10 @@ public class OptionsMenu : UIPanel
 
     public override void Initialise()
     {
-        backButton.onClick.AddListener(() => UIManager.instance.ShowLast());
+        backButton.onClick.AddListener(() => {
+            FindObjectOfType<AudioManager>().Play("UIClick");
+            UIManager.instance.ShowLast();
+        });
     }
 
     public void Rebind(string actionString) {
